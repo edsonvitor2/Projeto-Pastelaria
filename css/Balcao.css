@@ -8,14 +8,15 @@ body{
 h2{
     text-align: center;
 }
+
 table.pedidos{
     width: 710px;
     border: solid 2px;
     margin-top:50px ;
     margin-left: auto;
     margin-right: auto; 
-    display: none;
     color: dodgerblue;
+    display: block;
 }
 td{
     border: solid 1px dodgerblue;
@@ -23,7 +24,9 @@ td{
     width:25%;
     background-color: black;
 }
-
+.Cardapio{
+    display: none;
+}
 button{
     cursor: pointer;
     background-color: dodgerblue;
@@ -78,23 +81,49 @@ table.produtos{
 input.quantidade{
     width: 15px;
 }
+
 .name{
     float: left;
-    width: 200px;
+    width: 40%;
+    height: 70px;
+    margin: 20px;
+}
+.opcao{
+    width: 20%;
+    height: 70px;
+    float: left;
     margin: 10px;
 }
-.montar{
-    display: block;
-    border: solid 3px dodgerblue;
-    width: 400px;
-    float: left;
-    background-color: black;
-}
-.sabores{
-    display: none;
-    border: solid 1px dodgerblue;
-    width: 400px;
+.valor{
+    width: 15%;
+    height: 70px;
     float: left;
 }
 
+.montar{
+    display: none;
+    border: solid 3px dodgerblue;
+    width: 800px;
+    float: left;
+    background-color: black;
+}
+h1.add-sabores{
+    text-align: center;
+}
+.sabores{
+    border: solid 1px dodgerblue;
+    width: 800px;
+    float: left;
+}
+
+.produto{
+    border: solid 1px dodgerblue;
+    width: 100%;
+    height: 120px;
+    float: left;
+}
+
+.nome-cliente{
+    display: none;
+}
 

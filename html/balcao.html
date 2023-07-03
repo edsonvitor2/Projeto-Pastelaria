@@ -21,22 +21,22 @@
             <legend class="fechar">X</legend>
             <div class="input-box">
                 <label for="">Telefone : </label>
-                <input type="text" name="" id="">
+                <input type="text" name="" id="telefone-cliente">
             </div>
 
             <div class="input-box">
                 <label for="">Nome : </label>
-                <input type="text" name="" id="">
+                <input type="text" name="" id="nome-cliente">
             </div>
 
             <div class="input-box">
                 <label for="">Qtd. de Pessoas : </label>
-                <input type="text" name="" id="">
+                <input type="text" name="" id="qtd-cliente">
             </div>
 
             <div class="input-box">
                 <label for="">Qtd. de Visitas : </label>
-                <input type="text" name="" id="">
+                <input type="text" name="" id="visita-cliente">
             </div>
            
             <div class="enviar">
@@ -47,8 +47,9 @@
     </form>
     </div>
 
-
     <h1>Venda Balcão</h1>
+    <h1 class="nome-cliente">Edson vitor</h2>
+
     <div class="novo-cliente">
         <button class="abrir-painel">
             <p>Novo Cliente</p>
@@ -57,7 +58,7 @@
 
     <div>
         <table class="pedidos">
-            <h2>Lista de pedidos</h2>
+            
             <tr>
                 <td>Nome</td>
                 <td>Valor</td>
@@ -79,50 +80,196 @@
         </table>
     </div>
 
-<div>
+<div class="Cardapio">
 <h1>Produtos</h1>
 
 <table class="produtos">
     <tr><td class="pastel">Pasteis</td></tr>
     <tr><td class="Panqueca">Panquecas</td></tr>
+    <tr><td class="tapiocas">Tapiocas</td></tr>
+    <tr><td class="batata">Batata Frita</td></tr>
 </table>
 
+<!-- aqui escolhe os sabores dos pasteis -->
 
 <div class="montar">
     <h1 class="add-sabores">Sabores</h1>
     <div class="sabores">
-        <div>
-            <h1 class="name">Carne</h1>
+        <div class="produto">
+            <h1 class="name">Carne  </h1>
             <div class="opcao">
                 <button>-</button> 
                 <input type="text" class="quantidade"> 
                 <button>+</button> 
             </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+            
         </div>
     
-        <div>
+        <div class="produto">
+            <h1 class="name">Carne com Queijo </h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
+            <h1 class="name">Carne com Calabresa </h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
+            <h1 class="name">Carne com Bacon </h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
+            <h1 class="name">Carne com Presunto </h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
             <h1 class="name">Frango</h1>
             <div class="opcao">
                 <button>-</button> 
                 <input type="text" class="quantidade"> 
                 <button>+</button> 
             </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
         </div>
 
-        <div>
-            <h1 class="name">pizza</h1>
+        <div class="produto">
+            <h1 class="name">Frango com Queijo</h1>
             <div class="opcao">
                 <button>-</button> 
                 <input type="text" class="quantidade"> 
                 <button>+</button> 
             </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
         </div>
+
+        <div class="produto">
+            <h1 class="name">Frango com Catupiry</h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
+            <h1 class="name">Frango com Bacon</h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
+            <h1 class="name">Frango com Cheddar</h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
+            <h1 class="name">Queijo</h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
+            <h1 class="name">Queijo com Presunto </h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
+        <div class="produto">
+            <h1 class="name">Queijo com Catupiry </h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+       
+        <div class="produto">
+            <h1 class="name">Queijo com Cheddar </h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+            <div class="valor">
+                <p>R$ 15,00</p>
+            </div>
+        </div>
+
     </div>
-    <h1>Adicionais</h1>
 </div>
 
 </div>
-
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
     <script src="/js panels/balcaoPanels.js"></script>
+    <script src="/js panels/Cliente.js"></script>
 </body>
 </html>
