@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venda Balcão</title>
+    <link rel="stylesheet" href="../css/Balcao.css">
+</head>
+<header>
+        <a href="../index.html">
+        <p>Voltar</p>
+    </a>
+</header>
+<body>
+
+    <div class="criar-clientes">
+        <form action="">
+        <fieldset>
+            <legend> Clientes </legend>
+            <legend class="fechar">X</legend>
+            <div class="input-box">
+                <label for="">Telefone : </label>
+                <input type="text" name="" id="">
+            </div>
+
+            <div class="input-box">
+                <label for="">Nome : </label>
+                <input type="text" name="" id="">
+            </div>
+
+            <div class="input-box">
+                <label for="">Qtd. de Pessoas : </label>
+                <input type="text" name="" id="">
+            </div>
+
+            <div class="input-box">
+                <label for="">Qtd. de Visitas : </label>
+                <input type="text" name="" id="">
+            </div>
+           
+            <div class="enviar">
+            <button type="submit" class="Botao-enviar"> Salvar</button>
+            </div>
+
+        </fieldset>
+    </form>
+    </div>
+
+
+    <h1>Venda Balcão</h1>
+    <div class="novo-cliente">
+        <button class="abrir-painel">
+            <p>Novo Cliente</p>
+        </button>
+    </div>
+
+    <div>
+        <table class="pedidos">
+            <h2>Lista de pedidos</h2>
+            <tr>
+                <td>Nome</td>
+                <td>Valor</td>
+                <td>Pago?</td>
+                <td>Despachar</td>
+            </tr>
+            <tr>
+                <td>Edson Vitor</td>
+                <td>20,00</td>
+                <td>Sim</td>
+                <td>Despachar</td>
+            </tr>
+            <tr>
+                <td>Lucas Souza</td>
+                <td>18,00</td>
+                <td>Não</td>
+                <td>Despachar</td>
+            </tr>
+        </table>
+    </div>
+
+<div>
+<h1>Produtos</h1>
+
+<table class="produtos">
+    <tr><td class="pastel">Pasteis</td></tr>
+    <tr><td class="Panqueca">Panquecas</td></tr>
+</table>
+
+
+<div class="montar">
+    <h1 class="add-sabores">Sabores</h1>
+    <div class="sabores">
+        <div>
+            <h1 class="name">Carne</h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+        </div>
+    
+        <div>
+            <h1 class="name">Frango</h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+        </div>
+
+        <div>
+            <h1 class="name">pizza</h1>
+            <div class="opcao">
+                <button>-</button> 
+                <input type="text" class="quantidade"> 
+                <button>+</button> 
+            </div>
+        </div>
+    </div>
+    <h1>Adicionais</h1>
+</div>
+
+</div>
+
+    <script src="/js panels/balcaoPanels.js"></script>
+</body>
+</html>

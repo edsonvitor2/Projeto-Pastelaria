@@ -1,0 +1,97 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-decoration: none;
+}
+
+header{
+height: 60px;
+border: solid dodgerblue;
+background-color: rgba(0, 0, 0, 0.8);
+}
+body{
+    background-color: #242323;
+}
+.menu{
+    width: 50px;
+    position: relative;
+    left: 85%;
+    top: -70px;
+}
+.logo{
+    width: 50px; 
+    position: relative;
+    left: 45%;
+    top: -10px;
+}
+.main{
+    width: 62%;
+    height: 340px;
+    position: relative;
+    left: 20%;
+    top: 150px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+}
+
+fieldset{
+    width: 92%;
+    border: solid dodgerblue;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+legend{
+    background-color: dodgerblue;
+    border-radius: 5px;
+    padding: 15px;
+font-size: 18px;
+}
+.Opcoes{
+    border: solid dodgerblue;
+    float: left;
+    width: 22%;
+    height: 100px;
+    border-radius:10px ;
+    font-size: 30px;
+    text-align: center;
+    padding-top:60px;
+    margin: 70px 10px 10px 10px;
+    cursor: pointer;
+}
+.mesa{
+    border: solid;
+    float: left;
+    width: 22%;
+    height: 100px;
+    border-radius:10px ;
+    font-size: 30px;
+    text-align: center;
+    padding-top:60px;
+    margin: 70px 10px 10px 10px;
+    cursor: pointer;
+}
+.caixa{
+    border: solid;
+    float: left;
+    width: 22%;
+    height: 100px;
+    border-radius:10px ;
+    font-size: 30px;
+    text-align: center;
+    padding-top:60px;
+    margin: 70px 10px 10px 10px;
+    cursor: pointer;
+}
+.entrega{
+    border: solid;
+    float: left;
+    width: 23%;
+    height: 100px;
+    border-radius:10px ;
+    font-size: 30px;
+    text-align: center;
+    padding-top:60px;
+    margin: 70px 10px 10px 10px;
+    cursor: pointer;
+}

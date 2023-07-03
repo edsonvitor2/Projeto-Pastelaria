@@ -1,0 +1,100 @@
+*{
+    font-size: 30px;
+    color: aliceblue;
+}
+body{
+    background-color: #242323;
+}
+h2{
+    text-align: center;
+}
+table.pedidos{
+    width: 710px;
+    border: solid 2px;
+    margin-top:50px ;
+    margin-left: auto;
+    margin-right: auto; 
+    display: none;
+    color: dodgerblue;
+}
+td{
+    border: solid 1px dodgerblue;
+    padding: 10px;
+    width:25%;
+    background-color: black;
+}
+
+button{
+    cursor: pointer;
+    background-color: dodgerblue;
+}
+.criar-clientes{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 15px;
+    width: 28%;
+    color: aliceblue;
+    display: none;
+}
+fieldset{
+    border: solid 3px dodgerblue;
+}
+legend{
+    border: solid 1px dodgerblue;
+    border-radius:10px ;
+    padding: 10px;
+    background-color: dodgerblue;
+}
+legend.fechar{
+    width: 20px;
+    position: relative;
+    left: 98%;
+    top: -65px;
+    cursor: pointer;
+}
+.input-box{
+    position: relative;
+}
+input{
+    background: none;
+    border: none;
+    color: black;
+    background-color: aliceblue;
+    margin: 15px;
+}
+ul{
+    list-style: none;
+    width: 300px;
+    float: left;
+}
+table.produtos{
+    width: 200px;
+    float: left;
+}
+input.quantidade{
+    width: 15px;
+}
+.name{
+    float: left;
+    width: 200px;
+    margin: 10px;
+}
+.montar{
+    display: block;
+    border: solid 3px dodgerblue;
+    width: 400px;
+    float: left;
+    background-color: black;
+}
+.sabores{
+    display: none;
+    border: solid 1px dodgerblue;
+    width: 400px;
+    float: left;
+}
+
+

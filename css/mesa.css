@@ -1,0 +1,89 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    color: aliceblue;
+}
+header{
+    height: 60px;
+    border: solid dodgerblue;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.voltar{
+    float: left;
+}
+.titulo{
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+a{
+    text-decoration: none;
+}
+body{
+    background-color: #242323;
+}
+.criar-clientes{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 15px;
+    width: 28%;
+    color: aliceblue;
+    display: none;
+}
+fieldset{
+    border: solid 3px dodgerblue;
+}
+legend{
+    border: solid 1px dodgerblue;
+    border-radius:10px ;
+    padding: 10px;
+    background-color: dodgerblue;
+}
+legend.fechar{
+    width: 20px;
+    position: relative;
+    left: 98%;
+    top: -65px;
+    cursor: pointer;
+}
+.input-box{
+    position: relative;
+}
+input{
+    background: none;
+    border: none;
+    color: black;
+    background-color: aliceblue;
+    margin: 15px;
+}
+div.mesas{
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 750px;
+    border-radius: 15px;
+    margin-top: 200px;
+    padding-top: 40px;
+    height: 340px;
+    margin-left: auto;
+    margin-right: auto;
+}
+table{
+    border: solid  dodgerblue;
+    border-radius: 15px;
+    width: 700px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+    border-collapse: separate; 
+    border-spacing: 10px;
+}
+td{
+    border: solid 1px dodgerblue;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+}
