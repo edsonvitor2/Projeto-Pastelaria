@@ -1,26 +1,28 @@
 class Cliente{
-    constructor(telefone,nome,pessoas,visitas){
-        this.telefone = telefone;
-        this.nome = nome;
-        this.qtd_de_pessoas = pessoas;
-        this.qtd_de_visitas = visitas;
+    constructor(nome, telefone, visitas, pessoas){
 
-        this. salvar_cliente();
+        this.nome = nome;
+        this.telefone = telefone;
+        this.visitas = visitas;
+        this.pessoas = pessoas;
+
+        this.salvar_cliente();
     }
 
 
     salvar_cliente(){
-        let nome =  this.nome 
-        let telefone =  this.telefone;
-        let visitas = this.qtd_de_visitas;
-        let clientes = this.qtd_de_pessoas;
+        let nome = this.nome;
+        let telefone = this.telefone;
+        let visitas = this.visitas;
+        let pessoas = this.pessoas;
 
-        firebaseConfig.database().ref("Clientes").push({
-            telefone,
-            nome,
-            visitas,
-            clientes
-        })
-    }
+firebase.database().ref("clientes").push({
+    nome,
+    telefone,
+    visitas,
+    pessoas
+});
+}
+
 }
 

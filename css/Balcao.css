@@ -1,5 +1,5 @@
 *{
-    font-size: 30px;
+    font-size: 20px;
     color: aliceblue;
 }
 body{
@@ -25,7 +25,7 @@ td{
     background-color: black;
 }
 .Cardapio{
-    display: none;
+    display: block;
 }
 button{
     cursor: pointer;
@@ -84,7 +84,7 @@ input.quantidade{
 
 .name{
     float: left;
-    width: 40%;
+    width: 20%;
     height: 70px;
     margin: 20px;
 }
@@ -95,25 +95,42 @@ input.quantidade{
     margin: 10px;
 }
 .valor{
-    width: 15%;
+    width: 20%;
     height: 70px;
+    float: left;
+}
+.car{
+    background-color: black;
+    border: solid 2px #242323;
+    margin-top: 15px;
+}
+.adc{
+    background-color: black;
+    border: solid 2px #242323;
+    margin-top: 15px;
+}
+button img.btn-carrinho{
+    width: 40px;
+    border: solid black;
     float: left;
 }
 
 .montar{
-    display: none;
+    display: block;
     border: solid 3px dodgerblue;
-    width: 800px;
+    width: 600px;
     float: left;
     background-color: black;
 }
 h1.add-sabores{
     text-align: center;
 }
-.sabores{
-    border: solid 1px dodgerblue;
-    width: 800px;
-    float: left;
+.carrinho{
+    border: solid dodgerblue;
+    background-color: black;
+}
+.comanda{
+    display: none;
 }
 
 .produto{
@@ -126,4 +143,6 @@ h1.add-sabores{
 .nome-cliente{
     display: none;
 }
+
+
 
