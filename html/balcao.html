@@ -14,11 +14,11 @@
 </header>
 <body>
 
-    <div class="criar-clientes">
+    <div class="criar-clientes" id="criar-clientes">
         <form action="">
         <fieldset>
             <legend> Clientes </legend>
-            <legend class="fechar">X</legend>
+            <legend class="fechar" id="fechar-painel">X</legend>
             <div class="input-box">
                 <label for="">Telefone : </label>
                 <input type="text" name="" id="telefone-cliente">
@@ -40,7 +40,7 @@
             </div>
            
             <div class="enviar">
-            <button type="submit" class="Botao-enviar"> Salvar</button>
+            <button type="submit" class="enviar"> Salvar</button>
             </div>
 
         </fieldset>
@@ -51,7 +51,7 @@
     <h1 class="nome-cliente">Edson vitor</h2>
 
     <div class="novo-cliente">
-        <button class="abrir-painel">
+        <button class="abrir-painel" id="abrir-painel">
             <p>Novo Cliente</p>
         </button>
     </div>
@@ -84,273 +84,41 @@
 <h1>Produtos</h1>
 
 <table class="produtos">
-    <tr><td class="pastel">Pasteis</td></tr>
-    <tr><td class="Panqueca">Panquecas</td></tr>
-    <tr><td class="tapiocas">Tapiocas</td></tr>
-    <tr><td class="batata">Batata Frita</td></tr>
+    <tr><td class="pastel" id="pastel">Pasteis</td></tr>
+    <tr><td class="Panqueca" id="panqueca">Panquecas</td></tr>
+    <tr><td class="tapiocas" id="tapiocas">Tapiocas</td></tr>
+    <tr><td class="batata" id="batata"> Batata Frita</td></tr>
+</table>
+
+<table class="montar">
+    
 </table>
 
 <!-- aqui escolhe os sabores dos pasteis -->
 
-<div class="montar">
-<h1 class="add-sabores">Sabores</h1>
-    <div class="produto">
-        <h1 class="name">Carne  </h1>
-        <div class="opcao">
-            <button class="dim_carne">-</button> 
-            <input type="text" class="quantidade" id="qtd_carne" value="0"> 
-            <button class="aum_carne">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
 
-        <Button class="car" id="car-carne"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
 
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-        
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Carne com Queijo </h1>
-        <div class="opcao">
-            <button class="dim_ccq">-</button> 
-            <input type="text" class="quantidade" id="qtd_ccq" value="0"> 
-            <button class="aum_ccq">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-ccq"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-
-        
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Carne com Calabresa </h1>
-        <div class="opcao">
-            <button class="dim_ccc">-</button> 
-            <input type="text" id="qtd_ccc" class="quantidade" value="0"> 
-            <button class="aum_ccc">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-ccc"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Carne com Bacon </h1>
-        <div class="opcao">
-            <button class="dim_ccb">-</button> 
-            <input type="text" id="qtd_ccb" class="quantidade" value="0"> 
-            <button class="aum_ccb">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-ccb"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Carne com Presunto </h1>
-        <div class="opcao">
-            <button class="dim_ccp">-</button> 
-            <input type="text" id="qtd_ccp" class="quantidade" value="0"> 
-            <button class="aum_ccp">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-ccp"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Frango</h1>
-        <div class="opcao">
-            <button class="dim_frango">-</button> 
-            <input type="text" id="qtd_frango" class="quantidade" value="0"> 
-            <button class="aum_frango">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-frango"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Frango com Queijo</h1>
-        <div class="opcao">
-            <button class="dim_fcq">-</button> 
-            <input type="text" id="qtd_fcq" class="quantidade" value="0"> 
-            <button class="aum_fcq">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-fcq"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Frango com Catupiry</h1>
-        <div class="opcao">
-            <button class="dim_fcc">-</button> 
-            <input type="text" id="qtd_fcc" class="quantidade" value="0"> 
-            <button class="aum_fcc">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-fcc"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Frango com Bacon</h1>
-        <div class="opcao">
-            <button class="dim_fcb">-</button> 
-            <input type="text" id="qtd_fcb" class="quantidade" value="0"> 
-            <button class="aum_fcb">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-fcb"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Frango com Cheddar</h1>
-        <div class="opcao">
-            <button class="dim_fcs">-</button> 
-            <input type="text" id="qtd_fcs" class="quantidade" value="0"> 
-            <button class="aum_fcs">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-fcs"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Queijo</h1>
-        <div class="opcao">
-            <button class="dim_queijo">-</button> 
-            <input type="text" id="qtd_queijo" class="quantidade" value="0"> 
-            <button class="aum_queijo">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-queijo"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Queijo com Presunto </h1>
-        <div class="opcao">
-            <button class="dim_qcp">-</button> 
-            <input type="text" id="qtd_qcp" class="quantidade" value="0"> 
-            <button class="aum_qcp">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button type="button" class="car" id="car-qcp"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Queijo com Catupiry </h1>
-        <div class="opcao">
-            <button class="dim_qcc">-</button> 
-            <input type="text" id="qtd_qcc" class="quantidade" value="0"> 
-            <button class="aum_qcc">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-qcc"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-    <div class="produto">
-        <h1 class="name">Queijo com Cheddar </h1>
-        <div class="opcao">
-            <button class="dim_qcs">-</button> 
-            <input type="text" id="qtd_qcs" class="quantidade" value="0"> 
-            <button class="aum_qcs">+</button> 
-        </div>
-        <div class="valor">
-            <p>R$ 15,00</p>
-        </div>
-
-        <Button class="car" id="car-qcs"><img src="/icones/iconCarrinho.png" class="btn-carrinho"></Button>
-
-        <Button class="adc"><img src="/icones/iconAdc.png" alt="" class="btn-carrinho"></Button>
-    </div>
-
-</div>
 </div>
 
 </div>
 
 <div class="carrinho">
     <h1>Carrinho / Comanda</h1>
-    <table>
+    <table  id="Carrinho">
+        
+    </table>
+
+    <table> 
         <tr>
-            <td>item</td>
+            <td>Total</td>
             <td>qtd</td>
             <td>valor</td>
         </tr>
-        <tr>
-            <td>pastel de carne</td>
-            <td>2</td>
-            <td>30,00</td>
-        </tr>
-        <tr><td>pastel de frango com queijo</td>
-            <td>1</td>
-            <td>15,00</td>
-        </tr>
-        <tr><td>Total do Pedido</td>
-            <td>3</td>
-            <td>45,00</td>
+        <tr><button class="Enviar-cozinha">Enviar Para A cozinha</button>
         </tr>
     </table>
 
-    <button class="Enviar-cozinha">Enviar Para A cozinha</button>
-
+    
     <div class="comanda">
             
         <label for=""> Valor Total</label>
@@ -368,8 +136,8 @@
 
 
     <script src="/jsOperacao/FirebaseInit.js"></script>
-    <script src="/js panels/Cliente.js"></script>
-    <script src="/js panels/balcaoPanels.js"></script>
-    
+    <script src="/jsOperacao/Controller/Format.js"></script>
+    <script src="/jsOperacao/Controller/VilaController.js"></script>
+    <script src="/jsOperacao/app.js"></script>
 </body>
 </html>

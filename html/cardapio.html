@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardapio</title>
+    <link rel="stylesheet" href="/css/cardapio.css">
+</head>
+<body>
+    <div class="titulos fomulario">
+        <h3>Selecione a opçao do Cardapio</h2>
+        <ul>
+            <li id="pastel">Pasteis</li>
+            <li id="panqueca">Panquecas</li>
+            <li id="tapioca">Tapiocas</li>
+            <li id="batata">Batata</li>
+            <li id="bebida">Bebidas</li>
+            <li id="balcao">Probutos Balcao</li>
+        </ul>
+    </div>
+    
+    <div class="fomulario">
+        <form action="">
+        <label for="">Produto</label>
+        <input type="text" id="produto" disabled>
+
+        <label for="">Sabor</label>
+        <input type="text" id="sabor">
+
+        <label for="">Quantidade</label>
+        <input type="text" id="quantidade">
+
+        <label for="">Valor</label>
+        <input type="text" id="valor">
+
+
+        <button id="salva" type="button">Salvar</button>
+        </form>
+    </div>
+        <table class="cardapio">
+        <tr>   
+            <td>
+               sabor
+            </td>
+            <td>
+               quantidade
+            </td>
+            <td>
+               valor
+            </td>
+            <td>
+                Editar
+            </td>
+            <td>
+                Excluir
+            </td>
+        </tr>
+        </table>
+        <table class="cardapio">
+            
+        </table>
+
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+
+    <script src="/jsOperacao/FirebaseInit.js"></script>
+
+    <script src="/jsOperacao/Controller/CardapioController.js"></script>
+</body>
+</html>

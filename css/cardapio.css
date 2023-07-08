@@ -1,0 +1,44 @@
+*{
+    color: aliceblue;
+}
+body{
+    background-color: #242323;
+}
+div.fomulario{
+    float: right;
+    width: 30%;
+    border: solid dodgerblue;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+  }
+div.titulos{
+float: left;
+font-size: 20px;
+}
+label{
+    margin: 5px;
+  }
+input {
+    margin: 5px;
+    width: 90%;
+    background-color: aliceblue;
+    color: #000;
+  }
+button{
+    background-color: dodgerblue;
+    margin: 5px;
+}
+
+table.cardapio{
+    background-color: #000;
+    border: solid dodgerblue;
+    width: 100%;
+}
+td{
+    border: solid 1px dodgerblue;
+    font-size: 20px;
+}
+li{
+    cursor: pointer;
+}

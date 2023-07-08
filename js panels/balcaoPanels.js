@@ -4,6 +4,9 @@ class PainelBalcao {
 
         this.painelMontar = false;
         this.sabores = false;
+        this.carrinho = firebase.database().ref("carrinho-balcao");
+
+        this.listarcarrinho();
     }
 
 InitButons(){
@@ -226,15 +229,201 @@ InitButons(){
     // agora começa os botoes para adicoinar no carrinho!!!
 
     let btn_car_carne = document.querySelector("#car-carne");
+    let btn_car_ccq = document.querySelector("#car-ccq");
+    let btn_car_ccc = document.querySelector("#car-ccc");
+    let btn_car_ccb = document.querySelector("#car-ccb");
+    let btn_car_ccp = document.querySelector("#car-ccp");
+    let btn_car_frango = document.querySelector("#car-frango");
+    let btn_car_fcq = document.querySelector("#car-fcq");
+    let btn_car_fcc = document.querySelector("#car-fcc");
+    let btn_car_fcb = document.querySelector("#car-fcb");
+    let btn_car_fcs = document.querySelector("#car-fcs");
+    let btn_car_queijo = document.querySelector("#car-queijo");
+    let btn_car_qcp = document.querySelector("#car-qcp");
+    let btn_car_qcc = document.querySelector("#car-qcc");
+    let btn_car_qcs = document.querySelector("#car-qcs");
 
     btn_car_carne.addEventListener("click", e=>{
+        
         let produto = "carne";
         let quantidade = parseInt(document.querySelector("#qtd_carne").value);
-        let valor = 15 * quantidade;
-        console.log(produto,quantidade,valor);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_ccq.addEventListener("click", e=>{
+        
+        let produto = "carne com queijo";
+        let quantidade = parseInt(document.querySelector("#qtd_ccq").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+        
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_ccc.addEventListener("click", e=>{
+        
+        let produto = "carne com calabresa";
+        let quantidade = parseInt(document.querySelector("#qtd_ccc").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_ccb.addEventListener("click", e=>{
+        
+        let produto = "carne com bacon";
+        let quantidade = parseInt(document.querySelector("#qtd_ccb").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_ccp.addEventListener("click", e=>{
+        
+        let produto = "Carne com presunto";
+        let quantidade = parseInt(document.querySelector("#qtd_ccp").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_frango.addEventListener("click", e=>{
+        
+        let produto = "Frango";
+        let quantidade = parseInt(document.querySelector("#qtd_frango").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+    
+    btn_car_fcq.addEventListener("click", e=>{
+        
+        let produto = "Frango com queijo";
+        let quantidade = parseInt(document.querySelector("#qtd_fcq").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_fcc.addEventListener("click", e=>{
+        
+        let produto = "Frango com catupiry";
+        let quantidade = parseInt(document.querySelector("#qtd_fcc").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_fcb.addEventListener("click", e=>{
+        
+        let produto = "Frango com bacon";
+        let quantidade = parseInt(document.querySelector("#qtd_fcb").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_fcs.addEventListener("click", e=>{
+        
+        let produto = "Frango com cheddar";
+        let quantidade = parseInt(document.querySelector("#qtd_fcs").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+    
+    btn_car_queijo.addEventListener("click", e=>{
+        
+        let produto = "queijo";
+        let quantidade = parseInt(document.querySelector("#qtd_queijo").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_qcp.addEventListener("click", e=>{
+        
+        let produto = "queijo com presuto";
+        let quantidade = parseInt(document.querySelector("#qtd_qcp").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_qcc.addEventListener("click", e=>{
+        
+        let produto = "queijo com catupiry";
+        let quantidade = parseInt(document.querySelector("#qtd_qcc").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
+    });
+
+    btn_car_qcs.addEventListener("click", e=>{
+        
+        let produto = "queijo com chedar";
+        let quantidade = parseInt(document.querySelector("#qtd_qcs").value);
+        let valorFinal = 15.00 * quantidade;
+        let valor = valorFinal.toFixed(2);
+
+        this.abrirPainelCarrinho(produto,quantidade,valor);
     });
 }
 
+abrirPainelCarrinho(produto,quantidade,valor){
+    this.carrinho.push({
+        produto,
+        quantidade,
+        valor
+    });
+
+    this.listarcarrinho();
+}
+
+listarcarrinho(){
+    let tabela = document.getElementById('Carrinho');
+
+    this.carrinho.on('value',snapshot=>{
+
+        tabela.innerText ='';
+
+        snapshot.forEach(e=>{
+
+            let key = e.key;
+            let data = e.val();
+
+            let li = document.createElement('tr');
+
+            li.innerHTML = ` 
+            <td>
+                ${data.produto}
+            </td>
+            <td>
+                ${data.quantidade}
+            </td>
+            <td>
+                ${data.valor}
+            </td>
+            
+            `;
+            tabela.appendChild(li);
+        });
+
+    });
+}
 
 abrirPainelAdicionais(){
     let painel = document.querySelector(".montar");
