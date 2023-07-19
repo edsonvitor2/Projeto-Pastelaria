@@ -9,8 +9,8 @@
 </head>
 <header>
         <a href="../index.html">
-        <p>Voltar</p>
-    </a>
+            <p>Voltar</p>
+        </a>
 </header>
 <body>
 
@@ -40,7 +40,7 @@
             </div>
            
             <div class="enviar">
-            <button type="submit" class="enviar"> Salvar</button>
+            <button type="button" class="enviar" id="enviar"> Salvar</button>
             </div>
 
         </fieldset>
@@ -57,80 +57,78 @@
     </div>
 
     <div>
-        <table class="pedidos">
-            
+        <table class="pedidos" id="pedidos">
+           <thead>
             <tr>
-                <td>Nome</td>
-                <td>Valor</td>
-                <td>Pago?</td>
-                <td>Despachar</td>
+                <th>id</th>
+                <th>Nome</th>
+                <th>status</th>
+                <th>Valor</th>
+                <th>Pago ?</th>
+                <th>Fializar</th>
             </tr>
-            <tr>
-                <td>Edson Vitor</td>
-                <td>20,00</td>
-                <td>Sim</td>
-                <td>Despachar</td>
-            </tr>
-            <tr>
-                <td>Lucas Souza</td>
-                <td>18,00</td>
-                <td>Não</td>
-                <td>Despachar</td>
-            </tr>
+           </thead>
+           <tbody id="pedido" >
+
+           </tbody>
         </table>
     </div>
 
-<div class="Cardapio">
+<div class="Cardapio" id="cardapio">
 <h1>Produtos</h1>
-
 <table class="produtos">
     <tr><td class="pastel" id="pastel">Pasteis</td></tr>
     <tr><td class="Panqueca" id="panqueca">Panquecas</td></tr>
-    <tr><td class="tapiocas" id="tapiocas">Tapiocas</td></tr>
+    <tr><td class="tapiocas" id="tapioca">Tapiocas</td></tr>
     <tr><td class="batata" id="batata"> Batata Frita</td></tr>
+    <tr><td class="bebidas" id="bebida"> Bebidas</td></tr>
+    <tr><td class="produtosBalcao" id="balcao"> Produtos Balcão</td></tr>
 </table>
-
-<table class="montar">
-    
-</table>
-
-<!-- aqui escolhe os sabores dos pasteis -->
-
-
-
-</div>
-
-</div>
+    <table class="montar" id="montar">
+        <tr>
+            <td>Selecione o Produto</td>
+        </tr>
+    </table>
 
 <div class="carrinho">
-    <h1>Carrinho / Comanda</h1>
+    <h1 id="cliente-nome">Cliente</h1>
     <table  id="Carrinho">
         
     </table>
-
     <table> 
         <tr>
-            <td>Total</td>
-            <td>qtd</td>
-            <td>valor</td>
+            <td colspan="2">Total de itens</td>
+            <td id="quantidadeTotal">qtd</td>
+            <td id="valorTotal">valor</td>
         </tr>
-        <tr><button class="Enviar-cozinha">Enviar Para A cozinha</button>
+        <tr>
+            <td colspan="4">
+                <label for="forma-pagamento">Forma de Pagamento:</label>
+                <select id="forma-pagamento" name="forma-pagamento">
+                <option value="debito">Débito</option>
+                <option value="credito">Crédito</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">PIX</option>
+                </select>
+            </td>
         </tr>
-    </table>
-
-    
-    <div class="comanda">
-            
-        <label for=""> Valor Total</label>
-        <input type="number" value="60.00">
-
-        <label for="">Pagamento:</label>
-        <input type="text" value="Debito">
-
-        <label for="">Troco:</label>
-        <input type="text" value="Não">
+        <tr>
+            <td>
+                Troco para?
+            </td>
+            <td>
+                <input type="text" name="" id="">
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr><button id="Enviar-cozinha">Enviar Para A cozinha</button>
+        </tr>
         
-    </div>
+    </table>
+    <button class="finalizar" id="finalizar">Finalizar</button>
+    
 </div>
 <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 

@@ -1,6 +1,7 @@
 class Cardapio{
     constructor(){
-
+        this.key;
+        this.editarProdutos = false;
         this.cardapioPasteis = firebase.database().ref("cardapioPasteis");
         this.cardapioPanquecas = firebase.database().ref("cardapioPanquecas");
         this.cardapioTapiocas = firebase.database().ref("cardapioTapiocas");
@@ -18,12 +19,15 @@ class Cardapio{
         let batatas = document.querySelector("#batata");
         let bebidas = document.querySelector("#bebida");
         let produtosBalcao = document.querySelector("#balcao");
-        
         let btnSalvar = document.querySelector("#salva");
 
         btnSalvar.addEventListener("click",e=>{
-            let produto = document.getElementById("produto").value;
-            this.salvarItem(produto);
+            let item = document.getElementById("produto").value;
+            if(this.editarProdutos == false){
+                this.salvarItem(item);
+            }else{
+                this.editarItem(item); 
+            }
         });
 
         pasteis.addEventListener("click",e=>{
@@ -53,47 +57,48 @@ class Cardapio{
 
         produtosBalcao.addEventListener("click",e=>{
             document.querySelector("#produto").value = "ProdutosBalcao";
-            this.listarCardapio("cardapioprodutosBalcao");
+            this.listarCardapio("cardapioProdutosBalcao");
         });
     }
 
 salvarItem(item){
+    let produto = item;
     let sabor = document.getElementById("sabor").value;
     let valor = document.getElementById("valor").value;
     let quantidade = document.getElementById("quantidade").value;
     switch(item){
         case "Pasteis": this.cardapioPasteis.push({
-            sabor,valor,quantidade
+            produto,sabor,valor,quantidade
         });
         alert("Produto Adicionado com Sucesso!!!");
         break;
 
         case "Panquecas": this.cardapioPanquecas.push({
-            sabor,valor,quantidade
+            produto,sabor,valor,quantidade
         });
         alert("Produto Adicionado com Sucesso!!!");
         break;
 
         case "Tapiocas":this.cardapioTapiocas.push({
-            sabor,valor,quantidade
+            produto,sabor,valor,quantidade
         });
         alert("Produto Adicionado com Sucesso!!!");
         break;
 
         case "Batatas": this.cardapioBatatas.push({
-            sabor,valor,quantidade
+            produto,sabor,valor,quantidade
         });
         alert("Produto Adicionado com Sucesso!!!");
         break;
         
         case "Bebidas": this.cardapioBebidas.push({
-            sabor,valor,quantidade
+            produto,sabor,valor,quantidade
         });
         alert("Produto Adicionado com Sucesso!!!");
         break;
 
         case "ProdutosBalcao":this.cardapioProdutosBalcao.push({
-            sabor,valor,quantidade
+            produto,sabor,valor,quantidade
         });
         alert("Produto Adicionado com Sucesso!!!");
         break;
@@ -127,11 +132,134 @@ listarCardapio(referencia){
         </td>`;
         table.appendChild(tr);
         tr.querySelector("#editar").addEventListener("click",e=>{
-            console.log(tr.querySelector("#valor").innerText);
-            document.querySelector("#sabor").value = tr.querySelector("#sabor").innerText;
+            this.editarProdutos = true;
+            let produto = document.querySelector("#produto").value;
+            this.editProduto(key,produto);
         });
         });
     });
+}
+
+editProduto(key,produto){
+    this.key = key;
+    switch(produto){
+        case "Pasteis":this.cardapioPasteis.child(key).on("value",e=>{
+
+            let a = e.val();
+            let sabor = a.sabor;
+            let quantidade = a.quantidade;
+            let valor = a.valor;
+
+            this.listarNoEditor(sabor,quantidade,valor);
+        });
+        break;
+        case "Panquecas":this.cardapioPanquecas.child(key).on("value",e=>{
+
+            let a = e.val();
+            
+            let sabor = a.sabor;
+            let quantidade = a.quantidade;
+            let valor = a.valor;
+
+            this.listarNoEditor(sabor,quantidade,valor);
+        });
+        break;
+        case "Batatas":this.cardapioBatatas.child(key).on("value",e=>{
+
+            let a = e.val();
+            let sabor = a.sabor;
+            let quantidade = a.quantidade;
+            let valor = a.valor;
+
+            this.listarNoEditor(sabor,quantidade,valor);
+        });
+        break;
+        case "Tapiocas":this.cardapioTapiocas.child(key).on("value",e=>{
+
+            let a = e.val();
+            
+            let sabor = a.sabor;
+            let quantidade = a.quantidade;
+            let valor = a.valor;
+
+            this.listarNoEditor(sabor,quantidade,valor);
+        });
+        break;
+        case "Bebidas":this.cardapioBebidas.child(key).on("value",e=>{
+
+            let a = e.val();
+            let sabor = a.sabor;
+            let quantidade = a.quantidade;
+            let valor = a.valor;
+
+            this.listarNoEditor(sabor,quantidade,valor);
+        });
+        break;
+        case "ProdutosBalcao":this.cardapioProdutosBalcao.child(key).on("value",e=>{
+
+            let a = e.val();
+            
+            let sabor = a.sabor;
+            let quantidade = a.quantidade;
+            let valor = a.valor;
+
+            this.listarNoEditor(sabor,quantidade,valor);
+        });
+        break;
+    }
+}
+
+listarNoEditor(sabor,quantidade,valor){
+    document.querySelector("#sabor").value = sabor;
+    document.querySelector("#quantidade").value = quantidade;
+    document.querySelector("#valor").value = valor;
+    console.log(sabor,quantidade,valor);
+}
+
+editarItem(item){
+    let key = this.key;
+    console.log(key);
+    let produto = item;
+    let sabor = document.getElementById("sabor").value;
+    let valor = document.getElementById("valor").value;
+    let quantidade = document.getElementById("quantidade").value;
+    switch(item){
+        case "Pasteis": this.cardapioPasteis.child(key).update({
+            produto,sabor,valor,quantidade
+        });
+        alert("Produto Editado com Sucesso!!!");
+        break;
+
+        case "Panquecas": this.cardapioPanquecas.child(key).update({
+            produto,sabor,valor,quantidade
+        });
+        alert("Produto Editado com Sucesso!!!");
+        break;
+
+        case "Tapiocas":this.cardapioTapiocas.child(key).update({
+            produto,sabor,valor,quantidade
+        });
+        alert("Produto Editado com Sucesso!!!");
+        break;
+
+        case "Batatas": this.cardapioBatatas.child(key).update({
+            produto,sabor,valor,quantidade
+        });
+        alert("Produto Editado com Sucesso!!!");
+        break;
+        
+        case "Bebidas": this.cardapioBebidas.child(key).update({
+            produto,sabor,valor,quantidade
+        });
+        alert("Produto Editado com Sucesso!!!");
+        break;
+
+        case "ProdutosBalcao":this.cardapioProdutosBalcao.child(key).update({
+            produto,sabor,valor,quantidade
+        });
+        alert("Produto Editado com Sucesso!!!");
+        break;
+    }
 }
 
 }

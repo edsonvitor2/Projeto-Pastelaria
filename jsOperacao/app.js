@@ -1,1 +1,1 @@
-window.app = new VilaController();
+window.app = new VilaControllerBalcao();

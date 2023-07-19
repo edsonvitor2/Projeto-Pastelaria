@@ -54,3 +54,27 @@ td{
 h1{
     text-align: center;
 }
+
+.tabela-caixas{
+    display: block;
+}
+.total-faturado{
+    display: block;
+}
+input.caixa-esp{
+    width: 90%;
+}
+.caixa{
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    height: 100%;
+    border: solid dodgerblue;
+    border-radius: 20px;
+    padding: 15px;
+    background-color: #000;
+}
+form.data-hora{
+    width: 35%;
+}

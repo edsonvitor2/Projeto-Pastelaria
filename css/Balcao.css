@@ -9,8 +9,8 @@ h2{
     text-align: center;
 }
 
-table.pedidos{
-    width: 710px;
+.pedidos{
+    width: 50%;
     border: solid 2px;
     margin-top:50px ;
     margin-left: auto;
@@ -19,13 +19,13 @@ table.pedidos{
     display: block;
 }
 td{
-    border: solid 1px dodgerblue;
+    border-bottom: solid 1px dodgerblue;
     padding: 10px;
-    width:25%;
+    width:30%;
     background-color: black;
 }
 .Cardapio{
-    display: block;
+    display: none;
 }
 button{
     cursor: pointer;
@@ -74,10 +74,7 @@ ul{
     width: 300px;
     float: left;
 }
-table.produtos{
-    width: 200px;
-    float: left;
-}
+
 input.quantidade{
     width: 15px;
 }
@@ -114,20 +111,31 @@ button img.btn-carrinho{
     border: solid black;
     float: left;
 }
-
+table.produtos{
+    width: 200px;
+    float: left;
+    border: solid  dodgerblue;
+    width: 10%;
+    margin: 5px;
+}
 .montar{
+    margin: 5px;
     display: block;
     border: solid 3px dodgerblue;
-    width: 600px;
+    height: 100%;
     float: left;
     background-color: black;
-}
-h1.add-sabores{
-    text-align: center;
+    width: 48%;
 }
 .carrinho{
     border: solid dodgerblue;
     background-color: black;
+    float: left;
+    width: 39%;
+    margin: 5px;
+}
+h1.add-sabores{
+    text-align: center;
 }
 .comanda{
     display: none;
@@ -141,8 +149,33 @@ h1.add-sabores{
 }
 
 .nome-cliente{
-    display: none;
+    display: block;
 }
 
+.qtd{
+    width: 10px;
+}
 
+.destaque {
+    background-color: red;
+  }
 
+  textarea{
+    color: #000;
+  }
+
+#comanda{
+    display: none;
+}
+#forma-pagamento {
+    color: black;
+    background-color: white;
+  }
+  option{
+    color: #000;
+  }
+  .finalizar{
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+  }
