@@ -128,26 +128,23 @@ button img.btn-carrinho{
     float: left;
 }
 .produtos{
-    width: 150px;
-    float: left;
     border: solid  dodgerblue;
-    width: 10%;
+    width: 99.3%;
     margin: 5px;
 }
 .produtos td{
-    width: 50%;
     background-color: #000;
-    border-bottom: solid 1px dodgerblue;
+    border: solid 1px dodgerblue;
     padding: 5px;
 }
 .montar{
-    margin: 5px;
+    margin: 1px;
     display: block;
     border: solid 3px dodgerblue;
     height: 100%;
     float: left;
     background-color: black;
-    width: 40%;
+    width: 34%;
 }
 .montar td{
     border-bottom:solid dodgerblue;
@@ -156,8 +153,8 @@ button img.btn-carrinho{
     border: solid dodgerblue;
     background-color: black;
     float: left;
-    width: 20%;
-    margin: 5px;
+    width: 38%;
+    margin: 1px;
     height: 100%;
 }
 .carrinho table{
@@ -310,10 +307,11 @@ h1.add-sabores{
     border-left: solid 1px dodgerblue;
     border-bottom: solid 1px dodgerblue;
     border-top: solid 1px dodgerblue;
+    width: 14%;
 }
 
 .comanda{
-    margin: 5px;
+    margin: 1px;
     float: right;
     width: 26%;
     border: solid dodgerblue;

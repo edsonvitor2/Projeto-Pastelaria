@@ -857,7 +857,7 @@ initCardapio(id){
                 // Verifica se data.adc existe, caso contrário, define como "0"
               
                 tr.innerHTML = `
-                <td class="td">
+                <td class="td ">
                     ${data.produto}
                 </td>
                 <td class="td">
