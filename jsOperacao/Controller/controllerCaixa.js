@@ -3,7 +3,7 @@ class Caixa{
 
         this.initButtons();
         this.listarCaixa();
-        this.listarPedidos();
+       
     }
     initButtons(){
         let abrirCaixa = document.querySelector(".abriCaixa");
@@ -13,16 +13,39 @@ class Caixa{
         });
     }
 
-    listarPedidos(){
+    listarPedidos(caixa){
+        console.log(caixa);
         firebase.database().ref("pedidos").on("value",element=>{
+
+            let table = document.querySelector("#pedido");
+            table.innerHTML = '';
             element.forEach(e =>{
                 let key = e.key;
-                let pedido = e.pedido;
-                let cliente = e.cliente;
-                let status = e.status;
-                let valor = e.valor;
+                let pedido = e.key;
 
-                console.log(key);
+                e.forEach(a=>{
+                let dados = a.val();
+
+                console.log(dados.caixa); 
+                    if(dados.caixa == caixa){
+                        let cliente = dados.cliente;
+                        let formaPagamento = dados.FormaPagamento;
+                        let valor = dados.valorTotalPedido;
+                        let tr = document.createElement('tr');
+
+                tr.innerHTML = ` 
+                <td class="pedido">${pedido}</td>
+                <td>${cliente}</td>
+                <td>${valor.toFixed(2)}</td>
+                <td>${formaPagamento}</td>
+                <td >
+                    Descrição
+                </td>
+                
+            `;
+            table.appendChild(tr);
+                    }
+                });
             });
         });
     }
@@ -46,6 +69,7 @@ class Caixa{
     }
 
     listarCaixa(){
+
         let table = document.querySelector(".tabelaCaixa");
         firebase.database().ref('Caixas').once("value",element=>{
             table.innerText ='';
@@ -56,7 +80,7 @@ class Caixa{
                 let tr = document.createElement('tr');
     
                 tr.innerHTML = ` 
-                <td>ID</td>
+                <td class="id">${data.id}</td>
                 <td>${data.data}</td>
                 <td>${data.fundoCaixa}</td>
                 <td>${data.status}</td>
@@ -72,6 +96,8 @@ class Caixa{
                     document.querySelector("#data2").value = dados.data;
                     document.querySelector("#horainicio").value = dados.horaInicio;
                     document.querySelector("#horafim").value = dados.horaFim;
+                    let idcaixa = tr.querySelector(".id").innerText;
+                    this.listarPedidos(idcaixa);
                 })
             });
 

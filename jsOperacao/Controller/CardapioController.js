@@ -65,10 +65,11 @@ salvarItem(item){
     let produto = item;
     let sabor = document.getElementById("sabor").value;
     let valor = document.getElementById("valor").value;
+    let valorInicial = document.getElementById("valorInicial").value;
     let quantidade = document.getElementById("quantidade").value;
     switch(item){
         case "Pasteis": this.cardapioPasteis.push({
-            produto,sabor,valor,quantidade
+            produto,sabor,valor,quantidade,valorInicial
         });
         alert("Produto Adicionado com Sucesso!!!");
         break;
@@ -222,40 +223,41 @@ editarItem(item){
     let produto = item;
     let sabor = document.getElementById("sabor").value;
     let valor = document.getElementById("valor").value;
+    let valorInicial = document.getElementById("valorInicial").value;
     let quantidade = document.getElementById("quantidade").value;
     switch(item){
         case "Pasteis": this.cardapioPasteis.child(key).update({
-            produto,sabor,valor,quantidade
+            produto,sabor,valor,quantidade,valorInicial
         });
         alert("Produto Editado com Sucesso!!!");
         break;
 
         case "Panquecas": this.cardapioPanquecas.child(key).update({
-            produto,sabor,valor,quantidade
+            produto,sabor,valor,quantidade,valorInicial
         });
         alert("Produto Editado com Sucesso!!!");
         break;
 
         case "Tapiocas":this.cardapioTapiocas.child(key).update({
-            produto,sabor,valor,quantidade
+            produto,sabor,valor,quantidade,valorInicial
         });
         alert("Produto Editado com Sucesso!!!");
         break;
 
         case "Batatas": this.cardapioBatatas.child(key).update({
-            produto,sabor,valor,quantidade
+            produto,sabor,valor,quantidade,valorInicial
         });
         alert("Produto Editado com Sucesso!!!");
         break;
         
         case "Bebidas": this.cardapioBebidas.child(key).update({
-            produto,sabor,valor,quantidade
+            produto,sabor,valor,quantidade,valorInicial
         });
         alert("Produto Editado com Sucesso!!!");
         break;
 
         case "ProdutosBalcao":this.cardapioProdutosBalcao.child(key).update({
-            produto,sabor,valor,quantidade
+            produto,sabor,valor,quantidade,valorInicial
         });
         alert("Produto Editado com Sucesso!!!");
         break;

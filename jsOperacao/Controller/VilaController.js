@@ -3,16 +3,21 @@ class VilaControllerBalcao{
         this.cardapio = firebase.database().ref("cardapio");
 
         this.carrinho = firebase.database().ref("carrinhoBalcao");
-
+        this.EditarPedido = false;
         this.valortotal = [];
-        this.clienteAtivo;
+        this.adicionais = [];
+        this.Value;
+        this.addValue=[];
+        this.valorAdc;
         this.pedido;
+        this.idCardapio;
+        this.keyProduto;
 
         this.elementsPrototype();
         this.loadElements();
         this.initEvents();
         this.listarPedidos();
-        this.listCart();
+        this.initAdicionais();
     }
 
     loadElements(){
@@ -51,79 +56,300 @@ class VilaControllerBalcao{
             }
         }
     }
+    //qtdFrango
+    initAdicionais(){
+        this.el.adcFrango.on('click',e=>{
+            this.addArrayAdicionais("  frango");
+            this.adicionarValor(4);
+        });
+        this.el.removeFrango.on('click',e=>{
+            this.removeArrayAdicionais('  frango');
+            this.removerValor(4);
+        });
 
-initEvents(){
+        this.el.adcCarne.on('click',e=>{
+            this.addArrayAdicionais(" Carne");
+            this.adicionarValor(5);
+        });
+        this.el.removeCarne.on('click',e=>{
+            this.removeArrayAdicionais(' Carne');
+            this.removerValor(5);
+        });
+
+        this.el.adcMilho.on('click',e=>{
+            this.addArrayAdicionais(" Milho");
+            this.adicionarValor(2);
+        });
+        this.el.removeMilho.on('click',e=>{
+            this.removerValor(2);
+            this.removeArrayAdicionais(' Milho');
+        });
+
+        this.el.adcCheddar.on('click',e=>{
+            this.addArrayAdicionais(" Cheddar");
+            this.adicionarValor(2);
+        });
+        this.el.removeCheddar.on('click',e=>{
+            this.removerValor(2);
+            this.removeArrayAdicionais(' Cheddar');
+        });
+
+        this.el.adcMussarela.on('click',e=>{
+            this.addArrayAdicionais(" Mussarela");
+            this.adicionarValor(3);
+        });
+        this.el.removeMussarela.on('click',e=>{
+            this.removerValor(3);
+            this.removeArrayAdicionais(' Mussarela');
+        });
+
+        this.el.adcPequi.on('click',e=>{
+            this.addArrayAdicionais(" Pequi");
+            this.adicionarValor(3);
+        });
+        this.el.removePequi.on('click',e=>{
+            this.removerValor(3);
+            this.removeArrayAdicionais(' Pequi');
+        });
+
+        this.el.adcCatupiry.on('click',e=>{
+            this.addArrayAdicionais(" Catupiry");
+            this.adicionarValor(3);
+        });
+        this.el.removeCatupiry.on('click',e=>{
+            this.removerValor(3);
+            this.removeArrayAdicionais(' Catupiry');
+        });
+
+        this.el.adcTomate.on('click',e=>{
+            this.addArrayAdicionais(" Tomate");
+            this.adicionarValor(2);
+        });
+        this.el.removeTomate.on('click',e=>{
+            this.removerValor(2);
+            this.removeArrayAdicionais(' Tomate');
+        });
+
+        this.el.adcQueriroba.on('click',e=>{
+            this.addArrayAdicionais(" Queriroba");
+            this.adicionarValor(3);
+        });
+        this.el.removeQueriroba.on('click',e=>{
+            this.removerValor(3);
+            this.removeArrayAdicionais(' Queriroba');
+        });
+
+        this.el.adcPresunto.on('click',e=>{
+            this.addArrayAdicionais(" Presunto");
+            this.adicionarValor(3);
+        });
+        this.el.removePresunto.on('click',e=>{
+            this.removerValor(3);
+            this.removeArrayAdicionais(' Presunto');
+        });
+
+        this.el.adcAzeitona.on('click',e=>{
+            this.addArrayAdicionais(" Azeitona");
+            this.adicionarValor(2);
+        });
+        this.el.removeAzeitona.on('click',e=>{
+            this.removerValor(2);
+            this.removeArrayAdicionais(' Azeitona');
+        });
+
+        this.el.adcCalabresa.on('click',e=>{
+            this.addArrayAdicionais(" Calabresa");
+            this.adicionarValor(3);
+        });
+        this.el.removeCalabresa.on('click',e=>{
+            this.removerValor(3);
+            this.removeArrayAdicionais(' Calabresa');
+        });
+
+        this.el.adcPalmito.on('click',e=>{
+            this.addArrayAdicionais(" Palmito");
+            this.adicionarValor(3);
+        });
+        this.el.removePalmito.on('click',e=>{
+            this.removerValor(3);
+            this.removeArrayAdicionais(' Palmito');
+        });
+    }
+    adicionarValor(value){
+        this.addValue.push(value);
+        let a = this.addValue.join('+');
+        let b = eval(a);
+        let d = parseFloat(this.value);
+        let c = b + d;
+        let valor = c.toFixed(2);
+        firebase.database().ref(this.idCardapio).child(this.keyProduto).update({valor});
+        
+        this.initCardapio(this.idCardapio);
+
+    }
+    removerValor(value){
+        firebase.database().ref(this.idCardapio).child(this.keyProduto).once("value",e=>{
+            let data = e.val();
+            
+            let result = data.valor - value;
+            let valor = result.toFixed(2);
+            
+            firebase.database().ref(this.idCardapio).child(this.keyProduto).update({valor});
+
+            this.valorAdc = '';
+            this.initCardapio(this.idCardapio);
+        });
+    }
+    addArrayAdicionais(value){
+        
+        let adicionais = value;
+        this.adicionais.push(adicionais);
+        let adc = this.adicionais;
+      
+        // Atualizar o valor do array adc no nó existente 
+        firebase.database().ref(this.idCardapio).child(this.keyProduto).child('adc').set(adc);
+        this.initCardapio(this.idCardapio);
+    }
+removeArrayAdicionais(value) {
+let arrayAntigo = [];
+firebase.database().ref(this.idCardapio).child(this.keyProduto).once('value').then(snapshot => {
+    snapshot.forEach(e => {
+        let key = e.key;
+        e.forEach(a => {
+            let b = a.val();
+            
+            console.log(key);
+            arrayAntigo.push(b);
+
+            let index = arrayAntigo.indexOf(value);
+            if (index !== -1) {
+                let adc = arrayAntigo.slice(0, index).concat(arrayAntigo.slice(index + 1));
+                console.log(adc);
+
+                firebase.database().ref(this.idCardapio).child(this.keyProduto).child(key).set( adc)
+                this.initCardapio(this.idCardapio);
+                this.adicionais = [];
+            } else {
+                console.log('item nao encontrado');
+            }
+        });
+    });
+}).catch(error => {
+    console.error('Erro ao acessar o banco de dados:', error);
+});
+}
     
+initEvents(){
+        this.el.pararPedido.on("click",e=>{
+            firebase.database().ref("carrinhoBalcao").remove();
+            this.atualizarPagina();
+        })
+
         this.el.enviar.on("click", e => {
+            event.preventDefault();
             let cliente = this.el.nomeCliente.value;
-            document.querySelector("#cliente-nome").innerText = cliente;
-            firebase.database().ref('clienteAtivo').set({
-                cliente
-            });
-            this.salvarCliente();
-            this.el.criarClientes.hide();
-            this.el.cardapio.show();
-            this.el.pedidos.hide();
+            
+           let numero = document.querySelector("#telefone-cliente").value;
+           if(numero == ""){
+            document.querySelector("#telefone-cliente").value = "(62) 99141-4889"
+           }
+            if(cliente == ""){
+                alert("Digite o nome do Cliente");
+                return false;
+            }else{
+                event.preventDefault();
+                document.querySelector("#cliente-nome").innerText = cliente;
+                firebase.database().ref('clienteAtivo').set({
+                    cliente
+                });
+                this.salvarCliente();
+                this.el.criarClientes.hide();
+                this.el.cardapio.show();
+                this.el.pedidos.hide();
+            }
         });
 
         this.el.finalizar.on('click',e=>{
-            this.el.pedidos.show();
-            this.el.cardapio.hide();
-            this.finalizarPedido();
-        });
+            
+                this.finalizarPedido();
+                location.reload();
+              
+        });  
 
         this.el.telefoneCliente.addEventListener("keyup", () => {
             this.formatarNumero();
             this.verificarCliente();
         });
-        this.el.telefoneCliente.addEventListener("input", () => {
-            this.verificarCliente();
-        });
 
         this.el.abrirPainel.on('click',e=>{
             this.el.criarClientes.show();
+            this.el.pedidos.hide();
         });
 
         this.el.fecharPainel.on('click',e=>{
             this.el.criarClientes.hide();
+            this.el.pedidos.show();
         });
 
         this.el.pastel.on('click',e=>{
             this.el.montar.show();
             this.initCardapio("cardapioPasteis");
+            this.idCardapio = "cardapioPasteis";
         });
 
         this.el.panqueca.on('click',e=>{
             this.el.montar.show();
             this.initCardapio("cardapioPanquecas");
+            this.idCardapio = "cardapioPanquecas";
         });
 
         this.el.tapioca.on('click',e=>{
             this.el.montar.show();
             this.initCardapio("cardapioTapiocas");
+            this.idCardapio = "cardapioTapiocas";
         });
 
         this.el.batata.on('click',e=>{
             this.el.montar.show();
             this.initCardapio("cardapioBatatas");
+            this.idCardapio = "cardapioBatatas";
         });
 
         this.el.bebida.on('click',e=>{
             this.el.montar.show();
             this.initCardapio("cardapioBebidas");
+            this.idCardapio = "cardapioBebidas";
         });
 
         this.el.balcao.on('click',e=>{
             this.el.montar.show();
             this.initCardapio("cardapioProdutosBalcao");
+            this.idCardapio = "cardapioProdutosBalcao";
         });
 
         this.el.enviarCozinha.on('click',e=>{
-            this.enviarPedidoCozinha();
+            if(this.EditarPedido == true){
+                this.editarPedidoCozinha(this.pedido);
+                this.el.cardapio.hide();
+                this.el.pedidos.show();
+                this.listarPedidos();
+            }else{
+                this.enviarPedidoCozinha();
+                this.el.cardapio.hide();
+                this.el.pedidos.show();
+                this.listarPedidos();
+            }
         });
+
+        this.el.fecharAdc.on('click',e=>{
+            this.el.adicionar.hide();
+            this.el.fecharAdc.hide();
+            this.adicionais=[];
+        })
     }
     salvarCliente(){
         let cliente = this.el.nomeCliente.value;
+       
         let telefone = this.el.telefoneCliente.value;
         let visitas = parseInt(this.el.visitaCliente.value);
         let pessoas = this.el.qtdCliente.value;
@@ -171,7 +397,7 @@ initEvents(){
           } else {
             // Nenhum cliente com o número de telefone encontrado, limpar os campos repetíveis
             this.el.nomeCliente.value = "";
-            this.el.visitaCliente.value = "";
+            this.el.visitaCliente.value = "0";
           }
         });
     }
@@ -202,9 +428,9 @@ enviarPedidoCozinha() {
     firebase.database().ref("Caixas").on("value", element => {
         element.forEach(e => {
         let key = e.key;
-        let data = e.val();
-        let status = data.status;
-        let id = data.id;
+        let item = e.val();
+        let status = item.status;
+        let id = item.id;
     
         if (status === "aberto") {
             caixa = id;
@@ -218,8 +444,10 @@ enviarPedidoCozinha() {
                 let sabor = data.sabor;
                 let quantidade = data.quantidade;
                 let valor = data.valor;
+                let obs = data.obs;
+                let adc = data.adc;
     
-                itens.push({ produto, sabor, quantidade, valor });
+                itens.push({ produto, sabor, quantidade, valor,obs,adc });
             });
     
             // Obtém o último pedido do banco de dados
@@ -234,10 +462,10 @@ enviarPedidoCozinha() {
     
                 let valorTotalPedido = itens.reduce((total, objeto) => total + parseFloat(objeto.valor), 0);
     
-                firebase.database().ref('clienteAtivo').on('value', e => {
+                firebase.database().ref('clienteAtivo').once('value', e => {
                 var dados = e.val();
                 cliente = dados.cliente;
-    
+                    console.log(cliente);
                 let status = "Em produção!";
                 let pago = 'Não!';
     
@@ -253,10 +481,12 @@ enviarPedidoCozinha() {
                 firebase.database().ref("carrinhoBalcao").remove();
     
                 this.criarComanda(numPedido);
-    
-                // Remover o nó 'clienteAtivo'
-                firebase.database().ref("clienteAtivo").remove();
+                this.listarPedidos();
+                
                 });
+                setTimeout(() => {
+                    firebase.database().ref("clienteAtivo").remove();
+                }, 1000);
             });
             });
         } else {
@@ -264,9 +494,48 @@ enviarPedidoCozinha() {
         }
         });
     });
-    }
+}
+editarPedidoCozinha(pedido) {
+// verificar se o caixa esta aberto.
+firebase.database().ref("Caixas").on("value", element => {
+    element.forEach(e => {
+    let item = e.val();
+    let status = item.status;
+    let id = item.id;
+    let itens = [];
+    let valor = [];
+    
+    if (status === "aberto") {
+            firebase.database().ref('carrinhoBalcao').once("value",e=>{
+            e.forEach(b=>{
+            let arrayItens = b.val();
+
+            valor.push(arrayItens.valor);
+            itens.push(arrayItens);
+
+            firebase.database().ref('pedidos').child(pedido).once("value",snapshot=>{
+            snapshot.forEach(e=>{
+
+            let key = e.key;
+            let soma=valor.join('+');
+            let valorTotalPedido = eval(soma);
+                console.log(itens);
+            firebase.database().ref('pedidos').child(pedido).child(key).update({valorTotalPedido});
+                            
+            firebase.database().ref('pedidos').child(pedido).child(key).update({itens});
+
+                        });
+                    });
+                });
+            });
+        }
+    });
+    this.carrinho.remove();
+});
+}
 criarComanda(pedido){
 this.el.enviarCozinha.hide();
+this.pedido = pedido;
 var soma;
 var objetos;
 var valorTotal;
@@ -281,7 +550,7 @@ var table = document.querySelector("#Carrinho");
         element.forEach(e =>{
         let key = e.key;
         let data = e.val();
-        
+        console.log( key);
         objetos = data.itens;
         valorTotal = data.valorTotalPedido;
         let index = objetos.length - 1;
@@ -293,22 +562,36 @@ var table = document.querySelector("#Carrinho");
             quantidadeTotal.push(objetos[a].quantidade);
             soma = quantidadeTotal.join('+');
             let result = eval(soma);
+
+            let adcValue = data.adc !== undefined ? data.adc : '0';
+            let obsValue = data.obs !== undefined ? data.obs : 'Obs';
+            
             
             tr = document.createElement("tr");
 
             tr.innerHTML = `
-            <td>
+            <td class="td">
             ${objetos[a].produto}
             </td>
-            <td>
+            <td class="td">
                 ${objetos[a].sabor}
             </td>
-            <td>
+            <td class="td">
                 ${objetos[a].quantidade}
             </td>
-            <td>
+            <td class="td">
                 ${objetos[a].valor}
             </td>
+            <td class="td">
+            ${adcValue}
+            </td>
+            <td class="td">
+            <textarea id="myTextarea" rows="4" cols="8" disabled placeholder="OBS:">${obsValue}</textarea>
+            </td>
+            <td class="td">
+                <img src="/icones/iconExcluir.png" width="40px" id="excluir">
+            </td>
+            
             `;
             table.appendChild(tr);
 
@@ -331,8 +614,11 @@ finalizarPedido() {
         // Atualize o status apenas se não for "Finalizado"
         if (statusAtual !== "Finalizado") {
           // Atualize o status para "Finalizado"
-          childSnapshot.ref.update({ status: "Finalizado",
-        pago:"Sim!" })
+          childSnapshot.ref.update({ 
+            status: "Finalizado",
+            pago:"Sim!",
+            FormaPagamento : document.querySelector("#forma-pagamento").value
+         })
             .then(() => {
               console.log('Status do pedido atualizado para "Finalizado".');
             })
@@ -347,142 +633,204 @@ finalizarPedido() {
   }
 
 listarPedidos() {
-    var chave;
-    firebase.database().ref("pedidos").on("value", element => {
-        
-    let table = document.querySelector("#pedido");
-    table.innerHTML = '';
-    element.forEach(e => {
-        chave = e.key;
-      e.forEach(item => {
-        let iten = item.val();
-        let key = item.key;
-
-        let pedido = chave;
-        let cliente = iten.cliente;
-        let status = iten.status;
-        let valor = iten.
-        valorTotalPedido;
-        let pago = iten.pago;
-
-        let tr = document.createElement('tr');
-
-        if(pago == "Não!"){
-            tr.innerHTML = ` 
-                <td class="pedido">${pedido}</td>
-                <td>${cliente}</td>
-                <td>${status}</td>
-                <td>${valor.toFixed(2)}</td>
-                <td>${pago}</td>
-                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
-                
-            `;
-            table.appendChild(tr);
-            tr.querySelector(".com").addEventListener("click", e=>{
-                let a = tr.querySelector(".pedido").innerText;
-                this.criarComanda(a);
-                this.el.cardapio.show();
-                this.el.pedidos.hide();
-                this.pedido = a;
-            });
-        }else{
-            tr.innerHTML = ` 
-            <td>${pedido}</td>
-            <td>${cliente}</td>
-            <td>${status}</td>
-            <td>${valor.toFixed(2)}</td>
-            <td>${pago}</td>
-            <td class="v"><img src="/icones/iconV.png" width="40px"></td>
-        `;
-        table.appendChild(tr);
-        }
-      });
-    });
-  });
-}
-      
-    initCardapio(id){
-        let table = document.querySelector(".montar");
-
-        firebase.database().ref(id).once('value').then((snapshot)=>{
-            table.innerText = '';
-            snapshot.forEach(e=>{
-
-                let key = e.key;
-                let data = e.val();
-
-                let tr = document.createElement('tr');
-
-        tr.innerHTML = ` 
-        <td class="sabor">
-            ${data.sabor}
-        </td>
-        <td class="qtd">
-            <button class="btnSubtract ">-</button>
-        </td>
-        <td class="qtd">
-            <input type="text" name="" id="" class="quantidade" value="0">
-        </td>
-        <td class="qtd">
-            <button class="btnAdd">+</button>
-        </td>
-        <td>
-        ${data.valor}
-        </td>
-        <td>
-            <img src="/icones/iconCarrinho.png" width="40px" class="btnCarrinho">
-        </td>
-        <td>
-            <img src="/icones/iconAdc.png" alt="" width="40px">
-        </td>
-        <td>
-            <textarea id="myTextarea" rows="4" cols="8" placeholder="OBS:"></textarea>
-        </td>
-        `;
-        table.appendChild(tr);
-            //aqui envia o produto para o carrinho
-        tr.querySelector(".btnCarrinho").addEventListener("click", e=>{
-            console.log(data.sabor);
-            let quantidade = tr.querySelector(".quantidade").value;
-            let produto = data.produto;
-            let sabor = data.sabor;
-            let valor = quantidade * data.valor;
-            let valorFim = valor.toFixed(2);
-
-            this.createCart(produto,sabor,quantidade,valorFim);
-        });
-
-            //aqui adiciona +1 a quantidade de pasteis
-        tr.querySelector(".btnAdd").addEventListener("click", e=>{
-            let n1 = parseInt(tr.querySelector(".quantidade").value);
-            let result = n1 + 1;
-            tr.querySelector(".quantidade").value = result;
-        });
-
-            //aqui subtrai 1 a quantidade de pasteis
-        tr.querySelector(".btnSubtract").addEventListener("click", e=>{
-            let n1 = parseInt(tr.querySelector(".quantidade").value);
-            if(n1==0){
-                return false
-            }else{
-                let result = n1 - 1;
-                tr.querySelector(".quantidade").value = result;
-            }
+    firebase.database().ref('Caixas').once("value",element=>{
+        //table.innerText ='';
+        element.forEach(e => {
+            let key = e.key;
+            let data = e.val();
             
-        });
-            });
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    }
 
-    createCart(produto,sabor,quantidade,valor){
-        this.carrinho.push({
-            produto,sabor,quantidade,valor
+            if(data.status == "aberto"){
+                console.log(data.id);
+                var chave;
+                firebase.database().ref("pedidos").once("value", element => {
+                    
+                let table = document.querySelector("#pedido");
+                table.innerHTML = '';
+                element.forEach(e => {
+                    
+                    chave = e.key;
+                    let dat = e.val();
+                    
+                    
+                  e.forEach(item => {
+                    let iten = item.val();
+                    let key = item.key;
+                    if(iten.caixa == data.id){
+                    
+                        let pedido = chave;
+                    let cliente = iten.cliente;
+                    let status = iten.status;
+                    let valor = iten.
+                    valorTotalPedido;
+                    let pago = iten.pago;
+            
+                    let tr = document.createElement('tr');
+            
+                    if(pago == "Não!"){
+                        tr.innerHTML = ` 
+                            <td class="pedido">${pedido}</td>
+                            <td>${cliente}</td>
+                            <td>${status}</td>
+                            <td>${valor}</td>
+                            <td>${pago}</td>
+                            <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+                            <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+                        `;
+                        table.appendChild(tr);
+                        tr.querySelector(".com").addEventListener("click", e=>{
+                            let a = tr.querySelector(".pedido").innerText;
+                            this.criarComanda(a);
+                            this.el.cardapio.show();
+                            this.el.pedidos.hide();
+                            this.pedido = a;
+                        });
+        tr.querySelector(".Edit").addEventListener("click", e=>{
+            let a = tr.querySelector(".pedido").innerText;
+            this.el.cardapio.show();
+            this.el.pedidos.hide();
+            this.pedido = a; 
+            this.EditarPedido = true;
+            firebase.database().ref('clienteAtivo').set({
+                cliente
+            });
+            this.recriarCarrinho(a);
+                        });
+                        
+                    }else{
+                        tr.innerHTML = ` 
+                        <td>${pedido}</td>
+                        <td>${cliente}</td>
+                        <td>${status}</td>
+                        <td>${valor.toFixed(2)}</td>
+                        <td>${pago}</td>
+                        <td class="com"><img src="/icones/iconEdit.png" width="40px"></td>
+                        <td class="v"><img src="/icones/iconV.png" width="40px"></td>
+                        
+                    `;
+                    table.appendChild(tr);
+                    }
+                    }
+                  });
+                });
+              });
+            }
         });
+    });
+
+}      
+initCardapio(id){
+    let table = document.querySelector(".montar");
+
+    firebase.database().ref(id).once('value').then((snapshot)=>{
+        table.innerText = '';
+        snapshot.forEach(e=>{
+
+            let key = e.key;
+            let data = e.val();
+            let adicionaisString = []; 
+            e.forEach(a=>{
+                a.forEach(f=>{
+                    adicionaisString.push(f.val());
+                })
+            });
+            //console.log(adicionaisString);
+            let adcValue = data.adc !== undefined ? data.adc : '0';
+            let valorExibido = data.adc !== undefined ? data.valor : data.valorInicial;
+
+            let tr = document.createElement('tr');
+
+    tr.innerHTML = ` 
+    <td class="sabor">
+        ${data.sabor}
+    </td>
+    <td class="card-qtd-">
+        <button class="btnSubtract ">-</button>
+    </td>
+    <td class="card-qtd">
+        <input type="text" name="" id="" class="quantidade" value="1">
+    </td>
+    <td class="card-qtdm">
+        <button class="btnAdd">+</button>
+    </td>
+    <td class="card-valor">
+    ${valorExibido}
+    </td>
+    <td class="card-btn-car">
+        <img src="/icones/iconCarrinho.png" width="40px" class="btnCarrinho">
+    </td>
+    <td class="card-btn-adc">
+        <img src="/icones/iconAdc.png" alt="" width="40px" class="btnAdicionais">
+    </td>
+    <td class="card-obs">
+        <textarea id="myTextarea" rows="4" cols="8" placeholder="OBS:" class="obs"></textarea>
+    </td>
+    <td class="card-adc">
+        adc ${adcValue || '' }
+    </td>
+    `;
+    table.appendChild(tr);
+    tr.querySelector(".btnAdicionais").addEventListener("click", e=>{
+        this.el.adicionar.show();
+        this.el.fecharAdc.show();
+        
+        this.keyProduto = key;
+        this.value = tr.querySelector(".card-valor").innerText;
+        this.addValue = [];
+        this.adicionais=[];
+        console.log(this.value);
+
+    });
+
+        //aqui envia o produto para o carrinho
+    tr.querySelector(".btnCarrinho").addEventListener("click", e=>{
+        this.keyProduto = key;
+        console.log(data.sabor);
+        let quantidade = tr.querySelector(".quantidade").value;
+        let produto = data.produto;
+        let sabor = data.sabor;
+        let valor = quantidade * data.valor;
+        let valorFim = valor.toFixed(2);
+        let obs = tr.querySelector("#myTextarea").value;
+        let adc = tr.querySelector(".card-adc").innerText;
+
+        console.log(produto,sabor,quantidade,valor,obs,adc)
+        this.carrinho.push({
+            produto,sabor,quantidade,valor,obs,adc
+        });
+
         this.listCart();
-    }
+
+        firebase.database().ref(this.idCardapio).child(this.keyProduto).update({ adc: null});
+        this.adicionais=[];
+        this.initCardapio(this.idCardapio);
+        
+    });
+
+        //aqui adiciona +1 a quantidade de pasteis
+    tr.querySelector(".btnAdd").addEventListener("click", e=>{
+        let n1 = parseInt(tr.querySelector(".quantidade").value);
+        let result = n1 + 1;
+        tr.querySelector(".quantidade").value = result;
+    });
+
+        //aqui subtrai 1 a quantidade de pasteis
+    tr.querySelector(".btnSubtract").addEventListener("click", e=>{
+        let n1 = parseInt(tr.querySelector(".quantidade").value);
+        if(n1==0){
+            return false
+        }else{
+            let result = n1 - 1;
+            tr.querySelector(".quantidade").value = result;
+        }
+        
+    });
+        });
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+}
     
     listCart(){
         let quantidade = [];
@@ -500,46 +848,117 @@ listarPedidos() {
                 let somaqtd = quantidade.join('+');
                 let quantidadefinal = eval(somaqtd);
                 document.querySelector("#quantidadeTotal").innerText = quantidadefinal;
-
+                
                 this.valortotal.push(data.valor);
                 let valorSomado= this.valortotal.join('+');
                 let valorFinal = eval(valorSomado);
                 document.querySelector("#valorTotal").innerText = valorFinal.toFixed(2);
                 
+                // Verifica se data.adc existe, caso contrário, define como "0"
+              
                 tr.innerHTML = `
                 <td class="td">
                     ${data.produto}
                 </td>
-                <td>
+                <td class="td">
                     ${data.sabor}
                 </td>
-                <td>
+                <td class="td">
                     ${data.quantidade}
                 </td>
-                <td>
+                <td class="td">
                     ${data.valor}
                 </td>
-                <td>
-                    <img src="/icones/iconEdit.png" width="40px" class="editar">
+                <td class="td">
+                ${data.adc}
                 </td>
-                <td>
+                <td class="td">
+                <textarea id="myTextarea" rows="4" cols="8" disabled placeholder="OBS:">${data.obs}</textarea>
+                </td>
+                <td class="td">
                     <img src="/icones/iconExcluir.png" width="40px" id="excluir">
                 </td>
-                <td>
-            <textarea id="myTextarea" rows="4" cols="8" disabled placeholder="OBS:"></textarea>
-        </td>
                 `;
                 tr.querySelector("#excluir").addEventListener("click",e=>{
                     firebase.database().ref("carrinhoBalcao").child(key).remove();
                     this.listCart();
                 });
-                tr.querySelector(".editar").addEventListener("click", (e) => {
-                    tr.querySelector(".td").style.backgroundColor = "red";
-                    console.log("ok");
-                  });
                 table.appendChild(tr);
-
             });
         });
     }
+    recriarCarrinho(a) {
+        let valores=[];
+        console.log(a);
+        firebase.database().ref("pedidos").child(a).once('value', snapshot => {
+            let table = document.querySelector("#Carrinho");
+            table.innerHTML = ''; // Limpar a tabela antes de adicionar novos itens
+            snapshot.forEach(snapshotItem => {
+                let dados = snapshotItem.val();
+                dados.itens.forEach(e => {
+                    console.log(e);
+                    let adc = e.adc;
+                    if(adc == undefined){
+                        adc = '0';
+                    }
+                    let tr = document.createElement("tr");
+                    valores.push(e.valor);
+                    
+                    tr.innerHTML = `
+                        <td class="td">
+                            ${e.produto}
+                        </td>
+                        <td class="td">
+                            ${e.sabor}
+                        </td>
+                        <td class="td">
+                            ${e.quantidade}
+                        </td>
+                        <td class="td">
+                            ${e.valor}
+                        </td>
+                        <td class="td">
+                            ${adc} <!-- Verificação de null ou undefined -->
+                        </td>
+                        <td class="td">
+                            <textarea id="myTextarea" rows="4" cols="8" disabled placeholder="OBS:">${e.obs}</textarea>
+                        </td>
+                        <td class="td">
+                            <img src="/icones/iconExcluir.png" width="40px" id="excluir">
+                        </td>
+                    `;
+                    table.appendChild(tr);
+                    let produto = e.produto;
+                    let sabor = e.sabor;
+                    let quantidade = e.quantidade;
+                    let valor = e.valor;
+                    let obs = e.obs;
+
+                    this.carrinho.push({produto, sabor, quantidade, valor, obs, adc});
+
+                    tr.querySelector("#excluir").addEventListener("click", e => {
+                        console.log('excluir')
+                    });
+                    let soma= valores.join('+');
+                    let result = eval(soma);
+                     console.log(result);
+
+                     document.querySelector
+                });
+            });
+        });
+    }
+
+    atualizarPagina(){
+        location.reload();
+    }
 }
+
+
+
+// linha 472 Cria a comanda;
+// linha 612 Cria o cardapio;
+// linha 710 Cria o Carrinho;
+// linha 717 lista o carrinho na tela;
+// linha
+// linha
