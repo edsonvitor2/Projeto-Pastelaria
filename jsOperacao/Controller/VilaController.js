@@ -12,7 +12,10 @@ class VilaControllerBalcao{
         this.pedido;
         this.idCardapio;
         this.keyProduto;
-
+        this.itens;
+        this.keyAttPedido ;
+        this.valorAttPedido = [];
+        this.qtdAttPedido;
         this.elementsPrototype();
         this.loadElements();
         this.initEvents();
@@ -218,13 +221,11 @@ firebase.database().ref(this.idCardapio).child(this.keyProduto).once('value').th
         e.forEach(a => {
             let b = a.val();
             
-            console.log(key);
             arrayAntigo.push(b);
 
             let index = arrayAntigo.indexOf(value);
             if (index !== -1) {
                 let adc = arrayAntigo.slice(0, index).concat(arrayAntigo.slice(index + 1));
-                console.log(adc);
 
                 firebase.database().ref(this.idCardapio).child(this.keyProduto).child(key).set( adc)
                 this.initCardapio(this.idCardapio);
@@ -330,14 +331,14 @@ initEvents(){
         this.el.enviarCozinha.on('click',e=>{
             if(this.EditarPedido == true){
                 this.editarPedidoCozinha(this.pedido);
-                this.el.cardapio.hide();
-                this.el.pedidos.show();
-                this.listarPedidos();
+                //this.el.cardapio.hide();
+                //this.el.pedidos.show();
+                //this.listarPedidos();
             }else{
                 this.enviarPedidoCozinha();
-                this.el.cardapio.hide();
-                this.el.pedidos.show();
-                this.listarPedidos();
+                //this.el.cardapio.hide();
+                //this.el.pedidos.show();
+                //this.listarPedidos();
             }
         });
 
@@ -459,13 +460,13 @@ enviarPedidoCozinha() {
                 });
     
                 numPedido = pedido;
+                this.pedido = pedido;
     
                 let valorTotalPedido = itens.reduce((total, objeto) => total + parseFloat(objeto.valor), 0);
     
                 firebase.database().ref('clienteAtivo').once('value', e => {
                 var dados = e.val();
                 cliente = dados.cliente;
-                    console.log(cliente);
                 let status = "Em produção!";
                 let pago = 'Não!';
     
@@ -479,14 +480,11 @@ enviarPedidoCozinha() {
                 });
     
                 firebase.database().ref("carrinhoBalcao").remove();
-    
+                this.EditarPedido = true;
                 this.criarComanda(numPedido);
                 this.listarPedidos();
                 
                 });
-                setTimeout(() => {
-                    firebase.database().ref("clienteAtivo").remove();
-                }, 1000);
             });
             });
         } else {
@@ -497,61 +495,74 @@ enviarPedidoCozinha() {
 }
 editarPedidoCozinha(pedido) {
 // verificar se o caixa esta aberto.
-firebase.database().ref("Caixas").on("value", element => {
+firebase.database().ref("Caixas").once("value", element => {
     element.forEach(e => {
     let item = e.val();
     let status = item.status;
     let id = item.id;
-    let itens = [];
+    let objetos = [];
     let valor = [];
+    let qtd = []
     
     if (status === "aberto") {
             firebase.database().ref('carrinhoBalcao').once("value",e=>{
             e.forEach(b=>{
             let arrayItens = b.val();
+            
+            qtd.push(arrayItens.quantidade);
 
             valor.push(arrayItens.valor);
-            itens.push(arrayItens);
+            objetos.push(arrayItens);
 
             firebase.database().ref('pedidos').child(pedido).once("value",snapshot=>{
             snapshot.forEach(e=>{
 
-            let key = e.key;
-            let soma=valor.join('+');
-            let valorTotalPedido = eval(soma);
-                console.log(itens);
-            firebase.database().ref('pedidos').child(pedido).child(key).update({valorTotalPedido});
-                            
-            firebase.database().ref('pedidos').child(pedido).child(key).update({itens});
+            this.keyAttPedido = e.key;
+           
+            let somaAtt = this.valorAttPedido.join('+');
+            let a = eval(somaAtt);
 
+           
+
+            let soma = valor.join('+');
+            let b = eval(soma);
+
+            let valorTotalPedido = a+b;
+            
+            firebase.database().ref('pedidos').child(pedido).child(this.keyAttPedido).update({valorTotalPedido});
                         });
                     });
                 });
+                this.itens = this.itens.concat(objetos);
+                
+                let itens =   this.itens;
+
+                firebase.database().ref('pedidos').child(pedido).child(this.keyAttPedido).update({itens});
             });
         }
     });
+    this.EditarPedido = false;
+    this.criarComanda(pedido);
     this.carrinho.remove();
 });
 }
 criarComanda(pedido){
-this.el.enviarCozinha.hide();
 this.pedido = pedido;
 var soma;
 var objetos;
 var valorTotal;
 var quantidadeTotal = [];
 var tr;
-var table = document.querySelector("#Carrinho");
+var table = document.querySelector("#comanda");
 
     firebase.database().ref("pedidos").child(pedido).on("value",element=>{
     
     table.innerHTML="";
 
         element.forEach(e =>{
-        let key = e.key;
         let data = e.val();
-        console.log( key);
         objetos = data.itens;
+        this.itens = objetos;
         valorTotal = data.valorTotalPedido;
         let index = objetos.length - 1;
         
@@ -563,12 +574,12 @@ var table = document.querySelector("#Carrinho");
             soma = quantidadeTotal.join('+');
             let result = eval(soma);
 
+
             let adcValue = data.adc !== undefined ? data.adc : '0';
             let obsValue = data.obs !== undefined ? data.obs : 'Obs';
             
-            
             tr = document.createElement("tr");
-
+            this.valorAttPedido.push(objetos[a].valor);
             tr.innerHTML = `
             <td class="td">
             ${objetos[a].produto}
@@ -586,7 +597,7 @@ var table = document.querySelector("#Carrinho");
             ${adcValue}
             </td>
             <td class="td">
-            <textarea id="myTextarea" rows="4" cols="8" disabled placeholder="OBS:">${obsValue}</textarea>
+            <textarea id="myTextarea" rows="4" cols="6" disabled placeholder="OBS:">${obsValue}</textarea>
             </td>
             <td class="td">
                 <img src="/icones/iconExcluir.png" width="40px" id="excluir">
@@ -601,7 +612,6 @@ var table = document.querySelector("#Carrinho");
     });
     });
 }
-
 finalizarPedido() {
     let key = this.pedido;
     let statusAtual;
@@ -641,7 +651,6 @@ listarPedidos() {
             
 
             if(data.status == "aberto"){
-                console.log(data.id);
                 var chave;
                 firebase.database().ref("pedidos").once("value", element => {
                     
@@ -694,7 +703,7 @@ listarPedidos() {
             firebase.database().ref('clienteAtivo').set({
                 cliente
             });
-            this.recriarCarrinho(a);
+            this.criarComanda(a);
                         });
                         
                     }else{
@@ -734,7 +743,6 @@ initCardapio(id){
                     adicionaisString.push(f.val());
                 })
             });
-            //console.log(adicionaisString);
             let adcValue = data.adc !== undefined ? data.adc : '0';
             let valorExibido = data.adc !== undefined ? data.valor : data.valorInicial;
 
@@ -763,7 +771,7 @@ initCardapio(id){
         <img src="/icones/iconAdc.png" alt="" width="40px" class="btnAdicionais">
     </td>
     <td class="card-obs">
-        <textarea id="myTextarea" rows="4" cols="8" placeholder="OBS:" class="obs"></textarea>
+        <textarea id="myTextarea" rows="4" cols="6" placeholder="OBS:" class="obs"></textarea>
     </td>
     <td class="card-adc">
         adc ${adcValue || '' }
@@ -778,14 +786,12 @@ initCardapio(id){
         this.value = tr.querySelector(".card-valor").innerText;
         this.addValue = [];
         this.adicionais=[];
-        console.log(this.value);
 
     });
 
         //aqui envia o produto para o carrinho
     tr.querySelector(".btnCarrinho").addEventListener("click", e=>{
         this.keyProduto = key;
-        console.log(data.sabor);
         let quantidade = tr.querySelector(".quantidade").value;
         let produto = data.produto;
         let sabor = data.sabor;
@@ -794,7 +800,6 @@ initCardapio(id){
         let obs = tr.querySelector("#myTextarea").value;
         let adc = tr.querySelector(".card-adc").innerText;
 
-        console.log(produto,sabor,quantidade,valor,obs,adc)
         this.carrinho.push({
             produto,sabor,quantidade,valor,obs,adc
         });
@@ -873,7 +878,7 @@ initCardapio(id){
                 ${data.adc}
                 </td>
                 <td class="td">
-                <textarea id="myTextarea" rows="4" cols="8" disabled placeholder="OBS:">${data.obs}</textarea>
+                <textarea id="myTextarea" rows="4" cols="6" disabled placeholder="OBS:">${data.obs}</textarea>
                 </td>
                 <td class="td">
                     <img src="/icones/iconExcluir.png" width="40px" id="excluir">
@@ -884,67 +889,6 @@ initCardapio(id){
                     this.listCart();
                 });
                 table.appendChild(tr);
-            });
-        });
-    }
-    recriarCarrinho(a) {
-        let valores=[];
-        console.log(a);
-        firebase.database().ref("pedidos").child(a).once('value', snapshot => {
-            let table = document.querySelector("#Carrinho");
-            table.innerHTML = ''; // Limpar a tabela antes de adicionar novos itens
-            snapshot.forEach(snapshotItem => {
-                let dados = snapshotItem.val();
-                dados.itens.forEach(e => {
-                    console.log(e);
-                    let adc = e.adc;
-                    if(adc == undefined){
-                        adc = '0';
-                    }
-                    let tr = document.createElement("tr");
-                    valores.push(e.valor);
-                    
-                    tr.innerHTML = `
-                        <td class="td">
-                            ${e.produto}
-                        </td>
-                        <td class="td">
-                            ${e.sabor}
-                        </td>
-                        <td class="td">
-                            ${e.quantidade}
-                        </td>
-                        <td class="td">
-                            ${e.valor}
-                        </td>
-                        <td class="td">
-                            ${adc} <!-- Verificação de null ou undefined -->
-                        </td>
-                        <td class="td">
-                            <textarea id="myTextarea" rows="4" cols="8" disabled placeholder="OBS:">${e.obs}</textarea>
-                        </td>
-                        <td class="td">
-                            <img src="/icones/iconExcluir.png" width="40px" id="excluir">
-                        </td>
-                    `;
-                    table.appendChild(tr);
-                    let produto = e.produto;
-                    let sabor = e.sabor;
-                    let quantidade = e.quantidade;
-                    let valor = e.valor;
-                    let obs = e.obs;
-
-                    this.carrinho.push({produto, sabor, quantidade, valor, obs, adc});
-
-                    tr.querySelector("#excluir").addEventListener("click", e => {
-                        console.log('excluir')
-                    });
-                    let soma= valores.join('+');
-                    let result = eval(soma);
-                     console.log(result);
-
-                     document.querySelector
-                });
             });
         });
     }

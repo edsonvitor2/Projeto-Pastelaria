@@ -1,5 +1,5 @@
 *{
-    font-size: 20px;
+    font-size: 15px;
     color: aliceblue;
 }
 body{
@@ -144,7 +144,7 @@ button img.btn-carrinho{
     height: 100%;
     float: left;
     background-color: black;
-    width: 34%;
+    width: 34.5%;
 }
 .montar td{
     border-bottom:solid dodgerblue;
@@ -153,7 +153,7 @@ button img.btn-carrinho{
     border: solid dodgerblue;
     background-color: black;
     float: left;
-    width: 38%;
+    width: 34%;
     margin: 1px;
     height: 100%;
 }
@@ -191,10 +191,6 @@ h1.add-sabores{
     font-size: 14px;
     font-family:Arial, Helvetica, sans-serif;
   }
-
-#comanda{
-    display: none;
-}
 #forma-pagamento {
     color: black;
     background-color: white;
@@ -313,7 +309,7 @@ h1.add-sabores{
 .comanda{
     margin: 1px;
     float: right;
-    width: 26%;
+    width: 30%;
     border: solid dodgerblue;
     background-color: #000;
 }
