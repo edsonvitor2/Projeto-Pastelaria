@@ -252,7 +252,8 @@ initEvents(){
             
            let numero = document.querySelector("#telefone-cliente").value;
            if(numero == ""){
-            document.querySelector("#telefone-cliente").value = "(62) 99141-4889"
+            document.querySelector("#telefone-cliente").value = "(00) 11111-1111";
+            this.verificarCliente();
            }
             if(cliente == ""){
                 alert("Digite o nome do Cliente");
@@ -447,7 +448,7 @@ enviarPedidoCozinha() {
                 let valor = data.valor;
                 let obs = data.obs;
                 let adc = data.adc;
-    
+                console.log(valor);
                 itens.push({ produto, sabor, quantidade, valor,obs,adc });
             });
     
@@ -681,7 +682,7 @@ listarPedidos() {
                             <td class="pedido">${pedido}</td>
                             <td>${cliente}</td>
                             <td>${status}</td>
-                            <td>${valor}</td>
+                            <td>${valor.toFixed(2)}</td>
                             <td>${pago}</td>
                             <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
                             <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
@@ -795,20 +796,22 @@ initCardapio(id){
         let quantidade = tr.querySelector(".quantidade").value;
         let produto = data.produto;
         let sabor = data.sabor;
-        let valor = quantidade * data.valor;
-        let valorFim = valor.toFixed(2);
+        let valorFim = quantidade * data.valor;
+        let valor = valorFim.toFixed(2);
         let obs = tr.querySelector("#myTextarea").value;
         let adc = tr.querySelector(".card-adc").innerText;
-
+        
         this.carrinho.push({
             produto,sabor,quantidade,valor,obs,adc
         });
 
         this.listCart();
+        this.restaurarValor();
 
         firebase.database().ref(this.idCardapio).child(this.keyProduto).update({ adc: null});
         this.adicionais=[];
         this.initCardapio(this.idCardapio);
+        
         
     });
 
@@ -836,7 +839,15 @@ initCardapio(id){
         console.error(error);
     });
 }
-    
+restaurarValor(){
+    firebase.database().ref(this.idCardapio).child(this.keyProduto).once('value',snapshot=>{
+        console.log(snapshot.val());
+        let data = snapshot.val();
+        let valor = data.valorInicial;
+
+        firebase.database().ref(this.idCardapio).child(this.keyProduto).update({valor});
+    });
+}
     listCart(){
         let quantidade = [];
         let table = document.querySelector("#Carrinho");

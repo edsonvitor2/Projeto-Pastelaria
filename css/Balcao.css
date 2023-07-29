@@ -203,17 +203,22 @@ h1.add-sabores{
     height: 50px;
     font-size: 30px;
   }
-  .fecharCardapio{
+  .fecharCardapioAdc{
     border: solid dodgerblue;
+    color: red;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 30px;
     border-radius: 25px;
-    width: 22px;
+    height: 35px;
+    width: 35px;
     background-color: #000;
     cursor: pointer;
     position: fixed;
-    left: 59%;
+    left: 60%;
     z-index: 9999;
-    top: 40px;
+    top: 30px;
     display: none;
+    
 }
 #dsa{
     background-image: url('/icones/teste.png') ;
@@ -227,8 +232,9 @@ h1.add-sabores{
     display: none;
     position: fixed;
     top: 70px;
-    left: 60%;
+    left: 36%;
     background-color: #000;
+    padding: 15px;
 }
 .adicionais td{
     padding: 0px;
@@ -319,15 +325,12 @@ h1.add-sabores{
 }
 .Total{
     width:20%;
-    border: solid ;
 }
 .qtdTotal{
     width:40%;
-    border: solid ;
 }
 .valorfim{
     width:40%;
-    border: solid ;
 }
 #troco{
     width: 50px;
