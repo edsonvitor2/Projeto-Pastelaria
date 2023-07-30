@@ -14,40 +14,79 @@ class Caixa{
         });
     }
 
-    listarPedidos(caixa){
-        firebase.database().ref("pedidos").on("value",element=>{
+listarPedidos(caixa) {
+    var forDebito = [];
+    var forCredito = [];
+    var forPix = [];
+    var forDinheiro = [];
+    document.querySelector("#sis-pix").value = 0;
+    document.querySelector("#sis-dinheiro").value = 0;
+    document.querySelector("#sis-credito").value = 0;
+    document.querySelector("#sis-debito").value = 0;
 
-            let table = document.querySelector("#pedido");
-            table.innerHTML = '';
-            element.forEach(e =>{
-                let key = e.key;
-                let pedido = e.key;
+    firebase.database().ref("pedidos").once("value", element => {
+        let table = document.querySelector("#pedido");
+        table.innerHTML = '';
+        element.forEach(e => {
+            let key = e.key;
+            let pedido = e.key;
 
-                e.forEach(a=>{
+            e.forEach(a => {
                 let dados = a.val();
 
-                    if(dados.caixa == caixa){
-                        let cliente = dados.cliente;
-                        let formaPagamento = dados.FormaPagamento;
-                        let valor = dados.valorTotalPedido;
-                        let tr = document.createElement('tr');
+                if (dados.caixa == caixa) {
+                    let cliente = dados.cliente;
+                    let formaPagamento = dados.FormaPagamento;
+                    let valor = dados.valorTotalPedido;
 
-                tr.innerHTML = ` 
-                <td class="pedido">${pedido}</td>
-                <td>${cliente}</td>
-                <td>${valor.toFixed(2)}</td>
-                <td>${formaPagamento}</td>
-                <td >
-                    Descrição
-                </td>
-                
-            `;
-            table.appendChild(tr);
+                    if (formaPagamento == 'debito') {
+                        forDebito.push(valor);
+                        let soma = forDebito.join("+");
+                        var debito = eval(soma);
+                        document.querySelector("#sis-debito").value = debito.toFixed(2);
+                    } else if (formaPagamento == 'credito') {
+                        forCredito.push(valor);
+                        let soma = forCredito.join("+");
+                        var credito = eval(soma);
+                        document.querySelector("#sis-credito").value = credito.toFixed(2);
+                    } else if (formaPagamento == 'dinheiro') {
+                        forDinheiro.push(valor);
+                        let soma = forDinheiro.join("+");
+                        var dinheiro = eval(soma);
+                        document.querySelector("#sis-dinheiro").value = dinheiro.toFixed(2);
+                    } else if (formaPagamento == 'pix') {
+                        forPix.push(valor);
+                        let soma = forPix.join("+");
+                        var pix = eval(soma);
+                        console.log(pix)
+                        document.querySelector("#sis-pix").value = pix.toFixed(2);
                     }
-                });
+
+                    // Calcula o total de todas as formas de pagamento
+    var total = forDebito.reduce((acc, val) => acc + val, 0) +
+                forCredito.reduce((acc, val) => acc + val, 0) +
+                forDinheiro.reduce((acc, val) => acc + val, 0) +
+                forPix.reduce((acc, val) => acc + val, 0);
+
+                    document.querySelector("#sis-total").value = total.toFixed(2);
+
+                    let tr = document.createElement('tr');
+
+                    tr.innerHTML = ` 
+                        <td class="pedido">${pedido}</td>
+                        <td>${cliente}</td>
+                        <td>${valor.toFixed(2)}</td>
+                        <td>${formaPagamento}</td>
+                        <td>
+                            Descrição
+                        </td>
+                    `;
+                    table.appendChild(tr);
+                }
             });
         });
-    }
+    });
+}
 
     abrirCaixa(){
         
@@ -65,13 +104,6 @@ class Caixa{
         firebase.database().ref("Caixas").push({
             id,data,turno,status,fundoCaixa,horaInicio,horaFim
         });
-    }
-
-    receberValores(id){
-        console.log(id);
-
-        
-        //document.querySelector("").value = 'a';
     }
 
     listarCaixa(){
@@ -106,7 +138,6 @@ class Caixa{
                     let idcaixa = tr.querySelector(".id").innerText;
                     this.listarPedidos(idcaixa);
                     this.idcaixa = idcaixa;
-                    this.receberValores(key);
                 });
                 
             });
