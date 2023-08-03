@@ -36,26 +36,6 @@
         </form>
     </div>
 
-    <div class="total-faturado">
-        <h1>Total faturado ate o momento</h1>
-        <table>
-            <tr>
-                <td>Debito</td>
-                <td>Credito</td>
-                <td>Dinheiro</td>
-                <td>Pix</td>
-                <td>Total</td>
-            </tr>
-            <tr>
-                <td>1.200,00</td>
-                <td>1.547,00</td>
-                <td>1.356,00</td>
-                <td>994,00</td>
-                <td>5.097,00</td>
-            </tr>
-        </table>
-    </div>
-
     <div class="tabela-caixas" >
         <h1>Caixas anteriores</h1>
         <table>
@@ -74,6 +54,7 @@
         </table>
     </div>
 <div class="caixa">
+    <h1 class="fechar-caixa">X</h1>
     <form action="" class="data-hora">
     <label for="">Data</label>
     <input type="text" id="data2" class="caixa-esp">
@@ -83,6 +64,12 @@
 
     <label for="">Hora Final</label>
     <input type="text" id="horafim" class="caixa-esp">
+
+    <label for="">Status</label>
+    <input type="text" id="status" class="caixa-esp">
+
+    <label for="">Fundo De caixa</label>
+    <input type="text" id="fundoCaixa" class="caixa-esp">
     </form>
     <h2>Faturamento</h2>
     <table>
@@ -133,32 +120,22 @@
 
         </tbody>
     </table>
-    <h3>descrição Pedido</h3>
+</div>
+<div class="descricao">
+    <h4 class="fecharDesc">X</h4>
+    <h2>descrição Pedido</h2>
     <table>
+        <thead>
         <tr>
-            <td>Produto</td>
-            <td>Sabor</td>
-            <td>quantidade</td>
-            <td>Valor</td>
+            <th>Produto</th>
+            <th>Sabor</th>
+            <th>quantidade</th>
+            <th>Valor</th>
         </tr>
-        <tr>
-            <td>Pastel</td>
-            <td>Carne e queijo</td>
-            <td>3</td>
-            <td>45,00</td>
-        </tr>
-        <tr>
-            <td>Pastel</td>
-            <td>Presunto e queijo</td>
-            <td>2</td>
-            <td>30,00</td>
-        </tr>
-        <tr>
-            <td>Edson Vitor</td>
-            <td> Debito</td>
-            <td>5</td>
-            <td>75,00</td>
-        </tr>
+        </thead>
+        <tbody class="pedidosDesc">
+
+        </tbody>
     </table>
 </div>
 
