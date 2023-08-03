@@ -350,6 +350,8 @@ initEvents(){
         })
     }
     salvarCliente(){
+        this.el.novoCliente.hide();
+
         let cliente = this.el.nomeCliente.value;
        
         let telefone = this.el.telefoneCliente.value;
@@ -448,8 +450,10 @@ enviarPedidoCozinha() {
                 let valor = data.valor;
                 let obs = data.obs;
                 let adc = data.adc;
-                console.log(valor);
+
                 itens.push({ produto, sabor, quantidade, valor,obs,adc });
+
+                
             });
     
             // Obtém o último pedido do banco de dados
@@ -486,6 +490,7 @@ enviarPedidoCozinha() {
                 this.listarPedidos();
                 
                 });
+                this.imprimirConteudo(itens);
             });
             });
         } else {
@@ -508,11 +513,11 @@ firebase.database().ref("Caixas").once("value", element => {
     if (status === "aberto") {
             firebase.database().ref('carrinhoBalcao').once("value",e=>{
             e.forEach(b=>{
-            let arrayItens = b.val();
-            
+            var arrayItens = b.val();
             qtd.push(arrayItens.quantidade);
 
             valor.push(arrayItens.valor);
+
             objetos.push(arrayItens);
 
             firebase.database().ref('pedidos').child(pedido).once("value",snapshot=>{
@@ -523,14 +528,14 @@ firebase.database().ref("Caixas").once("value", element => {
             let somaAtt = this.valorAttPedido.join('+');
             let a = eval(somaAtt);
 
-           
-
             let soma = valor.join('+');
             let b = eval(soma);
 
             let valorTotalPedido = a+b;
             
             firebase.database().ref('pedidos').child(pedido).child(this.keyAttPedido).update({valorTotalPedido});
+
+            
                         });
                     });
                 });
@@ -538,7 +543,10 @@ firebase.database().ref("Caixas").once("value", element => {
                 
                 let itens =   this.itens;
 
+                this.imprimirConteudo(objetos);
                 firebase.database().ref('pedidos').child(pedido).child(this.keyAttPedido).update({itens});
+
+               
             });
         }
     });
@@ -614,6 +622,7 @@ var table = document.querySelector("#comanda");
     });
 }
 finalizarPedido() {
+    this.el.novoCliente.show();
     let key = this.pedido;
     let statusAtual;
   
@@ -642,6 +651,74 @@ finalizarPedido() {
       });
     });
   }
+
+  imprimirConteudo(itens) {
+    // Obtém a data e a hora atuais
+    let dataAtual = new Date();
+    let dataFormatada = dataAtual.toLocaleDateString();
+    let horaFormatada = dataAtual.toLocaleTimeString();
+  
+    // Inicializa a variável para armazenar o conteúdo de todos os itens
+    let conteudoTotal = '';
+  
+    // Exibe o nome do cliente, "Balcão", data e hora apenas uma vez no topo
+    conteudoTotal += `
+      <div style="text-align: center;">
+        <h2>Pastel da Vila</h2>
+        <h2>Balcão</h2>
+        <h2>Cliente cliente</h2>
+        <p>Data: ${dataFormatada}</p>
+        <p>Hora: ${horaFormatada}</p>
+      </div>
+    `;
+  
+    // Loop para percorrer os itens e criar o conteúdo de cada item
+    itens.forEach(e => {
+      // Formata o conteúdo para exibir as informações do produto
+      let conteudoItem = `
+        <div style="margin-bottom: 5px;">
+          <h3>-------------------------------------</h3>
+          <p>produto: ${e.produto}</p>
+          <p>Sabor: ${e.sabor}</p>
+          <p>quantidade: ${e.quantidade}</p>
+          <p>valor: ${e.valor}</p>
+          <p>ADC: ${e.adc}</p>
+          <p>OBS: ${e.obs}</p>
+        </div>
+      `;
+  
+      // Adiciona o conteúdo do item ao conteudo total
+      conteudoTotal += conteudoItem;
+    });
+  
+    // Restante do código (mantido igual)
+    let janelaImpressao = window.open("", "Impressão", "height=600,width=800");
+    let estiloCSS = `
+      @page {
+        size: auto;
+        margin: 5mm;
+      }
+      body {
+        font-size: 14px;
+      }
+    `;
+  
+    janelaImpressao.document.write(`
+      <html>
+        <head>
+          <style>
+            ${estiloCSS}
+          </style>
+        </head>
+        <body>
+          ${conteudoTotal}
+        </body>
+      </html>
+    `);
+  
+    janelaImpressao.print();
+    janelaImpressao.close();
+}
 
 listarPedidos() {
     firebase.database().ref('Caixas').once("value",element=>{
@@ -841,7 +918,6 @@ initCardapio(id){
 }
 restaurarValor(){
     firebase.database().ref(this.idCardapio).child(this.keyProduto).once('value',snapshot=>{
-        console.log(snapshot.val());
         let data = snapshot.val();
         let valor = data.valorInicial;
 
