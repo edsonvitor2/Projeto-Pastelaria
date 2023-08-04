@@ -350,7 +350,7 @@ initEvents(){
         })
     }
     salvarCliente(){
-        this.el.novoCliente.hide();
+        //this.el.novoCliente.hide();
 
         let cliente = this.el.nomeCliente.value;
        
@@ -490,7 +490,7 @@ enviarPedidoCozinha() {
                 this.listarPedidos();
                 
                 });
-                this.imprimirConteudo(itens);
+                //this.imprimirConteudo(itens);
             });
             });
         } else {
@@ -543,7 +543,7 @@ firebase.database().ref("Caixas").once("value", element => {
                 
                 let itens =   this.itens;
 
-                this.imprimirConteudo(objetos);
+                //this.imprimirConteudo(objetos);
                 firebase.database().ref('pedidos').child(pedido).child(this.keyAttPedido).update({itens});
 
                
@@ -765,13 +765,7 @@ listarPedidos() {
                             <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
                         `;
                         table.appendChild(tr);
-                        tr.querySelector(".com").addEventListener("click", e=>{
-                            let a = tr.querySelector(".pedido").innerText;
-                            this.criarComanda(a);
-                            this.el.cardapio.show();
-                            this.el.pedidos.hide();
-                            this.pedido = a;
-                        });
+                        
         tr.querySelector(".Edit").addEventListener("click", e=>{
             let a = tr.querySelector(".pedido").innerText;
             this.el.cardapio.show();
