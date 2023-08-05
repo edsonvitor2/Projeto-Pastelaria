@@ -1,9 +1,13 @@
 class DeliveryController {
+
   constructor(){
 
-this.loadElements();
-this.elementsPrototype();
-this.initButtons();
+    this.keyClienteAtt;
+    
+    this.loadElements();
+    this.elementsPrototype();
+    this.initButtons();
+
   }
 
   loadElements(){
@@ -45,9 +49,14 @@ this.initButtons();
 }
 
 initButtons(){
-  this.el.enviar.on("click",event=>{
+  this.el.enviar.on("click",e=>{
     event.preventDefault();
+    event.stopImmediatePropagation();
     this.salvarCliente();
+  });
+
+  this.el.atualizar.on("click",e=>{
+    this.atualizarCliente();
   });
 
   this.el.telefoneCliente.addEventListener("keyup", () => {
@@ -83,38 +92,75 @@ let telefone = this.el.telefoneCliente.value;
     if (snapshot.exists()) 
     {
       snapshot.forEach(childSnapshot => {
-        let clienteData = childSnapshot.val();
-        // Preencher campos repetíveis com os dados do cliente
-        this.el.nomeCliente.value = clienteData.cliente;
+    let clienteData = childSnapshot.val();
+    this.keyClienteAtt = childSnapshot.key;
+
+    console.log(this.keyClienteAtt);
+    this.el.nomeCliente.value = clienteData.cliente;
+    this.el.telefoneCliente.value =clienteData.telefone;
+    this.el.enderecoCliente.value = clienteData.endereco;
+    this.el.complementoCliente.value =clienteData.complemento;
+    this.el.taxaCliente.value = clienteData.taxa;
+
       });
     } else {
-      // Nenhum cliente com o número de telefone encontrado, limpar os campos repetíveis
       this.el.nomeCliente.value = "";
     }
   });
 }
 
 salvarCliente(){
-  this.el.novoCliente.hide();
 
   let cliente = this.el.nomeCliente.value;
   let telefone = this.el.telefoneCliente.value;
   let endereco = this.el.enderecoCliente.value;
-  let complemento = this.el.Cliente.value;
+  let complemento = this.el.complementoCliente.value;
   let taxa = this.el.taxaCliente.value;
+  let visitas = '0';
+  let pessoas = '0';
  
     firebase.database().ref("clientes").push({
         cliente,
         telefone,
         endereco,
         complemento,
-        taxa
+        taxa,
+        visitas,
+        pessoas
     });
 
     this.el.nomeCliente.value = "";
     this.el.telefoneCliente.value = "";
     this.el.enderecoCliente.value = "";;
-    this.el.Cliente.value = "";
+    this.el.complementoCliente.value = "";
+    this.el.taxaCliente.value = "";
+
+}
+
+atualizarCliente(){
+
+  let cliente = this.el.nomeCliente.value;
+  let telefone = this.el.telefoneCliente.value;
+  let endereco = this.el.enderecoCliente.value;
+  let complemento = this.el.complementoCliente.value;
+  let taxa = this.el.taxaCliente.value;
+  let visitas = '0';
+  let pessoas = '0';
+ 
+    firebase.database().ref("clientes").child(this.keyClienteAtt).update({
+      cliente,
+      telefone,
+      endereco,
+      complemento,
+      taxa,
+      visitas,
+      pessoas
+    });
+
+    this.el.nomeCliente.value = "";
+    this.el.telefoneCliente.value = "";
+    this.el.enderecoCliente.value = "";;
+    this.el.complementoCliente.value = "";
     this.el.taxaCliente.value = "";
 
 }

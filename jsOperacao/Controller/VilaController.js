@@ -351,9 +351,10 @@ initEvents(){
     }
     salvarCliente(){
         //this.el.novoCliente.hide();
-
+        let endereco = '0';
+        let complemento = '0';
+        let taxa = '0';
         let cliente = this.el.nomeCliente.value;
-       
         let telefone = this.el.telefoneCliente.value;
         let visitas = parseInt(this.el.visitaCliente.value);
         let pessoas = this.el.qtdCliente.value;
@@ -375,6 +376,9 @@ initEvents(){
             firebase.database().ref("clientes").push({
                 cliente,
                 telefone,
+                endereco,
+                complemento,
+                taxa,
                 visitas,
                 pessoas
             });
