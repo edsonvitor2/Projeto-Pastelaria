@@ -55,7 +55,7 @@ button{
     border-radius: 15px;
     width: 28%;
     color: aliceblue;
-    display: block;
+    display: none;
 }
 fieldset{
     border: solid 3px dodgerblue;
