@@ -1,7 +1,6 @@
 class DeliveryController{
   constructor(){
       this.cardapio = firebase.database().ref("cardapio");
-
       this.carrinho = firebase.database().ref("carrinhoDelivery");
       this.EditarPedido = false;
       this.valortotal = [];
@@ -241,16 +240,35 @@ firebase.database().ref(this.idCardapio).child(this.keyProduto).once('value').th
 }
   
 initEvents(){
+      this.el.fecharEntregador.on('click',e=>{
+        this.el.entregar.hide();
+      })
+
       this.el.pararPedido.on("click",e=>{
           firebase.database().ref("carrinhoDelivery").remove();
           this.atualizarPagina();
       })
+      this.el.enviarEntrega.on("click",e=>{
+
+        let entregador = document.querySelector('#entregador').value;
+
+        firebase.database().ref("pedidosDelivery").child(this.pedido).once("value", snapshot => {
+          snapshot.forEach(snapshotItem=>{
+            snapshotItem.ref.update({ 
+              status: 
+              `ENVIADO! 
+              ${entregador}`,
+            });
+            this.listarPedidos();
+          });
+        });
+      });
 
       this.el.enviar.on("click", e => {
-          event.preventDefault();
-          let cliente = this.el.nomeCliente.value;
-          
-         let numero = document.querySelector("#telefone-cliente").value;
+        event.preventDefault();
+        let cliente = this.el.nomeCliente.value;
+        let numero = this.el.telefoneCliente.value;
+        let telefone = this.el.telefoneCliente.value;;
          if(numero == ""){
           document.querySelector("#telefone-cliente").value = "(00) 11111-1111";
           this.verificarCliente();
@@ -262,12 +280,14 @@ initEvents(){
               event.preventDefault();
               document.querySelector("#cliente-nome").innerText = cliente;
               firebase.database().ref('clienteAtivoDelivery').set({
-                  cliente
+                  cliente,
+                  telefone
               });
               this.salvarCliente();
               this.el.criarClientes.hide();
               this.el.cardapio.show();
               this.el.pedidos.hide();
+              this.listCart();
           }
       });
 
@@ -349,7 +369,7 @@ initEvents(){
           this.adicionais=[];
       })
   }
-  salvarCliente(){
+  salvarCliente() {
     let cliente = this.el.nomeCliente.value;
     let telefone = this.el.telefoneCliente.value;
     let endereco = this.el.enderecoCliente.value;
@@ -358,34 +378,34 @@ initEvents(){
     let visitas = '0';
     let pessoas = '0';
   
-    firebase.database().ref("clientes").once('value',snapshot=>{
-      snapshot.forEach(snapshotItem =>{
-        let key = snapshotItem.key;
-        let data = snapshotItem.val();
+    // Consultar o banco de dados para verificar se o cliente já existe pelo número de telefone
+    firebase.database().ref("clientes").orderByChild("telefone").equalTo(telefone).once('value', snapshot => {
+      if (snapshot.exists()) {
+        // Cliente com o mesmo número de telefone já existe
+        firebase.database().ref('clienteAtivoDelivery').set({
+          cliente,
+          telefone
+        });
+      } else {
+        // Cliente com o mesmo número de telefone não existe, então salve os dados do novo cliente
+        firebase.database().ref("clientes").push({
+          cliente,
+          telefone,
+          endereco,
+          complemento,
+          taxa,
+          visitas,
+          pessoas
+        });
   
-        if(data.telefone == telefone){
-          firebase.database().ref('clienteAtivoDelivery').set({
-            cliente
-          });
-        }else{
-          firebase.database().ref("clientes").push({
-            cliente,
-            telefone,
-            endereco,
-            complemento,
-            taxa,
-            visitas,
-            pessoas
-          });
-      
-          this.el.nomeCliente.value = "";
-          this.el.telefoneCliente.value = "";
-          this.el.enderecoCliente.value = "";;
-          this.el.complementoCliente.value = "";
-          this.el.taxaCliente.value = "";
-        }
-      });
+        this.el.nomeCliente.value = "";
+        this.el.telefoneCliente.value = "";
+        this.el.enderecoCliente.value = "";
+        this.el.complementoCliente.value = "";
+        this.el.taxaCliente.value = "";
+      }
     });
+  
     this.el.criarClientes.hide();
     this.el.cardapio.show();
   }
@@ -464,6 +484,7 @@ enviarPedidoCozinha() {
   let itens = [];
   var numPedido;
   let cliente;
+  let telefone;
   
   firebase.database().ref("Caixas").on("value", element => {
       element.forEach(e => {
@@ -505,9 +526,10 @@ enviarPedidoCozinha() {
   
               let valorTotalPedido = itens.reduce((total, objeto) => total + parseFloat(objeto.valor), 0);
   
-              firebase.database().ref('clienteAtivoDelivery').once('value', e => {
+            firebase.database().ref('clienteAtivoDelivery').once('value', e =>{
               var dados = e.val();
               cliente = dados.cliente;
+              telefone = dados.telefone;
               let status = "Em produção!";
               let pago = 'Não!';
   
@@ -515,6 +537,7 @@ enviarPedidoCozinha() {
                   itens,
                   valorTotalPedido,
                   cliente,
+                  telefone,
                   caixa,
                   status,
                   pago,
@@ -671,8 +694,7 @@ finalizarPedido() {
       if (statusAtual !== "Finalizado") {
         // Atualize o status para "Finalizado"
         childSnapshot.ref.update({ 
-          status: "Finalizado",
-          pago:"Sim!",
+          status: 'Em Produção!',
           FormaPagamento : document.querySelector("#forma-pagamento").value
        })
           .then(() => {
@@ -758,84 +780,113 @@ imprimirConteudo(itens) {
 
 listarPedidos() {
   firebase.database().ref('Caixas').once("value",element=>{
-      //table.innerText ='';
-      element.forEach(e => {
-          let key = e.key;
-          let data = e.val();
-          
+    //table.innerText ='';
+    element.forEach(e => {
+      let key = e.key;
+      let data = e.val();
 
-          if(data.status == "aberto"){
-              var chave;
-              firebase.database().ref("pedidosDelivery").once("value", element => {
-                  
-              let table = document.querySelector("#pedido");
-              table.innerHTML = '';
-              element.forEach(e => {
-                  
-                  chave = e.key;
-                  let dat = e.val();
-                  
-                  
-                e.forEach(item => {
-                  let iten = item.val();
-                  let key = item.key;
-                  if(iten.caixa == data.id){
-                  
-                      let pedido = chave;
-                  let cliente = iten.cliente;
-                  let status = iten.status;
-                  let valor = iten.
-                  valorTotalPedido;
-                  let pago = iten.pago;
+      if(data.status == "aberto"){
+        var chave;
+        firebase.database().ref("pedidosDelivery").once("value", element => {
+            
+        let table = document.querySelector("#pedido");
+        table.innerHTML = '';
+        element.forEach(e => {
+            
+          chave = e.key;
+          let dat = e.val();
           
-                  let tr = document.createElement('tr');
-          
-                  if(pago == "Não!"){
-                      tr.innerHTML = ` 
-                          <td class="pedido">${pedido}</td>
-                          <td>${cliente}</td>
-                          <td>${status}</td>
-                          <td>${valor.toFixed(2)}</td>
-                          <td>${pago}</td>
-                          <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
-                          <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
-                      `;
-                      table.appendChild(tr);
-                      
-      tr.querySelector(".Edit").addEventListener("click", e=>{
+          e.forEach(item => {
+            let iten = item.val();
+            let key = item.key;
+            if(iten.caixa == data.id){
+            
+            let pedido = chave;
+            let cliente = iten.cliente;
+            let status = iten.status;
+            let valor = iten.
+            valorTotalPedido;
+            let pago = iten.pago;
+    
+            let tr = document.createElement('tr');
+    
+            if(status == "Em Produção!"){
+              tr.innerHTML = ` 
+                <td class="pedido">${pedido}</td>
+                <td>${cliente}</td>
+                <td>${status}</td>
+                <td>${valor.toFixed(2)}</td>
+                <td>${pago}</td>
+                <td>${iten.FormaPagamento}</td>
+                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+
+                <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
+
+                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+            `;
+            table.appendChild(tr);
+                    
+      tr.querySelector(".entrega").addEventListener("click", e=>{
+        this.pedido = pedido;
+        this.el.entregar.show();
+      });
+
+      tr.querySelector(".Edit").addEventListener("click", e=>
+        {
           let a = tr.querySelector(".pedido").innerText;
           this.el.cardapio.show();
           this.el.pedidos.hide();
           this.pedido = a; 
           this.EditarPedido = true;
-          firebase.database().ref('clienteAtivoDelivery').set({
-              cliente
-          });
-          this.criarComanda(a);
-                      });
-                      
-                  }else{
-                      tr.innerHTML = ` 
-                      <td>${pedido}</td>
-                      <td>${cliente}</td>
-                      <td>${status}</td>
-                      <td>${valor.toFixed(2)}</td>
-                      <td>${pago}</td>
-                      <td class="com"><img src="/icones/iconEdit.png" width="40px"></td>
-                      <td class="v"><img src="/icones/iconV.png" width="40px"></td>
-                      
-                  `;
-                  table.appendChild(tr);
-                  }
-                  }
-                });
-              });
-            });
-          }
-      });
-  });
+        });
+                  
+          }else{
+            tr.innerHTML = ` 
+            <td class="pedido">${pedido}</td>
+            <td>${cliente}</td>
+            <td>${status}</td>
+            <td>${valor.toFixed(2)}</td>
+            <td>${pago}</td>
+            <td>${iten.FormaPagamento}</td>
+            <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
 
-}      
+            <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
+
+            <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+            `;
+            table.appendChild(tr);
+
+            tr.querySelector(".entrega").addEventListener("click", e=>{
+              this.pedido = pedido;
+              this.el.entregar.show();
+            });
+
+            tr.querySelector(".com").addEventListener("click", e=>{
+              //this.el.entregar.show();
+              this.mostrarPedido(pedido);
+            });
+
+            }
+            }
+            });
+          });
+        });
+      }
+    });
+  });
+}  
+
+mostrarPedido(pedido){
+  firebase.database().ref("pedidosDelivery").child(pedido).once("value", snapshot => {
+    snapshot.forEach(snapshotItem=>{
+      let data = snapshotItem.val();
+
+      this.el.nome.value = data.cliente;
+
+    });
+  });
+}    
+
 initCardapio(id){
   let table = document.querySelector(".montar");
 

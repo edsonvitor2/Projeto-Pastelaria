@@ -229,7 +229,9 @@
                 <th>status</th>
                 <th>Valor</th>
                 <th>Pago ?</th>
+                <th>Pagamento</th>
                 <th>Editar</th>
+                <th>Despachar</th>
                 <th>Finalizar</th>
             </tr>
            </thead>
@@ -238,7 +240,55 @@
            </tbody>
         </table>
     </div>
-    
+    <div class="fecharcomanda">
+        <fieldset>
+            <legend>Pedido</legend>
+        <label for="">Cliente</label>
+        <input type="text" id="nome">
+
+        <label for="">Telefone</label>
+        <input type="text" id="telefone">
+
+        <label for="">Endereço</label>
+        <input type="text" id="endereco">
+
+        <label for="">Taxa</label>
+        <input type="text" id="taxa">
+
+        <label for="">Valor total</label>
+        <input type="text" id="total">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Prod</th>
+                    <th>Sabor</th>
+                    <th>quant</th>
+                    <th>Valor</th>
+                    <th>Adc</th>
+                    <th>Obs</th>
+                </tr>
+            </thead>
+
+            <tbody id="pedidofim">
+                    
+            </tbody>
+        </table>
+
+    </fieldset>
+
+</div>
+
+    <div class="entregar" id="entregar">
+        <h2 class="fecharEntregador" id="fechar-entregador">X</h2>
+        <label for="entregador">Entregador:</label>
+        <select id="entregador" name="entregador">
+        <option value="Entregador 1">Entregador 1</option>
+        <option value="Entregador 2">Entregador 2</option>
+        <option value="Entregador 3">Entregador 3</option>
+        </select>
+        <button id="enviar-entrega">Enviar</button>
+    </div>
 <div class="Cardapio" id="cardapio">
 <h1>Produtos</h1>
 <table class="produtos">
@@ -264,6 +314,7 @@
                 <th>Prod</th>
                 <th>Sabor</th>
                 <th>quant</th>
+                <th>Valor</th>
                 <th>Adc</th>
                 <th>Obs</th>
                 <th>Ex</th>
