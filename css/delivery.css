@@ -377,6 +377,7 @@ h1.add-sabores{
   .fecharcomanda{
     background-color: #000;
     width: 40%;
+    display: none;
   }
 
   .fecharcomanda input{

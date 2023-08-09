@@ -240,6 +240,10 @@ firebase.database().ref(this.idCardapio).child(this.keyProduto).once('value').th
 }
   
 initEvents(){
+  this.el.fecharPaniel.on('click',e=>{
+    this.el.fecharComanda.hide();
+  })
+
       this.el.fecharEntregador.on('click',e=>{
         this.el.entregar.hide();
       })
@@ -268,7 +272,7 @@ initEvents(){
         event.preventDefault();
         let cliente = this.el.nomeCliente.value;
         let numero = this.el.telefoneCliente.value;
-        let telefone = this.el.telefoneCliente.value;;
+        let telefone = this.el.telefoneCliente.value;
          if(numero == ""){
           document.querySelector("#telefone-cliente").value = "(00) 11111-1111";
           this.verificarCliente();
@@ -384,7 +388,10 @@ initEvents(){
         // Cliente com o mesmo número de telefone já existe
         firebase.database().ref('clienteAtivoDelivery').set({
           cliente,
-          telefone
+          telefone,
+          endereco,
+          taxa,
+          complemento
         });
       } else {
         // Cliente com o mesmo número de telefone não existe, então salve os dados do novo cliente
@@ -485,6 +492,9 @@ enviarPedidoCozinha() {
   var numPedido;
   let cliente;
   let telefone;
+  let endereco;
+  let complemento;
+  let taxa;
   
   firebase.database().ref("Caixas").on("value", element => {
       element.forEach(e => {
@@ -530,6 +540,9 @@ enviarPedidoCozinha() {
               var dados = e.val();
               cliente = dados.cliente;
               telefone = dados.telefone;
+              taxa = dados.taxa;
+              endereco = dados.endereco;
+              complemento = dados.complemento;
               let status = "Em produção!";
               let pago = 'Não!';
   
@@ -541,6 +554,9 @@ enviarPedidoCozinha() {
                   caixa,
                   status,
                   pago,
+                  taxa,
+                  endereco,
+                  complemento
               });
   
               firebase.database().ref("carrinhoDelivery").remove();
@@ -863,6 +879,7 @@ listarPedidos() {
 
             tr.querySelector(".com").addEventListener("click", e=>{
               //this.el.entregar.show();
+              this.el.fecharComanda.show();
               this.mostrarPedido(pedido);
             });
 
@@ -882,6 +899,10 @@ mostrarPedido(pedido){
       let data = snapshotItem.val();
 
       this.el.nome.value = data.cliente;
+      this.el.telefone.value = data.telefone;
+      this.el.endereco.value = data.endereco;
+      this.el.taxa.value = data.taxa;
+      this.el.total.value = data.total;
 
     });
   });
