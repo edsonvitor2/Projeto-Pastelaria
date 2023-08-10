@@ -4,6 +4,26 @@
 }
 body{
     background-color: #242323;
+    background-image: url('/icones/fundo.webp');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+header{
+    border: solid 2px #FFD700;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 3px 3px 3px #000;
+    height: 50px;
+}
+header p{
+    font-size: 20px;
+    float: left;
+    width: 45%;
+    margin: 15px;
+}
+header h1{
+    font-size: 20px;
+    margin: 15px;
 }
 h2{
     text-align: center;
@@ -13,7 +33,7 @@ h2{
 }
 #parar-pedido{
     background-color: #000;
-    border: solid dodgerblue;
+    border: solid #FFD700;
     border-radius: 20px;
     width: 18px;
     padding: 5px;
@@ -21,29 +41,39 @@ h2{
 
 .pedidos{
     width: 50%;
+    padding: 15px;
     border: solid 2px;
     margin-top:50px ;
     margin-left: auto;
     margin-right: auto; 
-    color: dodgerblue;
+    color: #000;
+    background-color:rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 3px #000;
     display: block;
+    border: solid 1px #FFD700;
 }
 .pedidos td{
-    border-bottom: solid 1px dodgerblue;
+    border-bottom: solid 1px #FFD700;
     padding: 10px;
     width:30%;
     background-color: #000;
 }
 th{
     background-color: #000;
-    border-bottom: solid 1px dodgerblue;
+    border-bottom: solid 1px #FFD700;
 }
 .Cardapio{
     display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 100%;
+    width: 100%;
+    float: left;
+    border: solid 1px #FFD700;
+    box-shadow: 3px 3px 5px black;
 }
 button{
     cursor: pointer;
-    background-color: dodgerblue;
+    background-color: #FFD700;
 }
 .criar-clientes{
     position: absolute;
@@ -54,17 +84,16 @@ button{
     padding: 15px;
     border-radius: 15px;
     width: 28%;
-    color: aliceblue;
     display: none;
 }
 fieldset{
-    border: solid 3px dodgerblue;
+    border: solid 3px #FFD700;
 }
 legend{
-    border: solid 1px dodgerblue;
+    border: solid 1px #FFD700;
     border-radius:10px ;
     padding: 10px;
-    background-color: dodgerblue;
+    background-color: #FFD700;
 }
 legend.fechar{
     width: 20px;
@@ -128,29 +157,29 @@ button img.btn-carrinho{
     float: left;
 }
 .produtos{
-    border: solid  dodgerblue;
+    border: solid  #FFD700;
     width: 99.3%;
     margin: 5px;
 }
 .produtos td{
     background-color: #000;
-    border: solid 1px dodgerblue;
+    border: solid 1px #FFD700;
     padding: 5px;
 }
 .montar{
     margin: 1px;
     display: block;
-    border: solid 3px dodgerblue;
+    border: solid 3px #FFD700;
     height: 100%;
     float: left;
     background-color: black;
     width: 34.5%;
 }
 .montar td{
-    border-bottom:solid dodgerblue;
+    border-bottom:solid #FFD700;
 }
 .carrinho{
-    border: solid dodgerblue;
+    border: solid #FFD700;
     background-color: black;
     float: left;
     width: 34%;
@@ -167,14 +196,16 @@ h1.add-sabores{
 
 
 .produto{
-    border: solid 1px dodgerblue;
+    border: solid 1px #FFD700;
     width: 100%;
     height: 120px;
     float: left;
 }
 
-.nome-cliente{
-    display: block;
+.novo-cliente{
+    margin-top: 12px;
+    box-shadow: 3px 3px 5px #000;
+    width: 7.5%;
 }
 
 .qtd{
@@ -204,7 +235,7 @@ h1.add-sabores{
     font-size: 30px;
   }
   .fecharCardapioAdc{
-    border: solid dodgerblue;
+    border: solid #FFD700;
     color: red;
     font-family:Arial, Helvetica, sans-serif;
     font-size: 30px;
@@ -228,7 +259,7 @@ h1.add-sabores{
 .adicionais{
     width: 350px;
     border-radius: 15px;
-    border: solid dodgerblue;
+    border: solid #FFD700;
     display: none;
     position: fixed;
     top: 70px;
@@ -306,9 +337,9 @@ h1.add-sabores{
     text-align: center;
 }
 .td{
-    border-left: solid 1px dodgerblue;
-    border-bottom: solid 1px dodgerblue;
-    border-top: solid 1px dodgerblue;
+    border-left: solid 1px #FFD700;
+    border-bottom: solid 1px #FFD700;
+    border-top: solid 1px #FFD700;
     width: 14%;
 }
 
@@ -316,12 +347,12 @@ h1.add-sabores{
     margin: 1px;
     float: right;
     width: 30%;
-    border: solid dodgerblue;
+    border: solid #FFD700;
     background-color: #000;
 }
 .Pagamento{
     width:100%;
-    border: solid dodgerblue;
+    border: solid #FFD700;
 }
 .Total{
     width:20%;
