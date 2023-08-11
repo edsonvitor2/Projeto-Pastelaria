@@ -3,9 +3,15 @@
     font-size: 20px;
     color: aliceblue;
 }
+body{
+    background-image: url('/icones/fundo.webp');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
 header{
     height: 60px;
-    border: solid dodgerblue;
+    border: solid #FFD700;
     background-color: rgba(0, 0, 0, 0.8);
 }
 .voltar{
@@ -35,13 +41,13 @@ body{
     display: none;
 }
 fieldset{
-    border: solid 3px dodgerblue;
+    border: solid 3px #FFD700;
 }
 legend{
-    border: solid 1px dodgerblue;
+    border: solid 1px #FFD700;
     border-radius:10px ;
     padding: 10px;
-    background-color: dodgerblue;
+    background-color: #FFD700;
 }
 legend.fechar{
     width: 20px;
@@ -71,7 +77,7 @@ div.mesas{
     margin-right: auto;
 }
 table{
-    border: solid  dodgerblue;
+    border: solid  #FFD700;
     border-radius: 15px;
     width: 700px;
     height: 300px;
@@ -82,7 +88,7 @@ table{
     border-spacing: 10px;
 }
 td{
-    border: solid 1px dodgerblue;
+    border: solid 1px #FFD700;
     border-radius: 15px;
     text-align: center;
     cursor: pointer;

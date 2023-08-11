@@ -3,16 +3,36 @@
     color: aliceblue;
 }
 body{
-    background-color: #242323;
+    background-image: url('/icones/fundo.webp');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+header{
+    border: solid 2px #FFD700;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 3px 3px 3px #000;
+    height: 50px;
+}
+header p{
+    font-size: 20px;
+    float: left;
+    margin: 15px;
+}
+header h1{
+    font-size: 20px;
+    margin: 15px;
 }
 .abrir-caixa{
+    margin: 10px;
     width: 20%;
     font-size: 24px;
     background-color: black;
     border-radius: 15px;
+    box-shadow: 3px 3px 5px #000;
 }
 fieldset{
-    border: solid 3px dodgerblue;
+    border: solid 3px #FFD700;
     border-radius: 15px;
 }
 input{
@@ -22,29 +42,35 @@ input{
 button{
     font-size: 18px;
     color: #242323;
-    background-color: dodgerblue;
+    background-color: #FFD700;
     border-radius: 15px;
     cursor:pointer;
 }
 legend{
-    border: solid 1px dodgerblue;
+    border: solid 1px #FFD700;
     border-radius:10px ;
     padding: 10px;
-    background-color: dodgerblue;
+    background-color: #FFD700;
+    color: #000;
 }
 table{
     background-color: black;
-    border: solid 1px  dodgerblue;
+    border: solid 1px  #FFD700;
     width: 900px;
 }
 td{
-    border: solid 1px dodgerblue;
+    border: solid 1px #FFD700;
     padding: 10px;
 }
 .tabela-caixas{
     width: 900px;
     margin-left: auto;
     margin-right: auto;
+}
+.tabela-caixas h1{
+    background-color: rgba(0, 0, 0, 0.8);
+    border: solid 1px #FFD700;
+    box-shadow: 3px 3px 5px #000;
 }
 .total-faturado{
     width: 900px;
@@ -68,7 +94,7 @@ input.caixa-esp{
     margin-right: auto;
     width: 70%;
     height: 100%;
-    border: solid dodgerblue;
+    border: solid #FFD700;
     border-radius: 20px;
     padding: 15px;
     background-color: #000;
@@ -81,7 +107,7 @@ form.data-hora{
     position: relative;
     left: -20px;
     top: -55px;
-    border: solid dodgerblue;
+    border: solid #FFD700;
     border-radius: 50px;
     background-color: #000;  
     cursor: pointer;  
@@ -91,7 +117,7 @@ form.data-hora{
     position: fixed;
     top: 25%;
     left: 13%;
-    border: solid dodgerblue;
+    border: solid #FFD700;
     border-radius: 30px;
     padding: 50px;
     background-color: #000;
@@ -104,7 +130,7 @@ h4{
     position: relative;
     left: -65px;
     top: 20px;
-    border: solid dodgerblue;
+    border: solid #FFD700;
     width:28px;
     border-radius: 35px;
     font-size: 28px;

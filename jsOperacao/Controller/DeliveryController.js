@@ -20,6 +20,7 @@ class DeliveryController{
       this.initEvents();
       this.listarPedidos();
       this.initAdicionais();
+      this.el.pagamentoSeparado.hide();
   }
 
   loadElements(){
@@ -43,7 +44,11 @@ class DeliveryController{
       }
 
       Element.prototype.toggle = function(){
-          this.style.display = (this.style.display === 'none') ? 'block' : 'none';
+          if(this.style.display == 'none'){
+            this.style.display = 'block'
+          }else{
+            this.style.display = 'none'
+          }
       }
 
       Element.prototype.on = function(events, fn){
@@ -240,9 +245,23 @@ firebase.database().ref(this.idCardapio).child(this.keyProduto).once('value').th
 }
   
 initEvents(){
+  this.el.finalizarPedido.on('click',e=>{
+    this.finalizarPedidoDelivery();
+  });
+
+  this.el.pagamento.addEventListener('change', () => {
+    const selectedOption = this.el.pagamento.value;
+  
+    if (selectedOption === 'Pagamento Separado') {
+      this.el.pagamentoSeparado.show();
+    }else{
+      this.el.pagamentoSeparado.hide();
+    }
+  });
+
   this.el.fecharPaniel.on('click',e=>{
     this.el.fecharComanda.hide();
-  })
+  });
 
       this.el.fecharEntregador.on('click',e=>{
         this.el.entregar.hide();
@@ -373,6 +392,28 @@ initEvents(){
           this.adicionais=[];
       })
   }
+
+  finalizarPedidoDelivery(){
+
+    firebase.database().ref("pedidosDelivery").child(this.pedido).once("value",snapshot=>{
+      snapshot.forEach(snapshotItem =>{
+        let data = snapshotItem.val();
+
+        if(data.FormaPagamento == "Pagamento Separado"){
+          console.log("separar pagamento");
+        }else{
+          snapshotItem.ref.update({
+            pago:"Sim!",
+            status:"Finalizado!",
+            totalValor: this.el.total.value,
+            FormaPagamento: this.el.pagamento.value
+          });
+        }
+      });
+    });
+
+  }
+
   salvarCliente() {
     let cliente = this.el.nomeCliente.value;
     let telefone = this.el.telefoneCliente.value;
@@ -881,6 +922,7 @@ listarPedidos() {
               //this.el.entregar.show();
               this.el.fecharComanda.show();
               this.mostrarPedido(pedido);
+              this.pedido = pedido;
             });
 
             }
@@ -894,16 +936,39 @@ listarPedidos() {
 }  
 
 mostrarPedido(pedido){
+  let tabela = this.el.pedidofim;
+  let value = [];
+  tabela.innerHTML = '';
   firebase.database().ref("pedidosDelivery").child(pedido).once("value", snapshot => {
     snapshot.forEach(snapshotItem=>{
+
       let data = snapshotItem.val();
+      let itens = data.itens;
 
       this.el.nome.value = data.cliente;
       this.el.telefone.value = data.telefone;
       this.el.endereco.value = data.endereco;
       this.el.taxa.value = data.taxa;
-      this.el.total.value = data.total;
 
+      itens.forEach(e=>{
+        value.push(e.valor);
+        let tr = document.createElement('tr');
+
+        tr.innerHTML = `
+        <td>${e.produto}</td>
+        <td>${e.sabor}</td>
+        <td>${e.quantidade}</td>
+        <td>${e.valor}</td>
+        <td>${e.adc}</td>
+        <td>${e.obs}</td>
+        `;
+        tabela.appendChild(tr);
+      });
+      value.push(data.taxa);
+      let soma = value.join("+");
+      let result = eval(soma);
+      this.el.total.value = result.toFixed(2);
+      this.el.pagamento.value = data.FormaPagamento;
     });
   });
 }    

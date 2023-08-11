@@ -244,20 +244,42 @@
         <fieldset>
             <legend>Pedido</legend>
         <label for="">Cliente</label>
-        <input type="text" id="nome">
+        <input type="text" disabled id="nome" >
 
         <label for="">Telefone</label>
-        <input type="text" id="telefone">
+        <input type="text" disabled id="telefone">
 
         <label for="">Endereço</label>
-        <input type="text" id="endereco">
+        <input type="text" disabled id="endereco">
 
         <label for="">Taxa</label>
-        <input type="text" id="taxa">
+        <input type="text" disabled id="taxa">
 
         <label for="">Valor total</label>
-        <input type="text" id="total">
+        <input type="text" disabled id="total">
 
+        <label for="pagamento">Forma de Pagamento:</label>
+<select id="pagamento" name="pagamento">
+  <option value="dinheiro">Dinheiro</option>
+  <option value="debito">Débito</option>
+  <option value="credito">Crédito</option>
+  <option value="pix">PIX</option>
+  <option value="Pagamento Separado">Pagamento Separado</option>
+</select>
+
+<div id="pagamento-separado">
+<label for="valor-dinheiro">Valor em Dinheiro:</label>
+<input type="text" id="valor-dinheiro">
+
+<label for="valor-debito">Valor em Débito:</label>
+<input type="text" id="valor-debito">
+
+<label for="valor-credito">Valor em Crédito:</label>
+<input type="text" id="valor-credito">
+
+<label for="valor-pix">Valor em PIX:</label>
+<input type="text" id="valor-pix">
+</div>
         <table>
             <thead>
                 <tr>
@@ -274,7 +296,7 @@
                     
             </tbody>
         </table>
-
+        <button id="finalizar-pedido">Finalizar Pedido</button>
     </fieldset>
 
 </div>

@@ -74,6 +74,10 @@ th{
 button{
     cursor: pointer;
     background-color: #FFD700;
+    color: #000;
+}
+button p {
+    color: #000;
 }
 .criar-clientes{
     position: absolute;
