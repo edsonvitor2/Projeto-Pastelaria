@@ -3,7 +3,6 @@ class DeliveryController{
       this.cardapio = firebase.database().ref("cardapio");
       this.carrinho = firebase.database().ref("carrinhoDelivery");
       this.EditarPedido = false;
-      this.valortotal = [];
       this.adicionais = [];
       this.Value;
       this.addValue=[];
@@ -15,6 +14,7 @@ class DeliveryController{
       this.keyAttPedido ;
       this.valorAttPedido = [];
       this.qtdAttPedido;
+      this._taxaEntrega;
       this.elementsPrototype();
       this.loadElements();
       this.initEvents();
@@ -23,6 +23,13 @@ class DeliveryController{
       this.el.pagamentoSeparado.hide();
   }
 
+  get taxaEntrega(){
+    return this._taxaEntrega;
+  }
+  set taxaEntrega(value){
+    this._taxaEntrega = value;
+  }
+  
   loadElements(){
       this.el = {};
 
@@ -261,6 +268,7 @@ initEvents(){
 
   this.el.fecharPaniel.on('click',e=>{
     this.el.fecharComanda.hide();
+    this.el.pedidos.show();
   });
 
       this.el.fecharEntregador.on('click',e=>{
@@ -379,7 +387,7 @@ initEvents(){
               //this.el.pedidos.show();
               //this.listarPedidos();
           }else{
-              this.enviarPedidoCozinha();
+              this.enviarPedidoCozinha(this.pedido);
               //this.el.cardapio.hide();
               //this.el.pedidos.show();
               //this.listarPedidos();
@@ -397,10 +405,19 @@ initEvents(){
 
     firebase.database().ref("pedidosDelivery").child(this.pedido).once("value",snapshot=>{
       snapshot.forEach(snapshotItem =>{
-        let data = snapshotItem.val();
 
-        if(data.FormaPagamento == "Pagamento Separado"){
-          console.log("separar pagamento");
+        if(this.el.pagamento.value == "Pagamento Separado"){
+          snapshotItem.ref.update({
+            pago:"Sim!",
+            status:"Finalizado!",
+            totalValor: this.el.total.value,
+            FormaPagamento: this.el.pagamento.value,
+            valorDebito: this.el.valorDebito.value,
+            valorCredito: this.el.valorCredito.value,
+            valorDinheiro:this.el.valorDinheiro.value,
+            valorPix: this.el.valorPix.value
+          });
+          alert("Pedido Finalizado");
         }else{
           snapshotItem.ref.update({
             pago:"Sim!",
@@ -408,6 +425,8 @@ initEvents(){
             totalValor: this.el.total.value,
             FormaPagamento: this.el.pagamento.value
           });
+          alert("Pedido Finalizado");
+          this.listarPedidos();
         }
       });
     });
@@ -456,6 +475,7 @@ initEvents(){
   
     this.el.criarClientes.hide();
     this.el.cardapio.show();
+    this.el.taxaEntrega.value = taxa;
   }
   atualizarCliente(){
 
@@ -546,69 +566,78 @@ enviarPedidoCozinha() {
   
       if (status === "aberto") {
           caixa = id;
-  
+          firebase.database().ref('carrinhoDelivery').once('value')
+          .then(snapshot => {
+            if (snapshot.exists()) {
+              
           firebase.database().ref("carrinhoDelivery").once("value", element => {
-          element.forEach(e => {
-              let key = e.key;
-              let data = e.val();
+            element.forEach(e => {
+                let key = e.key;
+                let data = e.val();
+    
+                let produto = data.produto;
+                let sabor = data.sabor;
+                let quantidade = data.quantidade;
+                let valor = data.valor;
+                let obs = data.obs;
+                let adc = data.adc;
   
-              let produto = data.produto;
-              let sabor = data.sabor;
-              let quantidade = data.quantidade;
-              let valor = data.valor;
-              let obs = data.obs;
-              let adc = data.adc;
-
-              itens.push({ produto, sabor, quantidade, valor,obs,adc });
-
-              
-          });
+                itens.push({ produto, sabor, quantidade, valor,obs,adc });
   
-          // Obtém o último pedido do banco de dados
-          firebase.database().ref("pedidosDelivery").orderByKey().limitToLast(1).once("value", snapshot => {
-              let pedido = 1; // Valor padrão se não houver pedidos anteriores
+                
+            });
+    
+            // Obtém o último pedido do banco de dados
+            firebase.database().ref("pedidosDelivery").orderByKey().limitToLast(1).once("value", snapshot => {
+                let pedido = 1; // Valor padrão se não houver pedidos anteriores
+    
+                snapshot.forEach(childSnapshot => {
+                pedido = parseInt(childSnapshot.key) + 1;
+                });
+    
+                numPedido = pedido;
+                this.pedido = pedido;
+                let valorTotalPedido = '0';
   
-              snapshot.forEach(childSnapshot => {
-              pedido = parseInt(childSnapshot.key) + 1;
-              });
-  
-              numPedido = pedido;
-              this.pedido = pedido;
-  
-              let valorTotalPedido = itens.reduce((total, objeto) => total + parseFloat(objeto.valor), 0);
-  
-            firebase.database().ref('clienteAtivoDelivery').once('value', e =>{
-              var dados = e.val();
-              cliente = dados.cliente;
-              telefone = dados.telefone;
-              taxa = dados.taxa;
-              endereco = dados.endereco;
-              complemento = dados.complemento;
-              let status = "Em produção!";
-              let pago = 'Não!';
-  
-              firebase.database().ref("pedidosDelivery").child(pedido).push({
-                  itens,
-                  valorTotalPedido,
-                  cliente,
-                  telefone,
-                  caixa,
-                  status,
-                  pago,
-                  taxa,
-                  endereco,
-                  complemento
-              });
-  
-              firebase.database().ref("carrinhoDelivery").remove();
-              this.EditarPedido = true;
-              this.criarComanda(numPedido);
-              this.listarPedidos();
-              
-              });
-              //this.imprimirConteudo(itens);
-          });
-          });
+              firebase.database().ref('clienteAtivoDelivery').once('value', e =>{
+                var dados = e.val();
+                cliente = dados.cliente;
+                telefone = dados.telefone;
+                taxa = dados.taxa;
+                endereco = dados.endereco;
+                complemento = dados.complemento;
+                let status = "Em produção!";
+                let pago = 'Não!';
+    
+                firebase.database().ref("pedidosDelivery").child(pedido).push({
+                    itens,
+                    valorTotalPedido,
+                    cliente,
+                    telefone,
+                    caixa,
+                    status,
+                    pago,
+                    taxa,
+                    endereco,
+                    complemento
+                });
+    
+                firebase.database().ref("carrinhoDelivery").remove();
+                this.EditarPedido = true;
+                this.criarComanda(numPedido);
+                this.listarPedidos();
+                
+                });
+                //this.imprimirConteudo(itens);
+            });
+            });
+      
+            } else {
+              console.log('O nó carrinhoDelivery não existe.');
+              // Tome ações apropriadas caso o nó não exista
+            }
+          })
+         
       } else {
           return false;
       }
@@ -616,79 +645,71 @@ enviarPedidoCozinha() {
   });
 }
 editarPedidoCozinha(pedido) {
-// verificar se o caixa esta aberto.
-firebase.database().ref("Caixas").once("value", element => {
-  element.forEach(e => {
-  let item = e.val();
-  let status = item.status;
-  let id = item.id;
-  let objetos = [];
-  let valor = [];
-  let qtd = []
-  
-  if (status === "aberto") {
-          firebase.database().ref('carrinhoDelivery').once("value",e=>{
-          e.forEach(b=>{
-          var arrayItens = b.val();
-          qtd.push(arrayItens.quantidade);
+  firebase.database().ref("Caixas").once("value", caixasSnapshot => {
+    caixasSnapshot.forEach(caixaSnapshot => {
+      const caixa = caixaSnapshot.val();
+      const status = caixa.status;
 
-          valor.push(arrayItens.valor);
+      if (status === "aberto") {
+        // Consultar o nó carrinhoDelivery para verificar se existe
+        firebase.database().ref('carrinhoDelivery').once('value', carrinhoSnapshot => {
+          if (carrinhoSnapshot.exists()) {
+            console.log('O nó carrinhoDelivery existe.');
 
-          objetos.push(arrayItens);
+            const objetos = [];
+            const valor = [];
+            const qtd = [];
 
-          firebase.database().ref('pedidosDelivery').child(pedido).once("value",snapshot=>{
-          snapshot.forEach(e=>{
+            // Percorrer os dados do carrinho
+            carrinhoSnapshot.forEach(itemSnapshot => {
+              const arrayItens = itemSnapshot.val();
+              qtd.push(arrayItens.quantidade);
+              valor.push(arrayItens.valor);
+              objetos.push(arrayItens);
+            });
 
-          this.keyAttPedido = e.key;
-         
-          let somaAtt = this.valorAttPedido.join('+');
-          let a = eval(somaAtt);
+            const itens = objetos.concat(this.itens);
 
-          let soma = valor.join('+');
-          let b = eval(soma);
-
-          let valorTotalPedido = a+b;
-          
-          firebase.database().ref('pedidosDelivery').child(pedido).child(this.keyAttPedido).update({valorTotalPedido});
-
-          
-                      });
-                  });
+            // Atualizar os itens do pedido no Firebase
+            firebase.database().ref('pedidosDelivery').child(pedido).child(this.keyAttPedido).update({ itens })
+              .then(() => {
+                console.log('Itens do pedido atualizados com sucesso.');
+                // Outras ações que você queira realizar após a atualização
+              })
+              .catch(error => {
+                console.error('Erro ao atualizar os itens do pedido:', error);
               });
-              this.itens = this.itens.concat(objetos);
-              
-              let itens =   this.itens;
+          } else {
+            console.log('O nó carrinhoDelivery não existe.');
+            // Tome ações apropriadas caso o nó não exista
+          }
+        });
 
-              //this.imprimirConteudo(objetos);
-              firebase.database().ref('pedidosDelivery').child(pedido).child(this.keyAttPedido).update({itens});
-
-             
-          });
+        // Aqui você pode prosseguir com as ações que deseja realizar após a atualização
+        this.criarComanda(pedido);
+        this.carrinho.remove();
       }
+    });
   });
-  this.EditarPedido = false;
-  this.criarComanda(pedido);
-  this.carrinho.remove();
-});
 }
 criarComanda(pedido){
 this.pedido = pedido;
 var soma;
-var objetos;
-var valorTotal;
+var valorPedido = [];
 var quantidadeTotal = [];
 var tr;
 var table = document.querySelector("#comanda");
 
+table.innerHTML="";
+
   firebase.database().ref("pedidosDelivery").child(pedido).on("value",element=>{
   
-  table.innerHTML="";
-
       element.forEach(e =>{
+
       let data = e.val();
-      objetos = data.itens;
+      let objetos = data.itens;
       this.itens = objetos;
-      valorTotal = data.valorTotalPedido;
+      let valorTotal = data.valorTotalPedido;
       let index = objetos.length - 1;
       
       document.querySelector("#cliente-nome").innerText = data.cliente;
@@ -698,13 +719,19 @@ var table = document.querySelector("#comanda");
           quantidadeTotal.push(objetos[a].quantidade);
           soma = quantidadeTotal.join('+');
           let result = eval(soma);
+          
 
+          valorPedido.push(objetos[a].valor);
+          soma = valorPedido.join('+');
+          let valorPedidos = eval(soma);
 
           let adcValue = data.adc !== undefined ? data.adc : '0';
           let obsValue = data.obs !== undefined ? data.obs : 'Obs';
           
           tr = document.createElement("tr");
-          this.valorAttPedido.push(objetos[a].valor);
+
+          //this.valorAttPedido.push(objetos[a].valor);
+
           tr.innerHTML = `
           <td class="td">
           ${objetos[a].produto}
@@ -732,7 +759,8 @@ var table = document.querySelector("#comanda");
           table.appendChild(tr);
 
           document.querySelector("#quantidadeTotal").innerText = result;
-          document.querySelector("#valorTotal").innerText = valorTotal.toFixed(2);
+
+          document.querySelector("#valorTotal").innerText = valorPedidos.toFixed(2);
       }
   });
   });
@@ -752,7 +780,8 @@ finalizarPedido() {
         // Atualize o status para "Finalizado"
         childSnapshot.ref.update({ 
           status: 'Em Produção!',
-          FormaPagamento : document.querySelector("#forma-pagamento").value
+          FormaPagamento : document.querySelector("#forma-pagamento").value,
+          valorTotalPedido:document.querySelector("#valorTotal").innerText
        })
           .then(() => {
             console.log('Status do pedido atualizado para "Finalizado".');
@@ -872,14 +901,14 @@ listarPedidos() {
                 <td class="pedido">${pedido}</td>
                 <td>${cliente}</td>
                 <td>${status}</td>
-                <td>${valor.toFixed(2)}</td>
+                <td>${valor}</td>
                 <td>${pago}</td>
                 <td>${iten.FormaPagamento}</td>
                 <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
 
                 <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
 
-                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+                <td class="com"><img src="/icones/iconComanda.jpeg" width="40px"></td>
             `;
             table.appendChild(tr);
                     
@@ -896,13 +925,37 @@ listarPedidos() {
           this.pedido = a; 
           this.EditarPedido = true;
         });
-                  
-          }else{
+      }
+        else if(status == "Finalizado!"){
+          tr.innerHTML = ` 
+          <td class="pedido">${pedido}</td>
+          <td>${cliente}</td>
+          <td>${status}</td>
+          <td>${valor}</td>
+          <td>${pago}</td>
+          <td>${iten.FormaPagamento}</td>
+          <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+
+          <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
+
+          <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+          `;
+          table.appendChild(tr);
+
+          tr.querySelector(".com").addEventListener("click", e=>{
+            //this.el.entregar.show();
+            this.el.fecharComanda.show();
+            this.el.pedidos.hide();
+            this.mostrarPedido(pedido);
+            this.pedido = pedido;
+          });
+        }
+          else{
             tr.innerHTML = ` 
             <td class="pedido">${pedido}</td>
             <td>${cliente}</td>
             <td>${status}</td>
-            <td>${valor.toFixed(2)}</td>
+            <td>${valor}</td>
             <td>${pago}</td>
             <td>${iten.FormaPagamento}</td>
             <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
@@ -940,7 +993,7 @@ mostrarPedido(pedido){
   let value = [];
   tabela.innerHTML = '';
   firebase.database().ref("pedidosDelivery").child(pedido).once("value", snapshot => {
-    snapshot.forEach(snapshotItem=>{
+    snapshot.forEach(snapshotItem=>{ 
 
       let data = snapshotItem.val();
       let itens = data.itens;
@@ -965,8 +1018,11 @@ mostrarPedido(pedido){
         tabela.appendChild(tr);
       });
       value.push(data.taxa);
-      let soma = value.join("+");
-      let result = eval(soma);
+      let soma = 0;
+      value.forEach(valor => {
+        soma += parseFloat(valor);
+      });
+      let result = soma;
       this.el.total.value = result.toFixed(2);
       this.el.pagamento.value = data.FormaPagamento;
     });
@@ -1094,7 +1150,6 @@ restaurarValor(){
   listCart(){
       let quantidade = [];
       let table = document.querySelector("#Carrinho");
-      this.valortotal = [];
       this.carrinho.on("value",element=>{
           table.innerText ='';
           element.forEach(e=>{
@@ -1107,11 +1162,6 @@ restaurarValor(){
               let somaqtd = quantidade.join('+');
               let quantidadefinal = eval(somaqtd);
               document.querySelector("#quantidadeTotal").innerText = quantidadefinal;
-              
-              this.valortotal.push(data.valor);
-              let valorSomado= this.valortotal.join('+');
-              let valorFinal = eval(valorSomado);
-              document.querySelector("#valorTotal").innerText = valorFinal.toFixed(2);
               
               // Verifica se data.adc existe, caso contrário, define como "0"
             

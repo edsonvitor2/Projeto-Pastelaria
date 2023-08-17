@@ -269,16 +269,16 @@
 
 <div id="pagamento-separado">
 <label for="valor-dinheiro">Valor em Dinheiro:</label>
-<input type="text" id="valor-dinheiro">
+<input type="text" id="valor-dinheiro" value="0">
 
 <label for="valor-debito">Valor em Débito:</label>
-<input type="text" id="valor-debito">
+<input type="text" id="valor-debito" value="0">
 
 <label for="valor-credito">Valor em Crédito:</label>
-<input type="text" id="valor-credito">
+<input type="text" id="valor-credito" value="0">
 
 <label for="valor-pix">Valor em PIX:</label>
-<input type="text" id="valor-pix">
+<input type="text" id="valor-pix" value="0">
 </div>
         <table>
             <thead>
@@ -342,10 +342,10 @@
                 <th>Ex</th>
             </tr>
             </thead>
-            <tbody id="Carrinho">
+            <tbody id="carrinho">
 
             </tbody>
-            <button id="Enviar-cozinha">Enviar Para A cozinha</button>
+            <button id="Enviar-cozinha">Criar Comanda</button>
 
         </table>
     </div>
@@ -360,7 +360,6 @@
             <th>valor</th>
             <th>Adc</th>
             <th>Obs</th>
-            <th>Ex</th>
         </tr>
         </thead>
         <tbody id="comanda">
@@ -405,7 +404,14 @@
                 
             </td>
         </tr>
-        
+        <tr>
+            <td colspan="2">
+                Taxa de entrega
+            </td>
+            <td>
+                <input type="text" name="" id="taxa-entrega">
+            </td>
+        </tr>
         
     </table>
     <button class="finalizar" id="finalizar">Finalizar</button>
@@ -417,7 +423,11 @@
 <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 <script src="/jsOperacao/FirebaseInit.js"></script>
 <script src="/jsOperacao/Controller/Format.js"></script>
-<script src="/jsOperacao/Controller/DeliveryController.js"></script>
+<script src="/class/controle.js"></script>
+<script src="/class/cliente.js"></script>
+<script src="/class/carrinho.js"></script>
+<script src="/class/pedido.js"></script>
+<script src="/class/entregador.js"></script>
 </body>
 
 </html>

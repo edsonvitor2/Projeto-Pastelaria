@@ -389,6 +389,7 @@ h1.add-sabores{
     width: 30%;
     border: solid #FFD700;
     background-color: #000;
+    
 }
 .Pagamento{
     width:100%;
@@ -410,6 +411,8 @@ h1.add-sabores{
     background-color: #000;
     width: 40%;
     display: none;
+    position:absolute;
+    left: 30%;
   }
 
   .fecharcomanda input{
