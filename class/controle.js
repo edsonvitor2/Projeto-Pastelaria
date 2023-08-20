@@ -86,11 +86,21 @@ initEvents(){
   });
 
   this.el.finalizar.on('click',e=>{
-    this.pedido.enviarPedidoCozinha();
+
+    let cliente = this.cliente._chaveCliente;
+    let produtos = this.cliente._produtos;
+
+    this.pedido = new Pedido(cliente,produtos);
+    this.pedido.criarPedido();
+
+    setTimeout(() => {
+      location.reload();
+    }, 500);
   });  
 
   this.el.telefoneCliente.addEventListener("keyup", () => {
-      
+    this.formatarNumero();
+    this.verificarCliente();
   });
 
   this.el.abrirPainel.on('click',e=>{
@@ -129,7 +139,7 @@ initEvents(){
 
   this.el.enviarCozinha.on('click',e=>{
     
-    this.pedido = new Pedido()
+    this.cliente.criarComanda();
       
     setTimeout(() => {
       this.carrinho.listarCarrinho();
@@ -269,8 +279,33 @@ initEvents(){
 
     this.cliente = new Cliente(nome,telefone,endereco,'complemento','taxa');
 
-    novoCliente.salvarCliente();
+    this.cliente.salvarCliente();
   }
+
+  verificarCliente(){
+    let telefone = this.el.telefoneCliente.value;
+      console.log(telefone);
+      // Verificar se o número de telefone já está salvo
+      firebase.database().ref("clientes").orderByChild("telefone").equalTo(telefone).once("value", snapshot => {
+        if (snapshot.exists()) 
+        {
+          snapshot.forEach(childSnapshot => {
+        let clienteData = childSnapshot.val();
+        this.keyClienteAtt = childSnapshot.key;
+    
+        console.log(this.keyClienteAtt);
+        this.el.nomeCliente.value = clienteData.cliente;
+        this.el.telefoneCliente.value =clienteData.telefone;
+        this.el.enderecoCliente.value = clienteData.endereco;
+        this.el.complementoCliente.value =clienteData.complemento;
+        this.el.taxaCliente.value = clienteData.taxa;
+    
+          });
+        } else {
+          this.el.nomeCliente.value = "";
+        }
+      });
+    }
 
 abrirCardapio(cardapio){
   this.el.montar.show();
@@ -403,6 +438,23 @@ removerValor(value){
     this.valorAdc = '';
     this.initCardapio(this.idCardapio);
   });
+}
+
+formatarNumero(){
+  // Adicione o evento de digitação ao campo de telefone
+  this.el.telefoneCliente.addEventListener("input", () => {
+    let telefone = this.el.telefoneCliente.value;
+  
+    // Remover caracteres não numéricos do número de telefone
+    telefone = telefone.replace(/\D/g, "");
+  
+    // Formatar o número de telefone conforme desejado
+    let telefoneFormatado = telefone.replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3");
+  
+    // Definir o valor formatado no campo de telefone
+    this.el.telefoneCliente.value = telefoneFormatado;
+  });
+  
 }
 
 }

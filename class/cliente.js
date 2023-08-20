@@ -6,6 +6,7 @@ class Cliente {
       this._complemento = complemento;
       this._taxa = taxa;
       this._chaveCliente;
+      this._produtos = [];
     }
     get Chave(){
         return this._chaveCliente;
@@ -60,7 +61,7 @@ class Cliente {
     }
   
     salvarCliente(){
-        const clienteRef = firebase.database().ref('clienteDelivery');
+        const clienteRef = firebase.database().ref('clientes');
 
         clienteRef.orderByChild('telefone').equalTo(this._telefone).once('value', snapshot => {
         if (snapshot.exists()) {
@@ -94,7 +95,7 @@ class Cliente {
     }
     
     mostrarDados(){
-      firebase.database().ref("clienteDelivery").child(this._chaveCliente).once("value",snapshot =>{
+      firebase.database().ref("clientes").child(this._chaveCliente).once("value",snapshot =>{
         let dados = snapshot.val();
 
         
@@ -104,4 +105,92 @@ class Cliente {
       })
       
     }
+
+    criarComanda(){
+      const database = firebase.database();
+      const carrinhoRef = database.ref("carrinhoDelivery");
+      var itens = {};
+      var valores = [];
+      var quantidades = [];
+     
+      carrinhoRef.once("value")
+      .then(snapshot => {
+        if (snapshot.exists()) {
+          console.log("O nó carrinhoDelivery existe no Firebase.");
+          firebase.database().ref("carrinhoDelivery").once('value',snapshot => {
+            let tabela = document.querySelector('#comanda');
+            
+            tabela.innerHTML =''
+            
+            snapshot.forEach(item => {
+                let dados = item.val();
+                let key = item.key;
+                
+                let produto = {
+                  produto: dados.produto,
+                  sabor: dados.sabor,
+                  quantidade: dados.quantidade,
+                  valor: dados.valor,
+                  adicionais: dados.adicionais,
+                  observacoes: dados.observacoes
+                };
+                this._produtos.push(produto);
+
+                console.log(this._produtos); 
+                
+                let tr = document.createElement('tr');
+    
+                if(dados.observacoes == ''){
+                    dados.observacoes = '0'
+                }
+
+                tr.innerHTML = `
+              <td class="td ">
+                  ${dados.produto}
+              </td>
+              <td class="td">
+                  ${dados.sabor}
+              </td>
+              <td class="td">
+                  ${dados.quantidade}
+              </td>
+              <td class="td">
+                  ${dados.valor}
+              </td>
+              <td class="td">
+              ${dados.adicionais}
+              </td>
+              <td class="td">
+              <textarea id="myTextarea" rows="4" cols="6" disabled placeholder="OBS:">${dados.observacoes}</textarea>
+              </td>
+              `;
+              tabela.appendChild(tr);
+    
+              valores.push(dados.valor);
+              let soma = valores.join('+');
+              let valor = eval(soma);
+    
+              quantidades.push(dados.quantidade);
+              let somaqtd = quantidades.join('+');
+              let quantidade = eval(somaqtd);
+    
+              document.querySelector("#quantidadeTotal").innerText = quantidade;
+    
+              document.querySelector("#valorTotal").innerText = valor;
+    
+              firebase.database().ref('carrinhoDelivery').remove();
+            });
+        });
+        } else {
+          console.log("O nó carrinhoDelivery não existe no Firebase.");
+          // Aqui você pode lidar com a situação em que o nó não existe
+        }
+      })
+      .catch(error => {
+        console.error("Ocorreu um erro ao verificar o nó carrinhoDelivery:", error);
+      });
+
+    }  
+
+    
   }
