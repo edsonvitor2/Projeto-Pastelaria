@@ -9,6 +9,7 @@ class DeliveryController{
     this.loadElements();
     this.initEvents();
     this.initAdicionais();
+    this.listarPedidos();
   }
 
   loadElements(){
@@ -53,11 +54,12 @@ class DeliveryController{
   }
   
 initEvents(){
+  
   this.el.finalizarPedido.on('click',e=>{
 
   });
 
-  this.el.pagamento.addEventListener('change', () => {
+  this.el.pagamento.addEventListener('change', () => {  
     
   });
 
@@ -90,14 +92,25 @@ initEvents(){
     let cliente = this.cliente._chaveCliente;
     let produtos = this.cliente._produtos;
 
-    this.pedido = new Pedido(cliente,produtos);
-    this.pedido.criarPedido();
+    firebase.database().ref("Caixas").once("value",snapshot=>{
+      snapshot.forEach(item =>{
+        let caixa = item.val();
+        let id = caixa.id;
+        console.log(id);
+        if(caixa.status == 'aberto'){
+          this.pedido = new Pedido(cliente,produtos, id);
+          this.pedido.criarPedido();
 
-    setTimeout(() => {
-      location.reload();
-    }, 500);
+          /*setTimeout(() => {
+          location.reload();
+          }, 500);*/
+
+        }
+      });
+    });
   });  
 
+  
   this.el.telefoneCliente.addEventListener("keyup", () => {
     this.formatarNumero();
     this.verificarCliente();
@@ -278,7 +291,7 @@ initEvents(){
     let endereco = this.el.enderecoCliente.value;
 
     this.cliente = new Cliente(nome,telefone,endereco,'complemento','taxa');
-
+    console.log(nome);
     this.cliente.salvarCliente();
   }
 
@@ -294,7 +307,7 @@ initEvents(){
         this.keyClienteAtt = childSnapshot.key;
     
         console.log(this.keyClienteAtt);
-        this.el.nomeCliente.value = clienteData.cliente;
+        this.el.nomeCliente.value = clienteData.nome;
         this.el.telefoneCliente.value =clienteData.telefone;
         this.el.enderecoCliente.value = clienteData.endereco;
         this.el.complementoCliente.value =clienteData.complemento;
@@ -457,5 +470,115 @@ formatarNumero(){
   
 }
 
+listarPedidos() {
+  var chave;
+  var numero = 0;
+  
+  firebase.database().ref('Caixas').once("value",element=>{
+    //table.innerText ='';
+    element.forEach(e => {
+      let key = e.key;
+      let data = e.val();
+
+      if(data.status == "aberto"){
+        firebase.database().ref("pedidoDelivery").once("value", element => {
+            
+          let table = document.querySelector("#pedido");
+          table.innerHTML = '';
+          element.forEach(e => {
+            
+            chave = e.key;
+            let dat = e.val();
+            
+            if(dat.caixa == data.id){
+
+              numero += 1;
+
+              if(dat.status == 'Produzindo!'){
+                let tr = document.createElement('tr');
+  
+                tr.innerHTML = ` 
+                <td>${numero}</td>
+                <td>${dat.nome}</td>
+                <td>${dat.status}</td>
+                <td>${dat.valorPedido}</td>
+                <td>${dat.pago}</td>
+                <td>${dat.pagamento}</td>
+  
+                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+  
+                <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
+  
+                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+                `;
+
+                table.appendChild(tr);
+
+                tr.querySelector('.Edit').addEventListener("click",e=>{
+                  console.log('Editar');
+                });
+
+                tr.querySelector('.entrega').addEventListener("click",e=>{
+                  console.log('Enviar');
+                });
+
+              }else if(dat.status == 'Finalizado!'){
+                let tr = document.createElement('tr');
+
+                tr.innerHTML = ` 
+                <td>${numero}</td>
+                <td>${dat.nome}</td>
+                <td>${dat.status}</td>
+                <td>${dat.valorPedido}</td>
+                <td>${dat.pago}</td>
+                <td>${dat.pagamento}</td>
+  
+                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+  
+                <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
+  
+                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+                `;
+
+                table.appendChild(tr);
+
+              }else{
+                let tr = document.createElement('tr');
+
+                tr.innerHTML = ` 
+                <td>${numero}</td>
+                <td>${dat.nome}</td>
+                <td>${dat.status}</td>
+                <td>${dat.valorPedido}</td>
+                <td>${dat.pago}</td>
+                <td>${dat.pagamento}</td>
+  
+                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+  
+                <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
+  
+                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+                `;
+
+                table.appendChild(tr);
+
+                tr.querySelector('.com').addEventListener("click",e=>{
+                  console.log('Finalizar');
+                });
+
+              }
+            }
+          });
+        });
+      }
+    });
+  });
+
+}  
+
+
 }
 var delivery = new DeliveryController();
+
+
+/**/

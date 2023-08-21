@@ -325,7 +325,7 @@ initEvents(){
       this.el.finalizar.on('click',e=>{
           
               this.finalizarPedido();
-              location.reload();
+              //location.reload();
             
       });  
 
