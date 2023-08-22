@@ -54,6 +54,25 @@ class DeliveryController{
   }
   
 initEvents(){
+
+  this.el.formaPagamento.addEventListener('change', () => {
+    const selectedOption = this.el.pagamento.value;
+  
+    if (selectedOption === 'separado') {
+      this.el.pagSeparado.show();
+    }else{
+      this.el.pagSeparado.hide();
+    }
+  });
+
+  this.el.troco.on('keyup',e=>{
+    let troco = this.el.troco.value;
+    let total = this.el.valorTotal.value;
+
+    let sub = parseFloat(troco) - parseFloat(total);
+
+    this.el.volta.value = sub;
+  })
   
   this.el.finalizarPedido.on('click',e=>{
 
@@ -85,6 +104,10 @@ initEvents(){
     this.criarCliente();
     this.el.cardapio.show();
     this.el.criarClientes.hide();
+  });
+
+  this.el.atualizar.on("click",e =>{
+    this.editarCliente();
   });
 
   this.el.finalizar.on('click',e=>{
@@ -289,10 +312,25 @@ initEvents(){
     let nome = this.el.nomeCliente.value;
     let telefone = this.el.telefoneCliente.value;
     let endereco = this.el.enderecoCliente.value;
+    let complemento = this.el.complementoCliente;
+    let taxa = this.el.taxaCliente;
 
-    this.cliente = new Cliente(nome,telefone,endereco,'complemento','taxa');
-    console.log(nome);
+    this.cliente = new Cliente(nome,telefone,endereco,complemento,taxa);
+
     this.cliente.salvarCliente();
+  }
+
+  editarCliente(){
+
+    let nome = this.el.nomeCliente.value;
+    let telefone = this.el.telefoneCliente.value;
+    let endereco = this.el.enderecoCliente.value;
+    let complemento = this.el.complementoCliente.value;
+    let taxa = this.el.taxaCliente.value;
+
+    this.cliente = new Cliente(nome,telefone,endereco,complemento,taxa);
+    
+    this.cliente.editarCliente();
   }
 
   verificarCliente(){

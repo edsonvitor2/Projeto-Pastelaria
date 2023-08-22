@@ -390,30 +390,63 @@
                 <option value="credito">Crédito</option>
                 <option value="dinheiro">Dinheiro</option>
                 <option value="pix">PIX</option>
+                <option value="separado">Separado</option>
                 </select>
             </td>
         </tr>
-        <tr>
-            <td>
-                Troco para?
-            </td>
-            <td>
-                <input type="text" name="" id="troco">
-            </td>
-            <td>
-                
-            </td>
+        <tr id="pagSeparado">
+            
         </tr>
+       
         <tr>
             <td colspan="2">
-                Taxa de entrega
+                Taxa de entrega :
             </td>
             <td>
                 <input type="text" name="" id="taxa-entrega">
             </td>
         </tr>
+        <tr>
+            <td colspan="2">
+                Valor Total :
+            </td>
+            <td>
+                <input type="text" name="" id="valor-total">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Troco para ?
+            </td>
+            <td>
+                <input type="text" name="" id="troco">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Voltar
+            </td>
+            <td>
+                <input type="text" name="" id="volta">
+            </td>
+        </tr>
         
     </table>
+    
+    <div>
+    <label for="valor-dinheiro">Valor em Dinheiro:</label>
+        <input type="text" id="valor-dinheiro" value="0">
+        
+        <label for="valor-debito">Valor em Débito:</label>
+        <input type="text" id="valor-debito" value="0">
+        
+        <label for="valor-credito">Valor em Crédito:</label>
+        <input type="text" id="valor-credito" value="0">
+        
+        <label for="valor-pix">Valor em PIX:</label>
+        <input type="text" id="valor-pix" value="0">
+    </div>
+
     <button class="finalizar" id="finalizar">Finalizar</button>
     
 </div>

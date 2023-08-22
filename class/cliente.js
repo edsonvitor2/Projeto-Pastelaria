@@ -71,28 +71,45 @@ class Cliente {
 
             this._chaveCliente = chaveCliente;
 
-            firebase.database().ref("clienteAtivoDelivery").set({
-                chaveCliente
-            });
-
             this.mostrarDados()
 
             console.log('Chave do cliente existente:', this._chaveCliente);
 
         } else {
-            // Cliente não existe, então salve os dados
             clienteRef.push({
             nome: this._nome,
             telefone: this._telefone,
             endereco: this._endereco,
-            complemento: '123',
-            taxa: 5.00,
+            complemento: this._complemento,
+            taxa: this._taxa
             });
     
             console.log('Cliente salvo com sucesso.');
         }
         });
     }
+
+    editarCliente(){
+      const clienteRef = firebase.database().ref('clientes');
+
+      clienteRef.orderByChild('telefone').equalTo(this._telefone).once('value', snapshot => {
+      if (snapshot.exists()) {
+
+      let chaveCliente = Object.keys(snapshot.val())[0];
+
+      clienteRef.child(chaveCliente).update({
+        nome: this._nome,
+        telefone: this._telefone,
+        endereco: this._endereco,
+        complemento: this._complemento,
+        taxa: this._taxa
+        });
+        console.log('Cliente Atualizado.');
+      } else {
+        console.log('Cliente não existe.');
+      }
+      });
+  }
     
     mostrarDados(){
       firebase.database().ref("clientes").child(this._chaveCliente).once("value",snapshot =>{
@@ -173,10 +190,15 @@ class Cliente {
               quantidades.push(dados.quantidade);
               let somaqtd = quantidades.join('+');
               let quantidade = eval(somaqtd);
+
+              let taxa = parseFloat(document.querySelector("#taxa-cliente").value);
+              let valorTotal = valor + taxa
     
               document.querySelector("#quantidadeTotal").innerText = quantidade;
     
               document.querySelector("#valorTotal").innerText = valor;
+
+              document.querySelector("#valor-total").value = valorTotal.toFixed(2);
     
               firebase.database().ref('carrinhoDelivery').remove();
             });

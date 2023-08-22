@@ -73,7 +73,7 @@ class Pedido {
       firebase.database().ref("clientes").child(this._cliente).once('value',snapshot =>{
 
         let dados = snapshot.val();
-        let taxa = dados.taxa;
+        let taxa = parseFloat(dados.taxa);
 
         let valor = parseFloat(document.querySelector("#valorTotal").innerText);
         let soma = valor + taxa;
