@@ -103,7 +103,7 @@ th{
     border-bottom: solid 1px #FFD700;
 }
 .Cardapio{
-    display: block;
+    display: none;
     background-color: rgba(0, 0, 0, 0.8);
     height: 100%;
     width: 100%;
@@ -393,10 +393,9 @@ h1.add-sabores{
 }
 .Pagamento{
     width:100%;
-    border: solid #FFD700;
 }
 .Total{
-    width:20%;
+    width:10%;
 }
 .qtdTotal{
     width:40%;
@@ -434,3 +433,15 @@ h1.add-sabores{
   #pedidofim td{
     border: solid 1px  #FFD700;
   }
+.formPagamento{
+    display: none;
+}
+.formPagamento input{
+width: 99%;
+}
+.formPagamento label{
+    width: 50px;
+}
+#asd{
+    display: none;
+}

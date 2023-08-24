@@ -5,11 +5,17 @@ class DeliveryController{
     this.cliente;
     this.pedido;
 
+    this.adicionais = [];
+    this.produtoValor;
+    this.cardapio;
+    this.produto;
+
     this.elementsPrototype();
     this.loadElements();
     this.initEvents();
     this.initAdicionais();
     this.listarPedidos();
+      
   }
 
   loadElements(){
@@ -56,13 +62,41 @@ class DeliveryController{
 initEvents(){
 
   this.el.formaPagamento.addEventListener('change', () => {
-    const selectedOption = this.el.pagamento.value;
+    const selectedOption = this.el.formaPagamento.value;
+    console.log(selectedOption)
   
-    if (selectedOption === 'separado') {
-      this.el.pagSeparado.show();
+    if (selectedOption == 'separado') {
+      this.el.formPagamento.show();
     }else{
-      this.el.pagSeparado.hide();
+      this.el.formPagamento.hide();
     }
+    if (selectedOption == 'dinheiro') {
+      this.el.asd.show();
+    }else{
+      this.el.asd.hide();
+    }
+  });
+
+  this.el.troco.on('keyup', e=>{
+    let dinheiro = parseFloat(document.querySelector("#valor-total").value);
+    let troco = parseFloat(document.querySelector("#troco").value);
+
+    let resultado = troco - dinheiro;
+
+    document.querySelector("#volta").value = resultado;
+  });
+
+  this.el.pagDinheiro.on("keyup",(e)=>{
+    this.cliente.somarValoresSeparados();
+  });
+  this.el.pagDebito.on("keyup",(e)=>{
+    this.cliente.somarValoresSeparados();
+  });
+  this.el.pagCredito.on("keyup",(e)=>{
+    this.cliente.somarValoresSeparados();
+  });
+  this.el.pagPix.on("keyup",(e)=>{
+    this.cliente.somarValoresSeparados();
   });
 
   this.el.troco.on('keyup',e=>{
@@ -100,10 +134,23 @@ initEvents(){
   });
 
   this.el.enviar.on("click", e => {
+    if((this.el.nomeCliente.value == "") 
+    || 
+    (this.el.enderecoCliente.value == "") 
+    || 
+    (this.el.complementoCliente.value == "")
+    || 
+    (this.el.telefoneCliente.value == "")
+    || 
+    (this.el.taxaCliente.value == "")){
+      alert('Preencha todos os Campos!!!');
+    }else{
     event.preventDefault();
     this.criarCliente();
     this.el.cardapio.show();
     this.el.criarClientes.hide();
+    }
+    
   });
 
   this.el.atualizar.on("click",e =>{
@@ -151,26 +198,32 @@ initEvents(){
 
   this.el.pastel.on('click',e=>{
     this.abrirCardapio('cardapioPasteis');
+    this.cardapio = 'cardapioPasteis';
   });
 
   this.el.panqueca.on('click',e=>{
     this.abrirCardapio('cardapioPanquecas');
+    this.cardapio = 'cardapioPanquecas';
   });
 
   this.el.tapioca.on('click',e=>{
     this.abrirCardapio('cardapioTapiocas');
+    this.cardapio = 'cardapioTapiocas';
   });
 
   this.el.batata.on('click',e=>{
     this.abrirCardapio('cardapioBatatas');
+    this.cardapio = 'cardapioBatatas';
   });
 
   this.el.bebida.on('click',e=>{
     this.abrirCardapio('cardapioBebidas');
+    this.cardapio = 'cardapioBebidas';
   });
 
   this.el.balcao.on('click',e=>{
     this.abrirCardapio('cardapioProdutosBalcao');
+    this.cardapio = 'cardapioProdutosBalcao';
   });
 
   this.el.enviarCozinha.on('click',e=>{
@@ -195,8 +248,8 @@ initEvents(){
         this.adicionarValor(4);
     });
     this.el.removeFrango.on('click',e=>{
-        this.removeArrayAdicionais('  frango');
-        this.removerValor(4);
+        this.removeArrayAdicionais('  frango',4);
+        //this.removerValor(4);
     });
 
     this.el.adcCarne.on('click',e=>{
@@ -204,8 +257,8 @@ initEvents(){
         this.adicionarValor(5);
     });
     this.el.removeCarne.on('click',e=>{
-        this.removeArrayAdicionais(' Carne');
-        this.removerValor(5);
+        this.removeArrayAdicionais(' Carne',5);
+        //this.removerValor(5);
     });
 
     this.el.adcMilho.on('click',e=>{
@@ -213,8 +266,8 @@ initEvents(){
         this.adicionarValor(2);
     });
     this.el.removeMilho.on('click',e=>{
-        this.removerValor(2);
-        this.removeArrayAdicionais(' Milho');
+        //this.removerValor(2);
+        this.removeArrayAdicionais(' Milho',2);
     });
 
     this.el.adcCheddar.on('click',e=>{
@@ -222,8 +275,8 @@ initEvents(){
         this.adicionarValor(2);
     });
     this.el.removeCheddar.on('click',e=>{
-        this.removerValor(2);
-        this.removeArrayAdicionais(' Cheddar');
+        //this.removerValor(2);
+        this.removeArrayAdicionais(' Cheddar',2);
     });
 
     this.el.adcMussarela.on('click',e=>{
@@ -231,7 +284,7 @@ initEvents(){
         this.adicionarValor(3);
     });
     this.el.removeMussarela.on('click',e=>{
-        this.removerValor(3);
+        //this.removerValor(3);
         this.removeArrayAdicionais(' Mussarela');
     });
 
@@ -240,7 +293,7 @@ initEvents(){
         this.adicionarValor(3);
     });
     this.el.removePequi.on('click',e=>{
-        this.removerValor(3);
+        //this.removerValor(3);
         this.removeArrayAdicionais(' Pequi');
     });
 
@@ -249,7 +302,7 @@ initEvents(){
         this.adicionarValor(3);
     });
     this.el.removeCatupiry.on('click',e=>{
-        this.removerValor(3);
+        //this.removerValor(3);
         this.removeArrayAdicionais(' Catupiry');
     });
 
@@ -258,7 +311,7 @@ initEvents(){
         this.adicionarValor(2);
     });
     this.el.removeTomate.on('click',e=>{
-        this.removerValor(2);
+        //this.removerValor(2);
         this.removeArrayAdicionais(' Tomate');
     });
 
@@ -267,7 +320,7 @@ initEvents(){
         this.adicionarValor(3);
     });
     this.el.removeQueriroba.on('click',e=>{
-        this.removerValor(3);
+        //this.removerValor(3);
         this.removeArrayAdicionais(' Queriroba');
     });
 
@@ -276,7 +329,7 @@ initEvents(){
         this.adicionarValor(3);
     });
     this.el.removePresunto.on('click',e=>{
-        this.removerValor(3);
+        //this.removerValor(3);
         this.removeArrayAdicionais(' Presunto');
     });
 
@@ -285,7 +338,7 @@ initEvents(){
         this.adicionarValor(2);
     });
     this.el.removeAzeitona.on('click',e=>{
-        this.removerValor(2);
+        //this.removerValor(2);
         this.removeArrayAdicionais(' Azeitona');
     });
 
@@ -294,7 +347,7 @@ initEvents(){
         this.adicionarValor(3);
     });
     this.el.removeCalabresa.on('click',e=>{
-        this.removerValor(3);
+        //this.removerValor(3);
         this.removeArrayAdicionais(' Calabresa');
     });
 
@@ -303,7 +356,7 @@ initEvents(){
         this.adicionarValor(3);
     });
     this.el.removePalmito.on('click',e=>{
-        this.removerValor(3);
+        //this.removerValor(3);
         this.removeArrayAdicionais(' Palmito');
     });
   }
@@ -369,7 +422,7 @@ abrirCardapio(cardapio){
     
       let key = snapshotItem.key;
       let data = snapshotItem.val();
-
+      
       let adicionaisString = []; 
 
       snapshotItem.forEach(element=>{
@@ -378,9 +431,9 @@ abrirCardapio(cardapio){
         })
       });
 
-      let adcValue = data.adc !== undefined ? data.adc : '0';
-      let valorExibido = data.adc !== undefined ? data.valor : data.valorInicial;
-
+      let adcValue = data.adicionais !== undefined ? data.adicionais : '0';
+      let valorExibido = data.adicionais !== undefined ? data.valor : data.valorInicial;
+      
       let tr = document.createElement('tr');
     
       tr.innerHTML = ` 
@@ -417,10 +470,30 @@ abrirCardapio(cardapio){
       tr.querySelector(".btnAdicionais").addEventListener("click", e=>{
           this.el.adicionar.show();
           this.el.fecharAdc.show();
+
+          this.produto = key;
+          this.produtoValor = data.valor;
+
+          this.adicionais = [];
+
+          console.log(this.produto);
       });
     
       tr.querySelector(".btnCarrinho").addEventListener("click", e=>{
+        this.produto = key;
         this.criarCarrinho(tr,data);
+        let adicionais = null;
+
+        this.bd.ref(this.cardapio).child(this.produto).once("value",e=>{
+          let dados = e.val();
+          let valor = dados.valorInicial;
+
+          this.bd.ref(this.cardapio).child(this.produto).update({
+            adicionais,
+            valor
+          });
+        });
+        this.abrirCardapio(this.cardapio);
       });
     
           //aqui adiciona +1 a quantidade de pasteis
@@ -451,6 +524,8 @@ abrirCardapio(cardapio){
     
     this.carrinho = new Carrinho(produto,sabor,quantidade,valor,adc,obs);
 
+    
+
   }
 
   adicionaUnidade(tr){
@@ -468,27 +543,81 @@ abrirCardapio(cardapio){
     }
   }
 
-adicionarValor(value){
-  this.addValue.push(value);
-  let a = this.addValue.join('+');
-  let b = eval(a);
-  let d = parseFloat(this.value);
-  let c = b + d;
-  let valor = c.toFixed(2);
-  
-}
-removerValor(value){
-  firebase.database().ref(this.idCardapio).child(this.keyProduto).once("value",e=>{
-    let data = e.val();
-    
-    let result = data.valor - value;
-    let valor = result.toFixed(2);
-    
-    firebase.database().ref(this.idCardapio).child(this.keyProduto).update({valor});
+addArrayAdicionais(value){
 
-    this.valorAdc = '';
-    this.initCardapio(this.idCardapio);
+  firebase.database().ref(this.cardapio).child(this.produto).once('value',w=>{
+    let dados = w.val();
+
+    if(dados.adicionais !== undefined){
+
+      let adicionais = dados.adicionais;
+
+      adicionais.push(value);
+
+      firebase.database().ref(this.cardapio).child(this.produto).update({
+        adicionais
+      })
+      this.abrirCardapio(this.cardapio);
+    }else{
+      this.adicionais.push(value);
+      let adicionais = this.adicionais;
+
+      firebase.database().ref(this.cardapio).child(this.produto).update({
+        adicionais
+      })
+      this.adicionais =[];
+      this.abrirCardapio(this.cardapio);
+      console.log(this.adicionais)
+    }
+  })
+    
+}
+
+removeArrayAdicionais(adc,valoradc) {
+  this.bd.ref(this.cardapio).child(this.produto).once('value',w=>{
+    let dados = w.val();
+
+    if(dados.adicionais !== undefined){
+
+      let adicionais = dados.adicionais;
+      const indexToRemove = adicionais.indexOf(adc);
+
+      if (indexToRemove !== -1) {
+
+        adicionais.splice(indexToRemove, 1);
+
+        let sub = dados.valor - valoradc;
+        let valor = sub.toFixed(2);
+
+        this.bd.ref(this.cardapio).child(this.produto).update({
+          adicionais,
+          valor
+        });
+
+        this.abrirCardapio(this.cardapio);
+      }
+    }
   });
+}
+
+adicionarValor(value){
+
+  let adc = parseFloat(value);
+
+  this.bd.ref(this.cardapio).child(this.produto).once('value',e=>{
+    let dados = e.val();
+
+    let soma = parseFloat(dados.valor);
+
+    let valor = adc + soma;
+
+    this.bd.ref(this.cardapio).child(this.produto).update({
+      valor
+    });
+  });
+  
+  this.abrirCardapio(this.cardapio);
+
 }
 
 formatarNumero(){
@@ -553,7 +682,17 @@ listarPedidos() {
                 table.appendChild(tr);
 
                 tr.querySelector('.Edit').addEventListener("click",e=>{
-                  console.log('Editar');
+                  let cliente = {
+                    nome: dat.nome,
+                    telefone: dat.telefone,
+                    endereco:dat.endereco,
+                    complemento:dat.complemento,
+                    taxa:dat.taxa
+                  }
+                  let pedido = dat.pedido;
+
+                  this.pedido = new Pedido(cliente,pedido);
+                  this.pedido.editarPedido();
                 });
 
                 tr.querySelector('.entrega').addEventListener("click",e=>{
@@ -613,7 +752,6 @@ listarPedidos() {
   });
 
 }  
-
 
 }
 var delivery = new DeliveryController();

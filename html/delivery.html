@@ -22,7 +22,7 @@
             <legend class="fechar" id="fechar-painel">X</legend>
             <div class="input-box">
                 <label for="" class="">Telefone : </label>
-                <input type="text" name="" id="telefone-cliente" class="inputBox" maxlength="15">
+                <input type="text" name="" id="telefone-cliente" class="inputBox" maxlength="15" required>
             </div>
 
             <div class="input-box">
@@ -32,18 +32,18 @@
 
             <div class="input-box">
                 <label for="Endereço">Endereço :</label>
-                <input type="text" name="" id="endereco-cliente" class="inputBox">
+                <input type="text" name="" id="endereco-cliente" class="inputBox" required>
             </div>
 
             <div class="input-box">
                 <label for="Complemento">Complemento : </label>
-                <input type="text" name="" id="complemento-cliente" value="0" class="inputBox">
+                <input type="text" name="" id="complemento-cliente" value="0" class="inputBox" required>
             </div>
 
             <div class="input-box">
                 <label for="Taxa">Taxa de entrega : </label>
-                <input type="text" name="" id="taxa-cliente" value="0" class="inputBox">
-            </div>
+                <input type="text" name="" id="taxa-cliente" value="0" class="inputBox" required>
+            </div> 
            
             <div class="enviar">
             <button type="submit" class="enviar" id="enviar"> Continuar </button>
@@ -394,9 +394,6 @@
                 </select>
             </td>
         </tr>
-        <tr id="pagSeparado">
-            
-        </tr>
        
         <tr>
             <td colspan="2">
@@ -414,6 +411,8 @@
                 <input type="text" name="" id="valor-total">
             </td>
         </tr>
+    </table>
+    <table id="asd">
         <tr>
             <td colspan="2">
                 Troco para ?
@@ -430,21 +429,22 @@
                 <input type="text" name="" id="volta">
             </td>
         </tr>
-        
     </table>
-    
-    <div>
-    <label for="valor-dinheiro">Valor em Dinheiro:</label>
-        <input type="text" id="valor-dinheiro" value="0">
+    <div class="formPagamento" id="form-pagamento">
+        <label for="valorDinheiro">Valor em Dinheiro:</label>
+        <input type="text" id="pag-dinheiro" value="0">
         
-        <label for="valor-debito">Valor em Débito:</label>
-        <input type="text" id="valor-debito" value="0">
+        <label for="valorDebito">Valor em Débito:</label>
+        <input type="text" id="pag-debito" value="0">
         
-        <label for="valor-credito">Valor em Crédito:</label>
-        <input type="text" id="valor-credito" value="0">
+        <label for="valorCredito">Valor em Crédito:</label>
+        <input type="text" id="pag-credito" value="0">
         
-        <label for="valor-pix">Valor em PIX:</label>
-        <input type="text" id="valor-pix" value="0">
+        <label for="valorPix">Valor em PIX:</label>
+        <input type="text" id="pag-pix" value="0">
+
+        <label for="valor-totalSeparado">Valor Total:</label>
+        <input type="text" id="total-separado" placeholder="0" disabled>
     </div>
 
     <button class="finalizar" id="finalizar">Finalizar</button>

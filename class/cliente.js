@@ -126,7 +126,6 @@ class Cliente {
     criarComanda(){
       const database = firebase.database();
       const carrinhoRef = database.ref("carrinhoDelivery");
-      var itens = {};
       var valores = [];
       var quantidades = [];
      
@@ -213,6 +212,17 @@ class Cliente {
       });
 
     }  
+
+    somarValoresSeparados() {
+      let dinheiro = parseFloat(document.querySelector("#pag-dinheiro").value);
+      let debito = parseFloat(document.querySelector("#pag-debito").value);
+      let credito = parseFloat(document.querySelector("#pag-credito").value);
+      let pix = parseFloat(document.querySelector("#pag-pix").value);
+  
+      let total = dinheiro + debito + credito + pix;
+      console.log(dinheiro);
+      document.querySelector("#total-separado").value = total;
+  }
 
     
   }
