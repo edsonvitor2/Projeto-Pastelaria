@@ -6,6 +6,7 @@ class DeliveryController{
     this.pedido;
 
     this.adicionais = [];
+    this.editar = true;
     this.produtoValor;
     this.cardapio;
     this.produto;
@@ -19,13 +20,13 @@ class DeliveryController{
   }
 
   loadElements(){
-      this.el = {};
+  this.el = {};
 
-      document.querySelectorAll("[id]").forEach(element=>{
+  document.querySelectorAll("[id]").forEach(element=>{
 
-          this.el[Format.getCamelCase(element.id)] = element;
+  this.el[Format.getCamelCase(element.id)] = element;
 
-      });
+  });
 
   }
 
@@ -171,9 +172,9 @@ initEvents(){
           this.pedido = new Pedido(cliente,produtos, id);
           this.pedido.criarPedido();
 
-          /*setTimeout(() => {
+          setTimeout(() => {
           location.reload();
-          }, 500);*/
+          }, 500);
 
         }
       });
@@ -228,12 +229,19 @@ initEvents(){
 
   this.el.enviarCozinha.on('click',e=>{
     
-    this.cliente.criarComanda();
-      
-    setTimeout(() => {
-      this.carrinho.listarCarrinho();
-    }, 500);
+    
 
+    if(this.editar == true){
+      this.pedido.juntarPedido();
+    }else{
+      this.cliente.criarComanda();
+      setTimeout(() => {
+        this.carrinho.listarCarrinho();
+      }, 500);
+  
+    }
+      
+    
   });
 
   this.el.fecharAdc.on('click',e=>{
@@ -638,13 +646,11 @@ formatarNumero(){
 }
 
 listarPedidos() {
-  var chave;
   var numero = 0;
   
   firebase.database().ref('Caixas').once("value",element=>{
     //table.innerText ='';
     element.forEach(e => {
-      let key = e.key;
       let data = e.val();
 
       if(data.status == "aberto"){
@@ -654,8 +660,8 @@ listarPedidos() {
           table.innerHTML = '';
           element.forEach(e => {
             
-            chave = e.key;
             let dat = e.val();
+            let key = e.key;
             
             if(dat.caixa == data.id){
 
@@ -682,16 +688,23 @@ listarPedidos() {
                 table.appendChild(tr);
 
                 tr.querySelector('.Edit').addEventListener("click",e=>{
+                  this.el.cardapio.show();
+                  this.el.pedidos.hide();
                   let cliente = {
                     nome: dat.nome,
                     telefone: dat.telefone,
                     endereco:dat.endereco,
                     complemento:dat.complemento,
-                    taxa:dat.taxa
+                    taxa:dat.taxa,
+                    caixa : dat.caixa,
+                    status: dat.status,
+                    valorPedido : dat.valorPedido,
+                    pagamento : dat.pagamento,
+                    pago : dat.pago
                   }
                   let pedido = dat.pedido;
-
-                  this.pedido = new Pedido(cliente,pedido);
+                  
+                  this.pedido = new Pedido(cliente,pedido,0);
                   this.pedido.editarPedido();
                 });
 

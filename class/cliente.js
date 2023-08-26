@@ -204,7 +204,6 @@ class Cliente {
         });
         } else {
           console.log("O nó carrinhoDelivery não existe no Firebase.");
-          // Aqui você pode lidar com a situação em que o nó não existe
         }
       })
       .catch(error => {
