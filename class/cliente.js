@@ -191,6 +191,7 @@ class Cliente {
               let quantidade = eval(somaqtd);
 
               let taxa = parseFloat(document.querySelector("#taxa-cliente").value);
+              
               let valorTotal = valor + taxa
     
               document.querySelector("#quantidadeTotal").innerText = quantidade;

@@ -4,7 +4,9 @@ class Pedido {
       this._pedido = produto;
       this._caixa = caixa;
       this._chave = chave;
+      this._valor;
 
+      this.pedidos
     }
   
     // Métodos getter e setter para Cliente
@@ -103,8 +105,6 @@ editarPedido(){
 
   let pedido = e;
 
-  this._pedido = e;
-
   let tabela = document.querySelector('#comanda');
 
   let tr = document.createElement('tr');
@@ -147,6 +147,8 @@ editarPedido(){
 }
 
 juntarPedido() {
+  let valores = [];
+  let quantidades = [];
   let itens = [];
   firebase.database().ref("carrinhoDelivery").once('value', snapshot => {
     snapshot.forEach(item => {
@@ -154,9 +156,75 @@ juntarPedido() {
       itens.push(carrinho);
     });
 
-    //this._pedidos = this._pedidos.concat(itens);
+  this._pedido = this._pedido.concat(itens);
+  firebase.database().ref('carrinhoDelivery').remove();
 
-    console.log(this._pedido);
+  let tabela = document.querySelector('#comanda');
+          
+  tabela.innerHTML =''
+    
+  this._pedido.forEach(item =>{
+
+    let tr = document.createElement('tr');
+    
+    tr.innerHTML = `
+  <td class="td ">
+      ${item.produto}
+  </td>
+  <td class="td">
+      ${item.sabor}
+  </td>
+  <td class="td">
+      ${item.quantidade}
+  </td>
+  <td class="td">
+      ${item.valor}
+  </td>
+  <td class="td">
+  ${item.adicionais}
+  </td>
+  <td class="td">
+  <textarea id="myTextarea" rows="4" cols="6" disabled placeholder="OBS:">${item.observacoes}</textarea>
+  </td>
+  `;
+  tabela.appendChild(tr);
+  valores.push(item.valor);
+  let soma = valores.join('+');
+  let valor = eval(soma);
+
+  quantidades.push(item.quantidade);
+  let somaqtd = quantidades.join('+');
+
+  let quantidade = eval(somaqtd);
+
+  let taxa = parseFloat(document.querySelector("#taxa-entrega").value);
+  
+  let valorTotal = valor + taxa
+
+  document.querySelector("#quantidadeTotal").innerText = quantidade;
+
+  document.querySelector("#valorTotal").innerText = valor;
+
+  document.querySelector("#valor-total").value = valorTotal.toFixed(2);
+  
+  this._valor = valorTotal.toFixed(2);
+
+  });
   });
 }
-} 
+
+finalizarEdicao(){
+  let pedido = this._pedido;
+
+  let valorPedido = this._valor;
+
+  console.log(pedido,valorPedido);
+
+  firebase.database().ref("pedidoDelivery").child(this._chave).child('pedido').set(pedido);
+
+  firebase.database().ref("pedidoDelivery").child(this._chave).child('valorPedido').set(valorPedido);
+  
+}
+
+
+}

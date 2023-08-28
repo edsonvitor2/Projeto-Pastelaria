@@ -6,7 +6,7 @@ class DeliveryController{
     this.pedido;
 
     this.adicionais = [];
-    this.editar = true;
+    this.editar;
     this.produtoValor;
     this.cardapio;
     this.produto;
@@ -160,7 +160,13 @@ initEvents(){
 
   this.el.finalizar.on('click',e=>{
 
-    let cliente = this.cliente._chaveCliente;
+    if(this.editar == true){
+      this.pedido.finalizarEdicao();
+      setTimeout(() => {
+        location.reload();
+        }, 500);  
+    }else{
+      let cliente = this.cliente._chaveCliente;
     let produtos = this.cliente._produtos;
 
     firebase.database().ref("Caixas").once("value",snapshot=>{
@@ -179,6 +185,7 @@ initEvents(){
         }
       });
     });
+    }
   });  
 
   
@@ -228,20 +235,18 @@ initEvents(){
   });
 
   this.el.enviarCozinha.on('click',e=>{
-    
-    
 
     if(this.editar == true){
       this.pedido.juntarPedido();
+      setTimeout(() => {
+        this.carrinho.listarCarrinho();
+      }, 500);
     }else{
       this.cliente.criarComanda();
       setTimeout(() => {
         this.carrinho.listarCarrinho();
       }, 500);
-  
     }
-      
-    
   });
 
   this.el.fecharAdc.on('click',e=>{
@@ -669,7 +674,7 @@ listarPedidos() {
 
               if(dat.status == 'Produzindo!'){
                 let tr = document.createElement('tr');
-  
+                let chave = key;
                 tr.innerHTML = ` 
                 <td>${numero}</td>
                 <td>${dat.nome}</td>
@@ -688,6 +693,7 @@ listarPedidos() {
                 table.appendChild(tr);
 
                 tr.querySelector('.Edit').addEventListener("click",e=>{
+                  this.editar = true;
                   this.el.cardapio.show();
                   this.el.pedidos.hide();
                   let cliente = {
@@ -704,7 +710,7 @@ listarPedidos() {
                   }
                   let pedido = dat.pedido;
                   
-                  this.pedido = new Pedido(cliente,pedido,0);
+                  this.pedido = new Pedido(cliente,pedido,0,chave);
                   this.pedido.editarPedido();
                 });
 
