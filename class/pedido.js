@@ -225,6 +225,63 @@ finalizarEdicao(){
   firebase.database().ref("pedidoDelivery").child(this._chave).child('valorPedido').set(valorPedido);
   
 }
+mostrarPedido(){
+  let tabela = document.querySelector("#pedidofim");
+  tabela.innerHTML = '';
+  this._pedido.forEach(snapshot =>{
+  let tr = document.createElement('tr');
 
+  tr.innerHTML = `
+  <td>${snapshot.produto}</td>
+  <td>${snapshot.sabor}</td>
+  <td>${snapshot.quantidade}</td>
+  <td>${snapshot.adicionais}</td>
+  <td>${snapshot.observacoes}</td>
+  <td>${snapshot.valor}</td>
+  `;
+  tabela.appendChild(tr);
+
+  document.querySelector("#nome").value = this._cliente.nome;
+  document.querySelector("#telefone").value = this._cliente.telefone;
+  document.querySelector("#endereco").value = this._cliente.endereco;
+  document.querySelector("#total").value = this._cliente.valorPedido;
+  document.querySelector("#taxa").value = this._cliente.taxa;
+
+  });
+
+}
+
+finalizarPedido(){
+  let pagamento  = document.querySelector("#pagamento").value;
+
+  if(pagamento == 'dinheiro'){
+    let dinheiro = parseFloat(document.querySelector("#valor-dinheiro").value);
+    let debito =  parseFloat(document.querySelector("#valor-debito").value);
+    let credito =  parseFloat(document.querySelector("#valor-credito").value);
+    let pix =  parseFloat(document.querySelector("#valor-pix").value);
+
+    let valorPedido = dinheiro+debito+credito+pix;
+
+    let status = 'Finalizado!';
+    let pago = 'Sim!';
+    firebase.database().ref("pedidoDelivery").child(this._chave).update({
+      dinheiro,
+      debito,
+      credito,
+      pix,
+      status,
+      pago,
+      valorPedido,
+      pagamento
+    });
+
+  }else{
+    let status = 'Finalizado!';
+    let pago = 'Sim!';
+
+    firebase.database().ref("pedidoDelivery").child(this._chave).child('status').set(status);
+    firebase.database().ref("pedidoDelivery").child(this._chave).child('pago').set(pago);
+  }
+}
 
 }

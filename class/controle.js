@@ -10,6 +10,7 @@ class DeliveryController{
     this.produtoValor;
     this.cardapio;
     this.produto;
+    this.chaveAttEntrega;
 
     this.elementsPrototype();
     this.loadElements();
@@ -110,11 +111,18 @@ initEvents(){
   })
   
   this.el.finalizarPedido.on('click',e=>{
-
+    this.pedido.finalizarPedido();
+    setTimeout(() => {
+      location.reload();
+      }, 500);  
   });
 
   this.el.pagamento.addEventListener('change', () => {  
-    
+    if(this.el.pagamento.value == 'dinheiro'){
+      this.el.pagamentoSeparado.show();
+    }else{
+      this.el.pagamentoSeparado.hide();
+    }
   });
 
   this.el.fecharPaniel.on('click',e=>{
@@ -131,7 +139,11 @@ initEvents(){
   })
   
   this.el.enviarEntrega.on("click",e=>{
-
+    let entregador = document.querySelector("#entregador").value;
+    let status = `Enviado ${entregador}`;
+    firebase.database().ref("pedidoDelivery").child(this.chaveAttEntrega).child('status').set(status);
+    this.listarPedidos();
+    this.el.entregar.hide();
   });
 
   this.el.enviar.on("click", e => {
@@ -674,7 +686,10 @@ listarPedidos() {
 
               if(dat.status == 'Produzindo!'){
                 let tr = document.createElement('tr');
+
                 let chave = key;
+                this.chaveAttEntrega = key;
+
                 tr.innerHTML = ` 
                 <td>${numero}</td>
                 <td>${dat.nome}</td>
@@ -715,10 +730,11 @@ listarPedidos() {
                 });
 
                 tr.querySelector('.entrega').addEventListener("click",e=>{
-                  console.log('Enviar');
+                  this.el.entregar.show();
                 });
 
               }else if(dat.status == 'Finalizado!'){
+                let chave = key;
                 let tr = document.createElement('tr');
 
                 tr.innerHTML = ` 
@@ -739,6 +755,7 @@ listarPedidos() {
                 table.appendChild(tr);
 
               }else{
+                let chave = key;
                 let tr = document.createElement('tr');
 
                 tr.innerHTML = ` 
@@ -759,7 +776,25 @@ listarPedidos() {
                 table.appendChild(tr);
 
                 tr.querySelector('.com').addEventListener("click",e=>{
-                  console.log('Finalizar');
+                  let cliente = {
+                    nome: dat.nome,
+                    telefone: dat.telefone,
+                    endereco:dat.endereco,
+                    complemento:dat.complemento,
+                    taxa:dat.taxa,
+                    caixa : dat.caixa,
+                    status: dat.status,
+                    valorPedido : dat.valorPedido,
+                    pagamento : dat.pagamento,
+                    pago : dat.pago
+                  }
+                  let pedido = dat.pedido;
+                  
+                  this.pedido = new Pedido(cliente,pedido,0,chave);
+                  this.pedido.mostrarPedido();
+
+                  this.el.fecharComanda.show();
+                  this.el.pedidos.hide();
                 });
 
               }
