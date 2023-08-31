@@ -37,7 +37,8 @@ fieldset{
 }
 input{
     width: 100%;
-    color: #242323;
+    color: #000;
+    background-color: #fff;
 }
 button{
     font-size: 18px;

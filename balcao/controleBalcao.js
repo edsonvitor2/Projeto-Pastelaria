@@ -97,27 +97,27 @@ initEvents(){
     this.el.volta.value = sub;
   })
   
-  this.el.finalizarPedido.on('click',e=>{
+  /*this.el.finalizarPedido.on('click',e=>{
     this.pedido.finalizarPedido();
     setTimeout(() => {
       location.reload();
       }, 500); 
-  });
+  });*/
 
-  this.el.pagamento.addEventListener('change', () => {  
+  /*this.el.pagamento.addEventListener('change', () => {  
     if(this.el.pagamento.value == 'separado'){
       this.el.pagamentoSeparado.show();
     }else{
       this.el.pagamentoSeparado.hide();
     }
-  });
+  });*/
 
-  this.el.fecharPaniel.on('click',e=>{
+  /*this.el.fecharPaniel.on('click',e=>{
     this.el.fecharComanda.hide();
     this.el.pedidos.show();
-  });
+  });*/
 
-  this.el.fecharEntregador.on('click',e=>{
+  /*this.el.fecharEntregador.on('click',e=>{
     this.el.entregar.hide();
   })
 
@@ -252,7 +252,7 @@ initEvents(){
     this.el.adicionar.hide();
     this.el.fecharAdc.hide();
   })
-  }
+  }*/
 
   initAdicionais(){
     this.el.adcFrango.on('click',e=>{
@@ -848,6 +848,3 @@ listarPedidos() {
 
 }
 var delivery = new DeliveryController();
-
-
-/**/
