@@ -264,7 +264,7 @@
   <option value="credito">Crédito</option>
   <option value="dinheiro">Dinheiro</option>
   <option value="pix">PIX</option>
-  <option value="Pagamento Separado">Pagamento Separado</option>
+  <option value="separado">Separado</option>
 </select>
 
 <div id="pagamento-separado">
@@ -400,7 +400,7 @@
                 Taxa de entrega :
             </td>
             <td>
-                <input type="text" name="" id="taxa-entrega">
+                <input type="text" name="" id="taxa-entrega" disabled>
             </td>
         </tr>
         <tr>
@@ -408,7 +408,7 @@
                 Valor Total :
             </td>
             <td>
-                <input type="text" name="" id="valor-total">
+                <input type="text" name="" id="valor-total" disabled>
             </td>
         </tr>
     </table>
@@ -426,7 +426,7 @@
                 Voltar
             </td>
             <td>
-                <input type="text" name="" id="volta">
+                <input type="text" name="" id="volta" disabled>
             </td>
         </tr>
     </table>
@@ -443,8 +443,6 @@
         <label for="valorPix">Valor em PIX:</label>
         <input type="text" id="pag-pix" value="0">
 
-        <label for="valor-totalSeparado">Valor Total:</label>
-        <input type="text" id="total-separado" placeholder="0" disabled>
     </div>
 
     <button class="finalizar" id="finalizar">Finalizar</button>

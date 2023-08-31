@@ -82,6 +82,27 @@ class Pedido {
         let soma = valor + taxa;
         let valorPedido = soma.toFixed(2);
 
+        let formaPagamento = document.querySelector("#forma-pagamento").value;
+
+      if(formaPagamento == 'separado'){
+        firebase.database().ref("pedidoDelivery").push({
+          nome : dados.nome,
+          telefone : dados.telefone,
+          endereco : dados.endereco,
+          complemento : dados.complemento,
+          taxa : dados.taxa,
+          pedido : this._pedido,
+          caixa : this._caixa,
+          status: 'Produzindo!',
+          valorPedido,
+          pagamento : document.querySelector("#forma-pagamento").value,
+          debito: document.querySelector("#pag-debito").value,
+          credito: document.querySelector("#pag-credito").value,
+          dinheiro: document.querySelector("#pag-dinheiro").value,
+          pix: document.querySelector("#pag-pix").value,
+          pago : 'Não!'
+        });
+      }else{
         firebase.database().ref("pedidoDelivery").push({
           nome : dados.nome,
           telefone : dados.telefone,
@@ -95,36 +116,41 @@ class Pedido {
           pagamento : document.querySelector("#forma-pagamento").value,
           pago : 'Não!'
         });
+      }
       });
       alert('Pedido Realizado!');
     }
 
 editarPedido(){
+  let quantidade = [];
+  let valores = [];
+
   let cliente = this._cliente;
+  console.log(cliente);
+  document.querySelector("#forma-pagamento").value = cliente.pagamento;
+  document.querySelector("#taxa-entrega").value = cliente.taxa;
+  document.querySelector("#valor-total").value = cliente.valorPedido;
+  
   this._pedido.forEach(e=>{
-
   let pedido = e;
-
   let tabela = document.querySelector('#comanda');
-
   let tr = document.createElement('tr');
 
   if(pedido.observacoes == ''){
     pedido.observacoes = '0'
   }
-
     tr.innerHTML = `
   <td class="td ">
-      ${pedido.produto}
+  ${pedido.produto}
   </td>
   <td class="td">
-      ${pedido.sabor}
+  ${pedido.sabor}
   </td>
   <td class="td">
-      ${pedido.quantidade}
+  ${pedido.quantidade}
   </td>
   <td class="td">
-      ${pedido.valor}
+  ${pedido.valor}
   </td>
   <td class="td">
   ${pedido.adicionais}
@@ -135,13 +161,25 @@ editarPedido(){
   `;
   tabela.appendChild(tr);
 
-  document.querySelector("#quantidadeTotal").innerText = cliente.quantidade;
+  quantidade.push(pedido.quantidade);
+  let soma = quantidade.join('+');
+  let qtd = eval(soma);
 
-  document.querySelector("#taxa-entrega").value = cliente.taxa;
+  valores.push(pedido.valor);
+  let soma2 = valores.join('+');
+  let value = eval(soma2);
+  
+  document.querySelector("#valorTotal").innerText = value;
+  document.querySelector("#quantidadeTotal").innerText = qtd;
 
-  document.querySelector("#valorTotal").innerText = cliente.valor;
+  if(cliente.pagamento == 'separado'){
+    document.querySelector('#form-pagamento').style.display = 'block';
+    document.querySelector("#pag-debito").value = cliente.debito;
+    document.querySelector("#pag-credito").value = cliente.credito;
+    document.querySelector("#pag-dinheiro").value = cliente.dinheiro;
+    document.querySelector("#pag-pix").value = cliente.pix;
+  }
 
-  document.querySelector("#valor-total").value = cliente.valorPedido;
   });
   
 }
@@ -215,14 +253,37 @@ juntarPedido() {
 
 finalizarEdicao(){
   let pedido = this._pedido;
+  let valor = [];
+  let valorPedido;
+  let pagamento = document.querySelector("#forma-pagamento").value;
 
-  let valorPedido = this._valor;
+  pedido.forEach(item=>{
+    valor.push(item.valor);
+    let soma = valor.join('+');
+    let value = eval(soma) + parseFloat(document.querySelector("#taxa-entrega").value);
 
-  console.log(pedido,valorPedido);
-
-  firebase.database().ref("pedidoDelivery").child(this._chave).child('pedido').set(pedido);
-
-  firebase.database().ref("pedidoDelivery").child(this._chave).child('valorPedido').set(valorPedido);
+    valorPedido = value.toFixed(2);
+    console.log(valorPedido);
+  });
+  if(pagamento == 'separado'){
+          
+    firebase.database().ref("pedidoDelivery").child(this._chave).update({
+      debito: document.querySelector("#pag-debito").value,
+      credito: document.querySelector("#pag-credito").value,
+      dinheiro: document.querySelector("#pag-dinheiro").value,
+      pix: document.querySelector("#pag-pix").value,
+      pagamento : document.querySelector("#forma-pagamento").value,
+      valorPedido : valorPedido,
+      pedido : this._pedido
+    });
+    firebase.database().ref("pedidoDelivery").child(this._chave).child('pagamento').set(pagamento);
+    firebase.database().ref("pedidoDelivery").child(this._chave).child('valorPedido').set(valorPedido);
+  }else{
+    firebase.database().ref("pedidoDelivery").child(this._chave).child('pedido').set(pedido);
+    firebase.database().ref("pedidoDelivery").child(this._chave).child('pagamento').set(pagamento);
+    firebase.database().ref("pedidoDelivery").child(this._chave).child('valorPedido').set(valorPedido);
+  }
+  
   
 }
 mostrarPedido(){
@@ -241,11 +302,25 @@ mostrarPedido(){
   `;
   tabela.appendChild(tr);
 
-  document.querySelector("#nome").value = this._cliente.nome;
-  document.querySelector("#telefone").value = this._cliente.telefone;
-  document.querySelector("#endereco").value = this._cliente.endereco;
-  document.querySelector("#total").value = this._cliente.valorPedido;
-  document.querySelector("#taxa").value = this._cliente.taxa;
+  if(this._cliente.pagamento == 'separado'){
+    document.querySelector("#nome").value = this._cliente.nome;
+    document.querySelector("#telefone").value = this._cliente.telefone;
+    document.querySelector("#endereco").value = this._cliente.endereco;
+    document.querySelector("#total").value = this._cliente.valorPedido;
+    document.querySelector("#taxa").value = this._cliente.taxa;
+    document.querySelector("#pagamento").value = this._cliente.pagamento;
+    document.querySelector("#valor-debito").value = this._cliente.debito;
+    document.querySelector("#valor-credito").value = this._cliente.credito;
+    document.querySelector("#valor-dinheiro").value = this._cliente.dinheiro;
+    document.querySelector("#valor-pix").value = this._cliente.pix;
+  }else{
+    document.querySelector("#nome").value = this._cliente.nome;
+    document.querySelector("#telefone").value = this._cliente.telefone;
+    document.querySelector("#endereco").value = this._cliente.endereco;
+    document.querySelector("#total").value = this._cliente.valorPedido;
+    document.querySelector("#taxa").value = this._cliente.taxa;
+    document.querySelector("#pagamento").value = this._cliente.pagamento;
+  }
 
   });
 
@@ -254,7 +329,7 @@ mostrarPedido(){
 finalizarPedido(){
   let pagamento  = document.querySelector("#pagamento").value;
 
-  if(pagamento == 'dinheiro'){
+  if(pagamento == 'separado'){
     let dinheiro = parseFloat(document.querySelector("#valor-dinheiro").value);
     let debito =  parseFloat(document.querySelector("#valor-debito").value);
     let credito =  parseFloat(document.querySelector("#valor-credito").value);

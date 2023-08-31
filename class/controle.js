@@ -88,19 +88,6 @@ initEvents(){
     document.querySelector("#volta").value = resultado;
   });
 
-  this.el.pagDinheiro.on("keyup",(e)=>{
-    this.cliente.somarValoresSeparados();
-  });
-  this.el.pagDebito.on("keyup",(e)=>{
-    this.cliente.somarValoresSeparados();
-  });
-  this.el.pagCredito.on("keyup",(e)=>{
-    this.cliente.somarValoresSeparados();
-  });
-  this.el.pagPix.on("keyup",(e)=>{
-    this.cliente.somarValoresSeparados();
-  });
-
   this.el.troco.on('keyup',e=>{
     let troco = this.el.troco.value;
     let total = this.el.valorTotal.value;
@@ -114,11 +101,11 @@ initEvents(){
     this.pedido.finalizarPedido();
     setTimeout(() => {
       location.reload();
-      }, 500);  
+      }, 500); 
   });
 
   this.el.pagamento.addEventListener('change', () => {  
-    if(this.el.pagamento.value == 'dinheiro'){
+    if(this.el.pagamento.value == 'separado'){
       this.el.pagamentoSeparado.show();
     }else{
       this.el.pagamentoSeparado.hide();
@@ -174,9 +161,9 @@ initEvents(){
 
     if(this.editar == true){
       this.pedido.finalizarEdicao();
-      setTimeout(() => {
+      /*setTimeout(() => {
         location.reload();
-        }, 500);  
+        }, 500);  */
     }else{
       let cliente = this.cliente._chaveCliente;
     let produtos = this.cliente._produtos;
@@ -688,7 +675,7 @@ listarPedidos() {
                 let tr = document.createElement('tr');
 
                 let chave = key;
-                this.chaveAttEntrega = key;
+                
 
                 tr.innerHTML = ` 
                 <td>${numero}</td>
@@ -711,25 +698,50 @@ listarPedidos() {
                   this.editar = true;
                   this.el.cardapio.show();
                   this.el.pedidos.hide();
-                  let cliente = {
-                    nome: dat.nome,
-                    telefone: dat.telefone,
-                    endereco:dat.endereco,
-                    complemento:dat.complemento,
-                    taxa:dat.taxa,
-                    caixa : dat.caixa,
-                    status: dat.status,
-                    valorPedido : dat.valorPedido,
-                    pagamento : dat.pagamento,
-                    pago : dat.pago
-                  }
-                  let pedido = dat.pedido;
+
+                  if(dat.pagamento == 'separado'){
+                    let cliente = {
+                      nome: dat.nome,
+                      telefone: dat.telefone,
+                      endereco:dat.endereco,
+                      complemento:dat.complemento,
+                      taxa:dat.taxa,
+                      caixa : dat.caixa,
+                      status: dat.status,
+                      valorPedido : dat.valorPedido,
+                      pagamento : dat.pagamento,
+                      pago : dat.pago,
+                      debito : dat.debito,
+                      credito : dat.credito,
+                      dinheiro : dat.dinheiro,
+                      pix : dat.pix,
+                    }
+                    let pedido = dat.pedido;
                   
-                  this.pedido = new Pedido(cliente,pedido,0,chave);
-                  this.pedido.editarPedido();
+                    this.pedido = new Pedido(cliente,pedido,0,chave);
+                    this.pedido.editarPedido();
+                  }else{
+                    let cliente = {
+                      nome: dat.nome,
+                      telefone: dat.telefone,
+                      endereco:dat.endereco,
+                      complemento:dat.complemento,
+                      taxa:dat.taxa,
+                      caixa : dat.caixa,
+                      status: dat.status,
+                      valorPedido : dat.valorPedido,
+                      pagamento : dat.pagamento,
+                      pago : dat.pago,
+                    }
+                    let pedido = dat.pedido;
+                  
+                    this.pedido = new Pedido(cliente,pedido,0,chave);
+                    this.pedido.editarPedido();
+                  }
                 });
 
                 tr.querySelector('.entrega').addEventListener("click",e=>{
+                  this.chaveAttEntrega = key;
                   this.el.entregar.show();
                 });
 
@@ -776,27 +788,54 @@ listarPedidos() {
                 table.appendChild(tr);
 
                 tr.querySelector('.com').addEventListener("click",e=>{
-                  let cliente = {
-                    nome: dat.nome,
-                    telefone: dat.telefone,
-                    endereco:dat.endereco,
-                    complemento:dat.complemento,
-                    taxa:dat.taxa,
-                    caixa : dat.caixa,
-                    status: dat.status,
-                    valorPedido : dat.valorPedido,
-                    pagamento : dat.pagamento,
-                    pago : dat.pago
+                  if(dat.pagamento == 'separado'){
+
+                    this.el.pagamentoSeparado.show();
+
+                    let cliente = {
+                      nome: dat.nome,
+                      telefone: dat.telefone,
+                      endereco:dat.endereco,
+                      complemento:dat.complemento,
+                      taxa:dat.taxa,
+                      caixa : dat.caixa,
+                      status: dat.status,
+                      valorPedido : dat.valorPedido,
+                      pagamento : dat.pagamento,
+                      pago : dat.pago,
+                      debito: dat.debito,
+                      credito: dat.credito,
+                      dinheiro: dat.dinheiro,
+                      pix: dat.pix,
+                    }
+                    let pedido = dat.pedido;
+                    
+                    this.pedido = new Pedido(cliente,pedido,0,chave);
+                    this.pedido.mostrarPedido();
+                  }else{
+                    this.el.pagamentoSeparado.hide();
+
+                    let cliente = {
+                      nome: dat.nome,
+                      telefone: dat.telefone,
+                      endereco:dat.endereco,
+                      complemento:dat.complemento,
+                      taxa:dat.taxa,
+                      caixa : dat.caixa,
+                      status: dat.status,
+                      valorPedido : dat.valorPedido,
+                      pagamento : dat.pagamento,
+                      pago : dat.pago,
+                    }
+                    let pedido = dat.pedido;
+                    
+                    this.pedido = new Pedido(cliente,pedido,0,chave);
+                    this.pedido.mostrarPedido();
                   }
-                  let pedido = dat.pedido;
-                  
-                  this.pedido = new Pedido(cliente,pedido,0,chave);
-                  this.pedido.mostrarPedido();
 
                   this.el.fecharComanda.show();
                   this.el.pedidos.hide();
                 });
-
               }
             }
           });
