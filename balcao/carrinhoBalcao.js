@@ -12,7 +12,7 @@ constructor(produto, sabor, quantidade, valor, adicionais, observacoes) {
 }
 
 criarCarrinho() {
-    firebase.database().ref("carrinhoDelivery").push({
+    firebase.database().ref("carrinhoBalcao").push({
     produto: this.produto,
     sabor: this.sabor,
     quantidade: this.quantidade,
@@ -23,10 +23,10 @@ criarCarrinho() {
 }
 
 listarCarrinho(){
-    firebase.database().ref("carrinhoDelivery").once('value',snapshot => {
+    firebase.database().ref("carrinhoBalcao").once('value',snapshot => {
         let tabela = document.querySelector('#carrinho');
         
-        tabela.innerHTML =''
+        tabela.innerHTML ='';
         
         snapshot.forEach(item => {
             let dados = item.val();
@@ -65,7 +65,7 @@ listarCarrinho(){
             tabela.appendChild(tr);
 
             tr.querySelector("#excluir").addEventListener("click",e=>{
-            firebase.database().ref("carrinhoDelivery").child(key).remove();
+            firebase.database().ref("carrinhoBalcao").child(key).remove();
             this.listarCarrinho();
             });
         });

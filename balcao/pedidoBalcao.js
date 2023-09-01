@@ -1,4 +1,4 @@
-class Pedido {
+class PedidoBalcao {
     constructor(cliente,produto,caixa,chave) {
       this._cliente = cliente;
       this._pedido = produto;
@@ -85,7 +85,7 @@ class Pedido {
         let formaPagamento = document.querySelector("#forma-pagamento").value;
 
       if(formaPagamento == 'separado'){
-        firebase.database().ref("pedidoDelivery").push({
+        firebase.database().ref("pedidos").push({
           nome : dados.nome,
           telefone : dados.telefone,
           endereco : dados.endereco,
@@ -103,7 +103,7 @@ class Pedido {
           pago : 'Não!'
         });
       }else{
-        firebase.database().ref("pedidoDelivery").push({
+        firebase.database().ref("pedidos").push({
           nome : dados.nome,
           telefone : dados.telefone,
           endereco : dados.endereco,
@@ -128,8 +128,7 @@ editarPedido(){
   let cliente = this._cliente;
   console.log(cliente);
   document.querySelector("#forma-pagamento").value = cliente.pagamento;
-  document.querySelector("#taxa-entrega").value = cliente.taxa;
-  document.querySelector("#valor-total").value = cliente.valorPedido;
+  document.querySelector("#valorTotal").value = cliente.valorPedido;
   
   this._pedido.forEach(e=>{
   let pedido = e;
@@ -188,14 +187,14 @@ juntarPedido() {
   let valores = [];
   let quantidades = [];
   let itens = [];
-  firebase.database().ref("carrinhoDelivery").once('value', snapshot => {
+  firebase.database().ref("carrinhoBalcao").once('value', snapshot => {
     snapshot.forEach(item => {
       let carrinho = item.val();
       itens.push(carrinho);
     });
 
   this._pedido = this._pedido.concat(itens);
-  firebase.database().ref('carrinhoDelivery').remove();
+  firebase.database().ref('carrinhoBalcao').remove();
 
   let tabela = document.querySelector('#comanda');
           
@@ -207,16 +206,16 @@ juntarPedido() {
     
     tr.innerHTML = `
   <td class="td ">
-      ${item.produto}
+    ${item.produto}
   </td>
   <td class="td">
-      ${item.sabor}
+    ${item.sabor}
   </td>
   <td class="td">
-      ${item.quantidade}
+    ${item.quantidade}
   </td>
   <td class="td">
-      ${item.valor}
+    ${item.valor}
   </td>
   <td class="td">
   ${item.adicionais}
@@ -267,7 +266,7 @@ finalizarEdicao(){
   });
   if(pagamento == 'separado'){
           
-    firebase.database().ref("pedidoDelivery").child(this._chave).update({
+    firebase.database().ref("pedidos").child(this._chave).update({
       debito: document.querySelector("#pag-debito").value,
       credito: document.querySelector("#pag-credito").value,
       dinheiro: document.querySelector("#pag-dinheiro").value,
@@ -276,12 +275,12 @@ finalizarEdicao(){
       valorPedido : valorPedido,
       pedido : this._pedido
     });
-    firebase.database().ref("pedidoDelivery").child(this._chave).child('pagamento').set(pagamento);
-    firebase.database().ref("pedidoDelivery").child(this._chave).child('valorPedido').set(valorPedido);
+    firebase.database().ref("pedidos").child(this._chave).child('pagamento').set(pagamento);
+    firebase.database().ref("pedidos").child(this._chave).child('valorPedido').set(valorPedido);
   }else{
-    firebase.database().ref("pedidoDelivery").child(this._chave).child('pedido').set(pedido);
-    firebase.database().ref("pedidoDelivery").child(this._chave).child('pagamento').set(pagamento);
-    firebase.database().ref("pedidoDelivery").child(this._chave).child('valorPedido').set(valorPedido);
+    firebase.database().ref("pedidos").child(this._chave).child('pedido').set(pedido);
+    firebase.database().ref("pedidos").child(this._chave).child('pagamento').set(pagamento);
+    firebase.database().ref("pedidos").child(this._chave).child('valorPedido').set(valorPedido);
   }
   
   
@@ -339,7 +338,7 @@ finalizarPedido(){
 
     let status = 'Finalizado!';
     let pago = 'Sim!';
-    firebase.database().ref("pedidoDelivery").child(this._chave).update({
+    firebase.database().ref("pedidos").child(this._chave).update({
       dinheiro,
       debito,
       credito,
@@ -354,8 +353,8 @@ finalizarPedido(){
     let status = 'Finalizado!';
     let pago = 'Sim!';
 
-    firebase.database().ref("pedidoDelivery").child(this._chave).child('status').set(status);
-    firebase.database().ref("pedidoDelivery").child(this._chave).child('pago').set(pago);
+    firebase.database().ref("pedidos").child(this._chave).child('status').set(status);
+    firebase.database().ref("pedidos").child(this._chave).child('pago').set(pago);
   }
 }
 

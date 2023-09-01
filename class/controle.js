@@ -377,8 +377,8 @@ initEvents(){
     let nome = this.el.nomeCliente.value;
     let telefone = this.el.telefoneCliente.value;
     let endereco = this.el.enderecoCliente.value;
-    let complemento = this.el.complementoCliente;
-    let taxa = this.el.taxaCliente;
+    let complemento = this.el.complementoCliente.value;
+    let taxa = this.el.taxaCliente.value;
 
     this.cliente = new Cliente(nome,telefone,endereco,complemento,taxa);
 
@@ -535,9 +535,6 @@ abrirCardapio(cardapio){
     let adc = tr.querySelector(".card-adc").innerText;
     
     this.carrinho = new Carrinho(produto,sabor,quantidade,valor,adc,obs);
-
-    
-
   }
 
   adicionaUnidade(tr){

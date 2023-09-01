@@ -6,6 +6,7 @@ class Cliente {
       this._complemento = complemento;
       this._taxa = taxa;
       this._chaveCliente;
+
       this._produtos = [];
     }
     get Chave(){
@@ -81,10 +82,12 @@ class Cliente {
             telefone: this._telefone,
             endereco: this._endereco,
             complemento: this._complemento,
-            taxa: this._taxa
+            taxa: this._taxa,
+            quantidade: '0',
+            visitas:'0'
             });
     
-            console.log('Cliente salvo com sucesso.');
+            console.log('Cliente salvo com sucesso.',this._taxa,this._complemento);
         }
         });
     }
