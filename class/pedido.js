@@ -353,7 +353,7 @@ finalizarPedido(){
   }else{
     let status = 'Finalizado!';
     let pago = 'Sim!';
-
+    firebase.database().ref("pedidoDelivery").child(this._chave).child('pagamento').set(pagamento);
     firebase.database().ref("pedidoDelivery").child(this._chave).child('status').set(status);
     firebase.database().ref("pedidoDelivery").child(this._chave).child('pago').set(pago);
   }

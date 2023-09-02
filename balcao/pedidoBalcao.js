@@ -234,17 +234,12 @@ juntarPedido() {
 
   let quantidade = eval(somaqtd);
 
-  let taxa = parseFloat(document.querySelector("#taxa-entrega").value);
-  
-  let valorTotal = valor + taxa
 
   document.querySelector("#quantidadeTotal").innerText = quantidade;
 
   document.querySelector("#valorTotal").innerText = valor;
 
-  document.querySelector("#valor-total").value = valorTotal.toFixed(2);
-  
-  this._valor = valorTotal.toFixed(2);
+  this._valor = valor.toFixed(2);
 
   });
   });
@@ -259,7 +254,7 @@ finalizarEdicao(){
   pedido.forEach(item=>{
     valor.push(item.valor);
     let soma = valor.join('+');
-    let value = eval(soma) + parseFloat(document.querySelector("#taxa-entrega").value);
+    let value = eval(soma);
 
     valorPedido = value.toFixed(2);
     console.log(valorPedido);
@@ -295,18 +290,17 @@ mostrarPedido(){
   <td>${snapshot.produto}</td>
   <td>${snapshot.sabor}</td>
   <td>${snapshot.quantidade}</td>
+  <td>${snapshot.valor}</td>
   <td>${snapshot.adicionais}</td>
   <td>${snapshot.observacoes}</td>
-  <td>${snapshot.valor}</td>
+  
   `;
   tabela.appendChild(tr);
 
   if(this._cliente.pagamento == 'separado'){
     document.querySelector("#nome").value = this._cliente.nome;
     document.querySelector("#telefone").value = this._cliente.telefone;
-    document.querySelector("#endereco").value = this._cliente.endereco;
     document.querySelector("#total").value = this._cliente.valorPedido;
-    document.querySelector("#taxa").value = this._cliente.taxa;
     document.querySelector("#pagamento").value = this._cliente.pagamento;
     document.querySelector("#valor-debito").value = this._cliente.debito;
     document.querySelector("#valor-credito").value = this._cliente.credito;
@@ -315,9 +309,7 @@ mostrarPedido(){
   }else{
     document.querySelector("#nome").value = this._cliente.nome;
     document.querySelector("#telefone").value = this._cliente.telefone;
-    document.querySelector("#endereco").value = this._cliente.endereco;
     document.querySelector("#total").value = this._cliente.valorPedido;
-    document.querySelector("#taxa").value = this._cliente.taxa;
     document.querySelector("#pagamento").value = this._cliente.pagamento;
   }
 
@@ -351,8 +343,8 @@ finalizarPedido(){
 
   }else{
     let status = 'Finalizado!';
-    let pago = 'Sim!';
-
+    let pago = 'Sim!'; 
+    firebase.database().ref("pedidos").child(this._chave).child('pagamento').set(pagamento);
     firebase.database().ref("pedidos").child(this._chave).child('status').set(status);
     firebase.database().ref("pedidos").child(this._chave).child('pago').set(pago);
   }

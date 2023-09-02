@@ -370,3 +370,43 @@ h1.add-sabores{
 #troco{
     width: 50px;
 }
+.fecharcomanda{
+    background-color: #000;
+    width: 40%;
+    display: none;
+    position:absolute;
+    left: 30%;
+  }
+
+  .fecharcomanda input{
+    width: 90%;
+    color: #000;
+  }
+  .fecharcomanda label{
+    width: 90%;
+    margin: 15px;
+  }
+  .fecharcomanda td{
+   border: solid 1px #FFD700;
+  }
+  #pagamento{
+    color: #000;
+  }
+  table .pagamento{
+    border: none;
+  }
+  .formPagamento{
+    display: none;
+}
+.formPagamento input{
+width: 99%;
+}
+.formPagamento label{
+    width: 50px;
+}
+#asd{
+    display: none;
+}
+#pagamento-separado{
+    display: none;
+}

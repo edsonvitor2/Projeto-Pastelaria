@@ -254,46 +254,53 @@ listarPedidosBalcao(caixa) {
         table.innerHTML = '';
         element.forEach(e => {
             let key = e.key;
-            let pedido = e.key;
+            let pedido = e.val();
 
-            e.forEach(a => {
-                let dados = a.val();
-                let key = a.key;
+                if (pedido.caixa == caixa && pedido.status == 'Finalizado!') {
 
-                if (dados.caixa == caixa) {
-                    let cliente = dados.cliente;
-                    let formaPagamento = dados.FormaPagamento;
-                    let valor = dados.valorTotalPedido;
+                    let cliente = pedido.nome;
+                    let pagamento = pedido.pagamento;
+                    let valor = pedido.valorPedido;
 
-                    if (formaPagamento == 'debito') {
+                    if (pagamento == 'debito') {
                         forDebito.push(valor);
+
+                    } else if (pagamento == 'credito') {
+                        forCredito.push(valor);
+
+                    } else if (pagamento == 'dinheiro') {
+                        forDinheiro.push(valor);
+
+                    } else if (pagamento == 'pix') {
+                        forPix.push(valor);
+
+                    } else if(pagamento == 'separado'){
+                        forDebito.push(pedido.debito);
                         let soma = forDebito.join("+");
                         var debito = eval(soma);
-                    } else if (formaPagamento == 'credito') {
-                        forCredito.push(valor);
-                        let soma = forCredito.join("+");
-                        var credito = eval(soma);
-                    } else if (formaPagamento == 'dinheiro') {
-                        forDinheiro.push(valor);
-                        let soma = forDinheiro.join("+");
-                        var dinheiro = eval(soma);
-                    } else if (formaPagamento == 'pix') {
-                        forPix.push(valor);
-                        let soma = forPix.join("+");
-                        var pix = eval(soma);
-                        console.log(pix)
+
+                        forPix.push(pedido.pix);
+                        let somaP = forPix.join("+");
+                        var pix = eval(somaP);
+
+                        forDinheiro.push(pedido.dinheiro);
+                        let somaDi = forDinheiro.join("+");
+                        var dinheiro = eval(somaDi);
+
+                        forCredito.push(pedido.credito);
+                        let somaC = forCredito.join("+");
+                        var credito = eval(somaC);
+
+                        let total = debito+pix+dinheiro+credito;
+                        
+                        console.log(total);
                     }
-
-                    let total = debito+credito+dinheiro+pix;
-                    console.log(debito,credito,dinheiro,pix);
-
                     let tr = document.createElement('tr');
-
                     tr.innerHTML = ` 
-                        <td class="pedido">${pedido}</td>
+                        <td class="pedido">'---'</td>
                         <td>${cliente}</td>
-                        <td>${valor.toFixed(2)}</td>
-                        <td>${formaPagamento}</td>
+                        <td>${valor}</td>
+                        <td>${pagamento}</td>
                         <td>
                             <button id="btn-descrição">
                             Descrição
@@ -303,7 +310,7 @@ listarPedidosBalcao(caixa) {
                     table.appendChild(tr);
                     tr.querySelector("#btn-descrição").addEventListener("click",e=>{
 
-                        document.querySelector(".descricao").style.display ='block';
+                        /*document.querySelector(".descricao").style.display ='block';
 
                         let descPedido = document.querySelector(".pedidosDesc");
                         
@@ -325,10 +332,9 @@ listarPedidosBalcao(caixa) {
                     `;
                     descPedido.appendChild(trPedidos);
                             })
-                        })
+                        })*/
                     })
                 }
-            });
         });
     });
 }
@@ -387,11 +393,8 @@ listarPedidosDelivey(caixa) {
 
                         let total = debito+pix+dinheiro+credito;
 
-                        document.querySelector("#sis-dinheiro").value = dinheiro.toFixed(2);
-                        document.querySelector("#sis-pix").value = pix.toFixed(2);
-                        document.querySelector("#sis-debito").value = debito.toFixed(2);
-                        document.querySelector("#sis-credito").value = credito.toFixed(2);
-                        document.querySelector("#sis-total").value = total.toFixed(2);
+                        console.log('Delivery',total);
+
                     }
                     
                     let tr = document.createElement('tr');
@@ -644,7 +647,10 @@ abrirCaixa() {
                     let idcaixa = tr.querySelector(".id").innerText;
 
                     this.listarPedidosBalcao(idcaixa);
-                    this.listarPedidosDelivey(idcaixa);
+                   /* setTimeout(() => {
+                        this.listarPedidosDelivey(idcaixa);
+                        }, 500); */
+                    
                     //this.listarPedidosMesa(idcaixa);
 
                     //this.listarValoresCaixaFechado();

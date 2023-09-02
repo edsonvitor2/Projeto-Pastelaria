@@ -14,7 +14,7 @@ class ControleBalcao{
     this.initEvents();
     this.initAdicionais();
     this.listarPedidos();
-      
+    
   }
 
   loadElements(){
@@ -165,11 +165,33 @@ this.el.finalizar.on('click',e=>{
         setTimeout(() => {
         location.reload();
         }, 500);
-
       }
     });
   });
   }
+});
+
+this.el.formaPagamento.addEventListener('change', () => {
+  const selectedOption = this.el.formaPagamento.value;
+  console.log(selectedOption)
+
+  if (selectedOption == 'separado') {
+    this.el.formPagamento.show();
+  }else{
+    this.el.formPagamento.hide();
+  }
+  if (selectedOption == 'dinheiro') {
+    this.el.asd.show();
+  }else{
+    this.el.asd.hide();
+  }
+});
+
+this.el.finalizarPedido.on('click',e=>{
+  this.pedido.finalizarPedido();
+  setTimeout(() => {
+    location.reload();
+    }, 500); 
 });
 }
 
@@ -576,7 +598,7 @@ listarPedidos() {
                 <td>${dat.pagamento}</td>
   
                 <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
-  
+                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
                 `;
 
                 table.appendChild(tr);
@@ -627,42 +649,6 @@ listarPedidos() {
                   }
                 });
 
-              }else if(dat.status == 'Finalizado!'){
-                let chave = key;
-                let tr = document.createElement('tr');
-
-                tr.innerHTML = ` 
-                <td>${numero}</td>
-                <td>${dat.nome}</td>
-                <td>${dat.status}</td>
-                <td>${dat.valorPedido}</td>
-                <td>${dat.pago}</td>
-                <td>${dat.pagamento}</td>
-  
-                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
-  
-                `;
-
-                table.appendChild(tr);
-
-              }else{
-                let chave = key;
-                let tr = document.createElement('tr');
-
-                tr.innerHTML = ` 
-                <td>${numero}</td>
-                <td>${dat.nome}</td>
-                <td>${dat.status}</td>
-                <td>${dat.valorPedido}</td>
-                <td>${dat.pago}</td>
-                <td>${dat.pagamento}</td>
-  
-                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
-  
-                `;
-
-                table.appendChild(tr);
-
                 tr.querySelector('.com').addEventListener("click",e=>{
                   if(dat.pagamento == 'separado'){
 
@@ -711,6 +697,20 @@ listarPedidos() {
                   this.el.fecharComanda.show();
                   this.el.pedidos.hide();
                 });
+
+              }else if(dat.status == 'Finalizado!'){
+                let tr = document.createElement('tr');
+                tr.innerHTML = ` 
+                <td>${numero}</td>
+                <td>${dat.nome}</td>
+                <td>${dat.status}</td>
+                <td>${dat.valorPedido}</td>
+                <td>${dat.pago}</td>
+                <td>${dat.pagamento}</td>
+                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+                `;
+                table.appendChild(tr);
               }
             }
           });

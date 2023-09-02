@@ -224,6 +224,7 @@
                 <th>status</th>
                 <th>Valor</th>
                 <th>Pago ?</th>
+                <th>Pagamento</th>
                 <th>Editar</th>
                 <th>Finalizar</th>
             </tr>
@@ -313,28 +314,102 @@
                 <option value="credito">Crédito</option>
                 <option value="dinheiro">Dinheiro</option>
                 <option value="pix">PIX</option>
+                <option value="separado">Separado</option>
                 </select>
             </td>
         </tr>
-        <tr>
-            <td>
-                Troco para?
-            </td>
-            <td>
-                <input type="text" name="" id="troco">
-            </td>
-            <td>
-                
-            </td>
-        </tr>
-        
-        
+        <table id="asd">
+            <tr>
+                <td colspan="2">
+                    Troco para ?
+                </td>
+                <td>
+                    <input type="text" name="" id="troco">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Voltar
+                </td>
+                <td>
+                    <input type="text" name="" id="volta" disabled>
+                </td>
+            </tr>
+        </table>
     </table>
+    <div class="formPagamento" id="form-pagamento">
+        <label for="valorDinheiro">Valor em Dinheiro:</label>
+        <input type="text" id="pag-dinheiro" value="0">
+        
+        <label for="valorDebito">Valor em Débito:</label>
+        <input type="text" id="pag-debito" value="0">
+        
+        <label for="valorCredito">Valor em Crédito:</label>
+        <input type="text" id="pag-credito" value="0">
+        
+        <label for="valorPix">Valor em PIX:</label>
+        <input type="text" id="pag-pix" value="0">
+    </div>
     <button class="finalizar" id="finalizar">Enviar para a Cozinha</button>
-    
 </div>
 </div>
 
+
+<div class="fecharcomanda" id="fechar-comanda">
+    <h2 id="fechar-paniel">X</h2>
+<fieldset>
+    <legend>Pedido</legend>
+<label for="">Cliente</label>
+<input type="text" disabled id="nome" >
+
+<label for="">Telefone</label>
+<input type="text" disabled id="telefone">
+
+<label for="">Valor total</label>
+<input type="text" disabled id="total">
+
+<label for="pagamento">Forma de Pagamento:</label>
+<select id="pagamento" name="pagamento">
+<option value="debito">Débito</option>
+<option value="credito">Crédito</option>
+<option value="dinheiro">Dinheiro</option>
+<option value="pix">PIX</option>
+<option value="separado">Separado</option>
+</select>
+
+<div id="pagamento-separado">
+<label for="valor-dinheiro">Valor em Dinheiro:</label>
+<input type="text" id="valor-dinheiro" value="0">
+
+<label for="valor-debito">Valor em Débito:</label>
+<input type="text" id="valor-debito" value="0">
+
+<label for="valor-credito">Valor em Crédito:</label>
+<input type="text" id="valor-credito" value="0">
+
+<label for="valor-pix">Valor em PIX:</label>
+<input type="text" id="valor-pix" value="0">
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Prod</th>
+            <th>Sabor</th>
+            <th>quant</th>
+            <th>Valor</th>
+            <th>Adc</th>
+            <th>Obs</th>
+        </tr>
+    </thead>
+
+    <tbody id="pedidofim">
+            
+    </tbody>
+</table>
+
+<button id="finalizar-pedido">Finalizar Pedido</button>
+</fieldset>
 <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 <script src="/jsOperacao/FirebaseInit.js"></script>
 <script src="/jsOperacao/Controller/Format.js"></script>
