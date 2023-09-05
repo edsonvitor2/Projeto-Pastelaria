@@ -243,6 +243,7 @@ listarPedidosBalcao(caixa) {
     var forCredito = [];
     var forPix = [];
     var forDinheiro = [];
+    let total;
 
     document.querySelector("#sis-pix").value = 0;
     document.querySelector("#sis-dinheiro").value = 0;
@@ -257,45 +258,179 @@ listarPedidosBalcao(caixa) {
             let pedido = e.val();
 
                 if (pedido.caixa == caixa && pedido.status == 'Finalizado!') {
+                    let cliente = pedido.nome;
+                    let formaPagamento = pedido.pagamento;
+                    let valor = pedido.valorPedido;
+                    let pagamento = pedido.pagamento;
 
+                    let tr = document.createElement('tr');
+
+                    tr.innerHTML = ` 
+                        <td class="pedido">'---'</td>
+                        <td>${cliente}</td>
+                        <td>${valor}</td>
+                        <td>${formaPagamento}</td>
+                        <td>
+                            <button id="btn-descrição">
+                            Descrição
+                            </button>
+                        </td>
+                    `;
+                    table.appendChild(tr);
+                    if(pagamento == 'debito'){
+                        forDebito.push(valor);
+                        //console.log(forDebito);
+                    }else if(pagamento == 'credito'){
+                        forCredito.push(valor);
+                        //console.log(forCredito);
+                    }
+                    else if(pagamento == 'dinheiro'){
+                        forDinheiro.push(valor);
+                        //console.log(forDinheiro);
+                    }
+                    else if(pagamento == 'pix'){
+                        forPix.push(valor);
+                        //console.log(forPix);
+                    }
+                    else if(pagamento == 'separado'){
+                        forDebito.push(pedido.debito);
+                        //console.log('debito',forDebito);
+
+                        forCredito.push(pedido.credito);
+                        //console.log('credito',forCredito);
+
+                        forDinheiro.push(pedido.dinheiro);
+                        //console.log('Dinheir',forDinheiro);
+
+                        forPix.push(pedido.pix);
+                        //console.log('Pix',forPix);
+                    }
+
+                    let soma = forDebito.join('+');
+                    let debito = eval(soma);
+                    //console.log('debito',debito);
+
+                    let somaP = forPix.join('+');
+                    var pix = eval(somaP);
+                    //console.log('pix',pix);
+
+                    let somaDi = forDinheiro.join('+');
+                    var dinheiro = eval(somaDi);
+                    //console.log('dinheiro',dinheiro);
+
+                    let somaC = forCredito.join('+');
+                    var credito = eval(somaC);
+                    //console.log('credito',credito);
+
+                    total = debito+pix+dinheiro+credito;
+
+                    tr.querySelector("#btn-descrição").addEventListener("click",e=>{
+
+                        /*document.querySelector(".descricao").style.display ='block';
+
+                        let descPedido = document.querySelector(".pedidosDesc");
+                        
+                        descPedido.innerHTML = '';
+
+                        firebase.database().ref("pedidos").child(pedido).child(key).once('value',snapshot=>{
+                        let val = snapshot.val();
+                        let item = val.itens;
+                        item.forEach(e=>{
+                            
+                        let itens = e;
+                        let trPedidos = document.createElement('tr');
+
+                        trPedidos.innerHTML = ` 
+                        <td>${itens.produto}</td>
+                        <td>${itens.sabor}</td>
+                        <td>${itens.quantidade}</td>
+                        <td>${itens.valor}</td>
+                    `;
+                    descPedido.appendChild(trPedidos);
+                            })
+                        })*/
+                    })
+                }else{
+                    total = '0';
+                }
+        });
+        console.log('total Balcao',total);
+    });
+}
+
+listarPedidosDelivey(caixa) {
+    var forDebito = [];
+    var forCredito = [];
+    var forPix = [];
+    var forDinheiro = [];
+    let total;
+
+    document.querySelector("#sis-pix").value = 0;
+    document.querySelector("#sis-dinheiro").value = 0;
+    document.querySelector("#sis-credito").value = 0;
+    document.querySelector("#sis-debito").value = 0;
+
+    firebase.database().ref("pedidoDelivery").once("value", element => {
+        let table = document.querySelector("#pedido-delivery");
+        table.innerHTML = '';
+        element.forEach(e => {
+            let key = e.key;
+            let pedido = e.val();
+
+                if (pedido.caixa == caixa && pedido.status == 'Finalizado!') {
                     let cliente = pedido.nome;
                     let pagamento = pedido.pagamento;
                     let valor = pedido.valorPedido;
 
-                    if (pagamento == 'debito') {
+                    if(pagamento == 'debito'){
                         forDebito.push(valor);
-
-                    } else if (pagamento == 'credito') {
+                        //console.log(forDebito);
+                    }else if(pagamento == 'credito'){
                         forCredito.push(valor);
-
-                    } else if (pagamento == 'dinheiro') {
+                        //console.log(forCredito);
+                    }
+                    else if(pagamento == 'dinheiro'){
                         forDinheiro.push(valor);
-
-                    } else if (pagamento == 'pix') {
+                        //console.log(forDinheiro);
+                    }
+                    else if(pagamento == 'pix'){
                         forPix.push(valor);
-
-                    } else if(pagamento == 'separado'){
+                        //console.log(forPix);
+                    }
+                    else if(pagamento == 'separado'){
                         forDebito.push(pedido.debito);
-                        let soma = forDebito.join("+");
-                        var debito = eval(soma);
-
-                        forPix.push(pedido.pix);
-                        let somaP = forPix.join("+");
-                        var pix = eval(somaP);
-
-                        forDinheiro.push(pedido.dinheiro);
-                        let somaDi = forDinheiro.join("+");
-                        var dinheiro = eval(somaDi);
+                        //console.log('debito',forDebito);
 
                         forCredito.push(pedido.credito);
-                        let somaC = forCredito.join("+");
-                        var credito = eval(somaC);
+                        //console.log('credito',forCredito);
 
-                        let total = debito+pix+dinheiro+credito;
-                        
-                        console.log(total);
+                        forDinheiro.push(pedido.dinheiro);
+                        //console.log('Dinheir',forDinheiro);
+
+                        forPix.push(pedido.pix);
+                        //console.log('Pix',forPix);
                     }
+
+                    let soma = forDebito.join('+');
+                    let debito = eval(soma);
+                    //console.log('debito',debito);
+
+                    let somaP = forPix.join('+');
+                    var pix = eval(somaP);
+                    //console.log('pix',pix);
+
+                    let somaDi = forDinheiro.join('+');
+                    var dinheiro = eval(somaDi);
+                    //console.log('dinheiro',dinheiro);
+
+                    let somaC = forCredito.join('+');
+                    var credito = eval(somaC);
+                    //console.log('credito',credito);
+
+                    total = debito+pix+dinheiro+credito;
+                    
                     let tr = document.createElement('tr');
+
                     tr.innerHTML = ` 
                         <td class="pedido">'---'</td>
                         <td>${cliente}</td>
@@ -334,24 +469,30 @@ listarPedidosBalcao(caixa) {
                             })
                         })*/
                     })
+                }else if(undefined){
+                    total = '0';
+                }else{
+                    total = '0';
                 }
         });
+        console.log('total Delivery',total);
     });
 }
 
-listarPedidosDelivey(caixa) {
+listarPedidosMesa(caixa) {
     var forDebito = [];
     var forCredito = [];
     var forPix = [];
     var forDinheiro = [];
+    let total;
 
     document.querySelector("#sis-pix").value = 0;
     document.querySelector("#sis-dinheiro").value = 0;
     document.querySelector("#sis-credito").value = 0;
     document.querySelector("#sis-debito").value = 0;
 
-    firebase.database().ref("pedidoDelivery").once("value", element => {
-        let table = document.querySelector("#pedido-delivery");
+    firebase.database().ref("pedidoMesa").once("value", element => {
+        let table = document.querySelector("#pedido-mesa");
         table.innerHTML = '';
         element.forEach(e => {
             let key = e.key;
@@ -359,43 +500,55 @@ listarPedidosDelivey(caixa) {
 
                 if (pedido.caixa == caixa && pedido.status == 'Finalizado!') {
                     let cliente = pedido.nome;
-                    let formaPagamento = pedido.pagamento;
+                    let pagamento = pedido.pagamento;
                     let valor = pedido.valorPedido;
 
-                    if (formaPagamento == 'debito') {
+                    if(pagamento == 'debito'){
                         forDebito.push(valor);
-
-                    } else if (formaPagamento == 'credito') {
+                        //console.log(forDebito);
+                    }else if(pagamento == 'credito'){
                         forCredito.push(valor);
-
-                    } else if (formaPagamento == 'dinheiro') {
+                        //console.log(forCredito);
+                    }
+                    else if(pagamento == 'dinheiro'){
                         forDinheiro.push(valor);
-
-                    } else if (formaPagamento == 'pix') {
+                        //console.log(forDinheiro);
+                    }
+                    else if(pagamento == 'pix'){
                         forPix.push(valor);
-
-                    } else if(formaPagamento == 'separado'){
+                        //console.log(forPix);
+                    }
+                    else if(pagamento == 'separado'){
                         forDebito.push(pedido.debito);
-                        let soma = forDebito.join("+");
-                        var debito = eval(soma);
-
-                        forPix.push(pedido.pix);
-                        let somaP = forPix.join("+");
-                        var pix = eval(somaP);
-
-                        forDinheiro.push(pedido.dinheiro);
-                        let somaDi = forDinheiro.join("+");
-                        var dinheiro = eval(somaDi);
+                        //console.log('debito',forDebito);
 
                         forCredito.push(pedido.credito);
-                        let somaC = forCredito.join("+");
-                        var credito = eval(somaC);
+                        //console.log('credito',forCredito);
 
-                        let total = debito+pix+dinheiro+credito;
+                        forDinheiro.push(pedido.dinheiro);
+                        //console.log('Dinheir',forDinheiro);
 
-                        console.log('Delivery',total);
-
+                        forPix.push(pedido.pix);
+                        //console.log('Pix',forPix);
                     }
+
+                    let soma = forDebito.join('+');
+                    let debito = eval(soma);
+                    //console.log('debito',debito);
+
+                    let somaP = forPix.join('+');
+                    var pix = eval(somaP);
+                    //console.log('pix',pix);
+
+                    let somaDi = forDinheiro.join('+');
+                    var dinheiro = eval(somaDi);
+                    //console.log('dinheiro',dinheiro);
+
+                    let somaC = forCredito.join('+');
+                    var credito = eval(somaC);
+                    //console.log('credito',credito);
+
+                    total = debito+pix+dinheiro+credito;
                     
                     let tr = document.createElement('tr');
 
@@ -403,7 +556,7 @@ listarPedidosDelivey(caixa) {
                         <td class="pedido">'---'</td>
                         <td>${cliente}</td>
                         <td>${valor}</td>
-                        <td>${formaPagamento}</td>
+                        <td>${pagamento}</td>
                         <td>
                             <button id="btn-descrição">
                             Descrição
@@ -437,113 +590,11 @@ listarPedidosDelivey(caixa) {
                             })
                         })*/
                     })
+                }else{
+                    total = '0';
                 }
         });
-    });
-}
-
-listarPedidosMesa(caixa) {
-
-    var forDebito = [];
-    var forCredito = [];
-    var forPix = [];
-    var forDinheiro = [];
-
-    document.querySelector("#sis-pix").value = 0;
-    document.querySelector("#sis-dinheiro").value = 0;
-    document.querySelector("#sis-credito").value = 0;
-    document.querySelector("#sis-debito").value = 0;
-
-    firebase.database().ref("pedidos").once("value", element => {
-        let table = document.querySelector("#pedido-mesa");
-        table.innerHTML = '';
-        element.forEach(e => {
-            let key = e.key;
-            let pedido = e.key;
-
-            e.forEach(a => {
-                let dados = a.val();
-                let key = a.key;
-
-                if (dados.caixa == caixa) {
-                    let cliente = dados.cliente;
-                    let formaPagamento = dados.FormaPagamento;
-                    let valor = dados.valorTotalPedido;
-
-                    if (formaPagamento == 'debito') {
-                        forDebito.push(valor);
-                        let soma = forDebito.join("+");
-                        var debito = eval(soma);
-                        document.querySelector("#sis-debito").value = debito.toFixed(2);
-                    } else if (formaPagamento == 'credito') {
-                        forCredito.push(valor);
-                        let soma = forCredito.join("+");
-                        var credito = eval(soma);
-                        document.querySelector("#sis-credito").value = credito.toFixed(2);
-                    } else if (formaPagamento == 'dinheiro') {
-                        forDinheiro.push(valor);
-                        let soma = forDinheiro.join("+");
-                        var dinheiro = eval(soma);
-                        document.querySelector("#sis-dinheiro").value = dinheiro.toFixed(2);
-                    } else if (formaPagamento == 'pix') {
-                        forPix.push(valor);
-                        let soma = forPix.join("+");
-                        var pix = eval(soma);
-                        console.log(pix)
-                        document.querySelector("#sis-pix").value = pix.toFixed(2);
-                    }
-
-                    // Calcula o total de todas as formas de pagamento
-    var total = forDebito.reduce((acc, val) => acc + val, 0) +
-                forCredito.reduce((acc, val) => acc + val, 0) +
-                forDinheiro.reduce((acc, val) => acc + val, 0) +
-                forPix.reduce((acc, val) => acc + val, 0);
-
-                    document.querySelector("#sis-total").value = total.toFixed(2);
-
-                    let tr = document.createElement('tr');
-
-                    tr.innerHTML = ` 
-                        <td class="pedido">${pedido}</td>
-                        <td>${cliente}</td>
-                        <td>${valor.toFixed(2)}</td>
-                        <td>${formaPagamento}</td>
-                        <td>
-                            <button id="btn-descrição">
-                            Descrição
-                            </button>
-                        </td>
-                    `;
-                    table.appendChild(tr);
-                    tr.querySelector("#btn-descrição").addEventListener("click",e=>{
-
-                        document.querySelector(".descricao").style.display ='block';
-
-                        let descPedido = document.querySelector(".pedidosDesc");
-                        
-                        descPedido.innerHTML = '';
-
-                        firebase.database().ref("pedidos").child(pedido).child(key).once('value',snapshot=>{
-                        let val = snapshot.val();
-                        let item = val.itens;
-                        item.forEach(e=>{
-                            
-                        let itens = e;
-                        let trPedidos = document.createElement('tr');
-
-                        trPedidos.innerHTML = ` 
-                        <td>${itens.produto}</td>
-                        <td>${itens.sabor}</td>
-                        <td>${itens.quantidade}</td>
-                        <td>${itens.valor}</td>
-                    `;
-                    descPedido.appendChild(trPedidos);
-                            })
-                        })
-                    })
-                }
-            });
-        });
+        console.log('total Mesa',total);
     });
 }
 abrirCaixa() {
@@ -647,11 +698,8 @@ abrirCaixa() {
                     let idcaixa = tr.querySelector(".id").innerText;
 
                     this.listarPedidosBalcao(idcaixa);
-                   /* setTimeout(() => {
-                        this.listarPedidosDelivey(idcaixa);
-                        }, 500); */
-                    
-                    //this.listarPedidosMesa(idcaixa);
+                    this.listarPedidosDelivey(idcaixa);
+                    this.listarPedidosMesa(idcaixa);
 
                     //this.listarValoresCaixaFechado();
                 });

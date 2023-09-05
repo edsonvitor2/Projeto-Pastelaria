@@ -1,32 +1,65 @@
 *{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 15px;
     color: aliceblue;
 }
 body{
+    background-color: #242323;
     background-image: url('/icones/fundo.webp');
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
 }
 header{
-    height: 60px;
-    border: solid #FFD700;
+    border: solid 2px #FFD700;
     background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 3px 3px 3px #000;
+    height: 50px;
 }
-.voltar{
+header p{
+    font-size: 20px;
     float: left;
+    width: 45%;
+    margin: 15px;
 }
-.titulo{
-    width: 50px;
-    margin-left: auto;
-    margin-right: auto;
+header h1{
+    font-size: 20px;
+    margin: 15px;
 }
-a{
-    text-decoration: none;
+h2{
+    text-align: center;
 }
-body{
-    background-color: #242323;
+  .inputBox{
+    width: 90%;
+}
+
+#parar-pedido{
+    background-color: #000;
+    border: solid #FFD700;
+    border-radius: 20px;
+    width: 18px;
+    padding: 5px;
+}
+
+th{
+    background-color: #000;
+    border-bottom: solid 1px #FFD700;
+}
+.Cardapio{
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 100%;
+    width: 100%;
+    float: left;
+    border: solid 1px #FFD700;
+    box-shadow: 3px 3px 5px black;
+}
+button{
+    cursor: pointer;
+    background-color: #FFD700;
+    color: #000;
+}
+button p {
+    color: #000;
 }
 .criar-clientes{
     position: absolute;
@@ -37,7 +70,6 @@ body{
     padding: 15px;
     border-radius: 15px;
     width: 28%;
-    color: aliceblue;
     display: none;
 }
 fieldset{
@@ -66,30 +98,307 @@ input{
     background-color: aliceblue;
     margin: 15px;
 }
-div.mesas{
-    background-color: rgba(0, 0, 0, 0.8);
-    width: 750px;
-    border-radius: 15px;
-    margin-top: 200px;
-    padding-top: 40px;
-    height: 340px;
-    margin-left: auto;
-    margin-right: auto;
+ul{
+    list-style: none;
+    width: 300px;
+    float: left;
 }
-table{
+
+input.quantidade{
+    width: 15px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.name{
+    float: left;
+    width: 20%;
+    height: 70px;
+    margin: 20px;
+}
+.opcao{
+    width: 20%;
+    height: 70px;
+    float: left;
+    margin: 10px;
+}
+.valor{
+    width: 20%;
+    height: 70px;
+    float: left;
+}
+.car{
+    background-color: black;
+    border: solid 2px #242323;
+    margin-top: 15px;
+}
+.adc{
+    background-color: black;
+    border: solid 2px #242323;
+    margin-top: 15px;
+}
+button img.btn-carrinho{
+    width: 40px;
+    border: solid black;
+    float: left;
+}
+.produtos{
     border: solid  #FFD700;
+    width: 99.3%;
+    margin: 5px;
+}
+.produtos td{
+    background-color: #000;
+    border: solid 1px #FFD700;
+    padding: 5px;
+}
+.montar{
+    margin: 1px;
+    display: block;
+    border: solid 3px #FFD700;
+    height: 100%;
+    float: left;
+    background-color: black;
+    width: 34.5%;
+}
+.montar td{
+    border-bottom:solid #FFD700;
+}
+.carrinho{
+    border: solid #FFD700;
+    background-color: black;
+    float: left;
+    width: 34%;
+    margin: 1px;
+    height: 100%;
+}
+.carrinho table{
+    background-color: black;
+    height: 100%;
+}
+h1.add-sabores{
+    text-align: center;
+}
+
+.produto{
+    border: solid 1px #FFD700;
+    width: 100%;
+    height: 120px;
+    float: left;
+}
+
+.qtd{
+    width: 10px;
+}
+
+textarea{
+    color: #000;
+    background-color: #fff;
+    font-size: 14px;
+    font-family:Arial, Helvetica, sans-serif;
+  }
+#forma-pagamento {
+    color: black;
+    background-color: white;
+  }
+  option{
+    color: #000;
+  }
+  .finalizar{
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+  }
+  .fecharCardapioAdc{
+    border: solid #FFD700;
+    color: red;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    border-radius: 25px;
+    height: 35px;
+    width: 35px;
+    background-color: #000;
+    cursor: pointer;
+    position: fixed;
+    left: 60%;
+    z-index: 9999;
+    top: 30px;
+    display: none;
+    
+}
+#dsa{
+    background-image: url('/icones/teste.png') ;
+
+}
+
+.adicionais{
+    width: 350px;
     border-radius: 15px;
-    width: 700px;
-    height: 300px;
+    border: solid #FFD700;
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 36%;
+    background-color: #000;
+    padding: 15px;
+}
+.adicionais td{
+    padding: 0px;
+    font-size: 18px;
+    color: #fff;
+    background-color:#000;
+}
+.nome-adc{
+    width: 60%;
+    padding: 0px;
+}
+.valor-adc{
+    width: 10%;
+    padding: 0px;
+}
+.input-adc{
+    width: 10%;
+    padding: 0px;
+}
+.btn-{
+    width: 10%;
+    padding: 0px;
+}
+.btnMais{
+    width: 10%;
+    padding: 0px;
+}
+.inputvalue{
+    width: 80%;
+    margin: 0px;
+    padding: 0px;
+}
+.sabor{
+    width: 200px;
+    padding: 0px;
+}
+.card-qtd-{
+    width: 20px;
+    padding: 0px;
+}
+.card-qtd{
+    width: 18px;
+    padding: 0px;
+    margin: 0px;
+}
+.card-qtdm{
+    width: 20px;
+    padding: 0px;
+}
+.card-valor{
+    width: 40px;
+    padding: 0px;
+}
+.card-btn-car{
+    width: 40px;
+    padding: 4px;
+}
+.card-btn-adc{
+    width: 40px;
+    padding: 4px;
+}
+.card-obs{
+    width: 40px;
+    padding: 4px;
+}
+.card-adc{
+    padding: 4px;
+    width: 150px;
+    text-align: center;
+}
+.td{
+    border-left: solid 1px #FFD700;
+    border-bottom: solid 1px #FFD700;
+    border-top: solid 1px #FFD700;
+    width: 14%;
+}
+
+.comanda{
+    margin: 1px;
+    float: right;
+    width: 30%;
+    border: solid #FFD700;
+    background-color: #000;
+}
+.Pagamento{
+    width:100%;
+    border: solid #FFD700;
+}
+.Total{
+    width:20%;
+}
+.qtdTotal{
+    width:40%;
+}
+.valorfim{
+    width:40%;
+}
+#troco{
+    width: 50px;
+}
+.fecharcomanda{
+    background-color: #000;
+    width: 40%;
+    display: none;
+    position:absolute;
+    left: 30%;
+  }
+
+  .fecharcomanda input{
+    width: 90%;
+    color: #000;
+  }
+  .fecharcomanda label{
+    width: 90%;
+    margin: 15px;
+  }
+  .fecharcomanda td{
+   border: solid 1px #FFD700;
+  }
+  #pagamento{
+    color: #000;
+  }
+  table.pagamento{
+    border: none;
+  }
+  .formPagamento{
+    display: none;
+}
+.formPagamento input{
+width: 99%;
+}
+.formPagamento label{
+    width: 50px;
+}
+#asd{
+    display: none;
+}
+#pagamento-separado{
+    display: none;
+}
+div.mesas{
+    border: solid #FFD700;
+    border-radius:25px;
+    width: 50%;
+    background-color: #000;
     margin-left: auto;
     margin-right: auto;
-    padding: 15px;
-    border-collapse: separate; 
-    border-spacing: 10px;
+    margin-top: 100px;
+    padding: 10px;
+    display: block;
 }
-td{
-    border: solid 1px #FFD700;
-    border-radius: 15px;
+table#mesa td{
+    border: solid #FFD700;
+    border-radius:25px;
+    width: 12%;
+    height: 120px;
+    margin: 15px;
+    padding: 15px;
     text-align: center;
-    cursor: pointer;
+    font-size: 25px;
 }

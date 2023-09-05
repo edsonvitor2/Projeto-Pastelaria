@@ -720,8 +720,5 @@ listarPedidos() {
   });
 }  
 
-
-
 }
-
 var balcao = new ControleBalcao();

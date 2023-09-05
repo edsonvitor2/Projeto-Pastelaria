@@ -4,67 +4,419 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mesas</title>
+    <title>Venda Mesa</title>
     <link rel="stylesheet" href="../css/mesa.css">
 </head>
 <header>
-    <a href="../index.html">
-    <p class="voltar">Voltar</p>
-</a>
-    <h1 class="titulo">Mesas</h1>
+        <a href="../index.html">
+            <p>Voltar</p>
+        </a>
+        <h1>Venda Mesa</h1>
 </header>
 <body>
+    
+    <div class="criar-clientes" id="criar-clientes">
+        <form action="">
+        <fieldset>
+            <legend> Clientes </legend>
+            <legend class="fechar" id="fechar-painel">X</legend>
+            <div class="input-box">
+                <label for="" class="">Telefone : </label>
+                <input type="text" name="" id="telefone-cliente" class="inputBox" maxlength="15">
+            </div>
 
-<div class="criar-clientes">
-    <form action="">
-    <fieldset>
-        <legend> Clientes </legend>
-        <legend class="fechar">X</legend>
-        <div class="input-box">
-            <label for="">Telefone : </label>
-            <input type="text" name="" id="">
-        </div>
+            <div class="input-box">
+                <label for="">Nome : </label>
+                <input type="text" name="" id="nome-cliente" class="inputBox" required>
+            </div>
 
-        <div class="input-box">
-            <label for="">Nome : </label>
-            <input type="text" name="" id="">
-        </div>
+            <div class="input-box">
+                <label for="">Qtd. de Pessoas : </label>
+                <input type="text" name="" id="qtd-cliente" class="inputBox">
+            </div>
 
-        <div class="input-box">
-            <label for="">Qtd. de Pessoas : </label>
-            <input type="text" name="" id="">
-        </div>
+            <div class="input-box">
+                <label for="">Qtd. de Visitas : </label>
+                <input type="text" name="" id="visita-cliente" value="0" class="inputBox">
+            </div>
+           
+            <div class="enviar">
+            <button type="submit" class="enviar" id="enviar"> Salvar</button>
+            <button type="button" class="atualizar" id="atualizar"> Atualizar </button>
+            </div>
 
-        <div class="input-box">
-            <label for="">Qtd. de Visitas : </label>
-            <input type="text" name="" id="">
-        </div>
-       
-        <div class="enviar">
-        <button type="submit"> Salvar</button>
-        </div>
-
-    </fieldset>
-</form>
-</div>
-
-<div class="mesas">
-    <table>
+        </fieldset>
+    </form>
+    </div>
+    <div class="mesas" id="mesas" >
+        <table id="mesa">
+            <tr>
+                <td id="mesa-a">Mesa-1</td>
+                <td id="mesa-b">Mesa-2</td>
+                <td id="mesa-c">Mesa-3</td>
+                <td id="mesa-d">Mesa-4</td>
+                <td id="mesa-e">Mesa-5</td>
+            </tr>
+            <tr>
+                <td id="mesa-f">Mesa-6</td>
+                <td id="mesa-g">Mesa-7</td>
+                <td id="mesa-h">Mesa-8</td>
+                <td id="mesa-i">Mesa-9</td>
+                <td id="mesa-j">Mesa-10</td>
+            </tr>
+            <tr>
+                <td id="mesa-k">Mesa-11</td>
+                <td id="mesa-l">Mesa-12</td>
+                <td id="mesa-m">Mesa-13</td>
+                <td id="mesa-n">Mesa-14</td>
+                <td id="mesa-o">Mesa-15</td>
+            </tr>
+        </table>
+    </div>
+    <table class="adicionais" id="adicionar">
+        <h2 class="fecharCardapioAdc" id="fechar-adc">X</h2>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Frango 
+                </td>
+                <td class="valor-adc">4,00</td>
+                <td class="btnMais">
+                    <button id="adc-frango">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-frango">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Carne 
+                </td>
+                <td class="valor-adc">5,00</td>
+                <td class="btnMais">
+                    <button id="adc-carne">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-carne">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Milho 
+                </td>
+                <td class="valor-adc">2,00</td>
+                <td class="btnMais">
+                    <button id="adc-milho">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-milho">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Cheddar 
+                </td>
+                <td class="valor-adc">2,00</td>
+                <td class="btnMais">
+                    <button id="adc-cheddar">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-cheddar">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Mussarela 
+                </td>
+                <td class="valor-adc">3,00</td>
+                <td class="btnMais">
+                    <button id="adc-Mussarela">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Mussarela">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Pequi 
+                </td>
+                <td class="valor-adc">3,00</td>
+                <td class="btnMais">
+                    <button id="adc-Pequi">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Pequi">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Catupiry 
+                </td>
+                <td class="valor-adc">3,00</td>
+                <td class="btnMais">
+                    <button id="adc-Catupiry">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Catupiry">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Tomate 
+                </td>
+                <td class="valor-adc">2,00</td>
+                <td class="btnMais">
+                    <button id="adc-Tomate">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Tomate">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Queriroba 
+                </td>
+                <td class="valor-adc">3,00</td>
+                <td class="btnMais">
+                    <button id="adc-Queriroba">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Queriroba">-</button>
+                </td>
+            </tr><tr>
+                <td class="nome-adc">
+                    ADC - Presunto 
+                </td>
+                <td class="valor-adc">3,00</td>
+                <td class="btnMais">
+                    <button id="adc-Presunto">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Presunto">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Azeitona 
+                </td>
+                <td class="valor-adc">2,00</td>
+                <td class="btnMais">
+                    <button id="adc-Azeitona">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Azeitona">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Calabresa 
+                </td>
+                <td class="valor-adc">3,00</td>
+                <td class="btnMais">
+                    <button id="adc-Calabresa">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Calabresa">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="nome-adc">
+                    ADC - Palmito 
+                </td>
+                <td class="valor-adc">3,00</td>
+                <td class="btnMais">
+                    <button id="adc-Palmito">+</button>
+                </td>
+                 <td class="btn-">
+                    <button id="remove-Palmito">-</button>
+                </td>
+            </tr>
+        </table>
+    <div>
+    
+<div class="Cardapio" id="cardapio">
+<h1>Produtos</h1>
+<table class="produtos">
+    <tr>
+        <td class="pastel" id="pastel">Pasteis</td>
+        <td class="Panqueca" id="panqueca">Panquecas</td>
+        <td class="tapiocas" id="tapioca">Tapiocas</td>
+        <td class="batata" id="batata"> Batata Frita</td>
+        <td class="bebidas" id="bebida"> Bebidas</td>
+        <td class="produtosBalcao" id="balcao"> Produtos Balcão</td>
+        <td class="promocoes" id="promocoess"> Promoções </td>
+    </tr>
+</table>
+    <table class="montar" id="montar">
         <tr>
-            <td>Mesa-1</td>
-            <td>Mesa-2</td>
-            <td>Mesa-3</td>
-            <td>Mesa-4</td>
-        </tr>
-        <tr>
-            <td>Mesa-5</td>
-            <td>Mesa-6</td>
-            <td>Mesa-7</td>
-            <td>Mesa-8</td>
+            <td>Selecione o Produto</td>
         </tr>
     </table>
+    <div class="carrinho">
+        <table>
+            <thead>
+            <tr>
+                <th>Prod</th>
+                <th>Sabor</th>
+                <th>quant</th>
+                <th>Adc</th>
+                <th>Obs</th>
+                <th>Ex</th>
+            </tr>
+            </thead>
+            <tbody id="carrinho">
+
+            </tbody>
+            <button id="Enviar-cozinha">Criar Comanda</button>
+
+        </table>
+    </div>
+<div class="comanda">
+    <h1 id="cliente-nome">Cliente</h1>
+    <table  >
+        <thead>
+        <tr>
+            <th>Prod</th>
+            <th>Sabor</th>
+            <th>quant</th>
+            <th>valor</th>
+            <th>Adc</th>
+            <th>Obs</th>
+            <th>Ex</th>
+        </tr>
+        </thead>
+        <tbody id="comanda">
+
+        </tbody>
+        
+    </table>
+    
+    <table class="Pagamento"> 
+        <thead>
+        <tr>
+            <th class="Total">Total</th>
+            <th class="qtdTotal">quantidade</th>
+            <th class="valorfim">Valor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td >Total de itens</td>
+            <td id="quantidadeTotal">qtd</td>
+            <td id="valorTotal">valor</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label for="forma-pagamento">Forma de Pagamento:</label>
+                <select id="forma-pagamento" name="forma-pagamento">
+                <option value="debito">Débito</option>
+                <option value="credito">Crédito</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">PIX</option>
+                <option value="separado">Separado</option>
+                </select>
+            </td>
+        </tr>
+        <table id="asd">
+            <tr>
+                <td colspan="2">
+                    Troco para ?
+                </td>
+                <td>
+                    <input type="text" name="" id="troco">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Voltar
+                </td>
+                <td>
+                    <input type="text" name="" id="volta" disabled>
+                </td>
+            </tr>
+        </table>
+    </table>
+    <div class="formPagamento" id="form-pagamento">
+        <label for="valorDinheiro">Valor em Dinheiro:</label>
+        <input type="text" id="pag-dinheiro" value="0">
+        
+        <label for="valorDebito">Valor em Débito:</label>
+        <input type="text" id="pag-debito" value="0">
+        
+        <label for="valorCredito">Valor em Crédito:</label>
+        <input type="text" id="pag-credito" value="0">
+        
+        <label for="valorPix">Valor em PIX:</label>
+        <input type="text" id="pag-pix" value="0">
+    </div>
+    <button class="finalizar" id="finalizar">Enviar para a Cozinha</button>
+</div>
 </div>
 
+
+<div class="fecharcomanda" id="fechar-comanda">
+    <h2 id="fechar-paniel">X</h2>
+<fieldset>
+    <legend>Pedido</legend>
+<label for="">Cliente</label>
+<input type="text" disabled id="nome" >
+
+<label for="">Telefone</label>
+<input type="text" disabled id="telefone">
+
+<label for="">Valor total</label>
+<input type="text" disabled id="total">
+
+<label for="pagamento">Forma de Pagamento:</label>
+<select id="pagamento" name="pagamento">
+<option value="debito">Débito</option>
+<option value="credito">Crédito</option>
+<option value="dinheiro">Dinheiro</option>
+<option value="pix">PIX</option>
+<option value="separado">Separado</option>
+</select>
+
+<div id="pagamento-separado">
+<label for="valor-dinheiro">Valor em Dinheiro:</label>
+<input type="text" id="valor-dinheiro" value="0">
+
+<label for="valor-debito">Valor em Débito:</label>
+<input type="text" id="valor-debito" value="0">
+
+<label for="valor-credito">Valor em Crédito:</label>
+<input type="text" id="valor-credito" value="0">
+
+<label for="valor-pix">Valor em PIX:</label>
+<input type="text" id="valor-pix" value="0">
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Prod</th>
+            <th>Sabor</th>
+            <th>quant</th>
+            <th>Valor</th>
+            <th>Adc</th>
+            <th>Obs</th>
+        </tr>
+    </thead>
+
+    <tbody id="pedidofim">
+            
+    </tbody>
+</table>
+
+<button id="finalizar-pedido">Finalizar Pedido</button>
+</fieldset>
+
+<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+<script src="/jsOperacao/FirebaseInit.js"></script>
+<script src="/jsOperacao/Controller/Format.js"></script>
+
+<script src="/mesa/carrinhoMesa.js"></script>
+<script src="/mesa/clienteMesa.js"></script>
+<script src="/mesa/pedidoMesa.js"></script>
+<script src="/mesa/controleMesa.js"></script>
     
 </body>
 </html>
