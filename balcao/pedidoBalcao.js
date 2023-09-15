@@ -76,11 +76,8 @@ class PedidoBalcao {
       firebase.database().ref("clientes").child(this._cliente).once('value',snapshot =>{
 
         let dados = snapshot.val();
-        let taxa = parseFloat(dados.taxa);
 
-        let valor = parseFloat(document.querySelector("#valorTotal").innerText);
-        let soma = valor + taxa;
-        let valorPedido = soma.toFixed(2);
+        let valorPedido = parseFloat(document.querySelector("#valorTotal").innerText);
 
         let formaPagamento = document.querySelector("#forma-pagamento").value;
 

@@ -5,7 +5,16 @@ constructor(){
     this.initButtons();
     this.listarCaixa();
     this.diferenca();
+
+    this.valorDelivery;
+    this.valorMesa;
+    this.valorBalcao;
+
+    this.debitoMesa;
+    this.debitoBalcao;
+    this.debitoDelivery;
 }
+
 initButtons(){
     let abrirCaixa = document.querySelector(".abriCaixa");
 
@@ -81,6 +90,9 @@ initButtons(){
     });
     abrirCaixa.addEventListener("click",e=>{
         this.abrirCaixa();
+        setTimeout(() => {
+            location.reload();
+            }, 500);
     });
     fecharCaixa.addEventListener("click",e=>{
         this.fecharCaixa();
@@ -160,7 +172,6 @@ diferenca(){
         
         this.calcularDiferenca();
     });
-    
 }
 calcularDiferenca() {
     let debito = parseFloat(document.querySelector("#caixa-debito").value) || 0;
@@ -201,26 +212,17 @@ listarValoresCaixaFechado(){
            
         let data = e.val();
 
-        let debito = data.debito;
-        let credito =data.credito;
+        let debito =  data.debito;
+        let credito = data.credito;
         let pix = data.pix;
         let dinheiro = data.dinheiro;
         let total = pix + debito + credito + dinheiro;
+
         let sisdebito = document.querySelector("#sis-debito").value;
         let siscredito = document.querySelector("#sis-credito").value;
         let sispix = document.querySelector("#sis-pix").value;
         let sisdinheiro = document.querySelector("#sis-dinheiro").value;
-        let difdebito = debito - sisdebito;
-        let difcredito = credito - siscredito;
-        let difpix = pix - sispix;
-        let difdinheiro = dinheiro - sisdinheiro;
-        let diftotal = difdebito + difcredito + difpix + difdinheiro;
-
-        document.querySelector("#dif-pix").value = difpix.toFixed(2);
-        document.querySelector("#dif-debito").value = difdebito.toFixed(2);
-        document.querySelector("#dif-credito").value = difcredito.toFixed(2);
-        document.querySelector("#dif-dinheiro").value = difdinheiro.toFixed(2);
-        document.querySelector("#dif-total").value = diftotal.toFixed(2);
+        let sistotal = document.querySelector("#sis-total").value;
 
     document.querySelector("#caixa-pix").value = pix.toFixed(2);
 
@@ -232,11 +234,16 @@ listarValoresCaixaFechado(){
 
     document.querySelector("#caixa-total").value = total.toFixed(2);
 
+        document.querySelector("#dif-debito").value = sisdebito - debito;
+        document.querySelector("#dif-pix").value = sispix - pix;
+        document.querySelector("#dif-credito").value = siscredito - credito;
+        document.querySelector("#dif-dinheiro").value = sisdinheiro - dinheiro;
+        document.querySelector("#dif-total").value = sistotal - total;
+
+
         });
     }
-
 }
-
 
 listarPedidosBalcao(caixa) {
     var forDebito = [];
@@ -308,7 +315,6 @@ listarPedidosBalcao(caixa) {
 
                     let soma = forDebito.join('+');
                     let debito = eval(soma);
-                    //console.log('debito',debito);
 
                     let somaP = forPix.join('+');
                     var pix = eval(somaP);
@@ -321,37 +327,58 @@ listarPedidosBalcao(caixa) {
                     let somaC = forCredito.join('+');
                     var credito = eval(somaC);
                     //console.log('credito',credito);
+                    if(isNaN(debito)){
+                        debito = 0;
+                    }
+                    if(isNaN(pix)){
+                        pix = 0;
+                    }
+                    if(isNaN(dinheiro)){
+                        dinheiro = 0;
+                    }
+                    if(isNaN(credito)){
+                        credito = 0;
+                    }
 
                     total = debito+pix+dinheiro+credito;
 
+                    if(isNaN(total)){
+                        this.valorBalcao = 0;
+                    }else{
+                        this.valorBalcao = total;
+                    }
+                    
+                    this.debitoBalcao = debito;
+                    this.creditoBalcao = credito;
+                    this.dinheiroBalcao = dinheiro;
+                    this.pixBalcao = pix;
+
                     tr.querySelector("#btn-descrição").addEventListener("click",e=>{
 
-                        /*document.querySelector(".descricao").style.display ='block';
+                        document.querySelector(".descricao").style.display ='block';
 
                         let descPedido = document.querySelector(".pedidosDesc");
                         
                         descPedido.innerHTML = '';
-
-                        firebase.database().ref("pedidos").child(pedido).child(key).once('value',snapshot=>{
+                        console.log(pedido,key)
+                        firebase.database().ref("pedidos").child(key).once('value',snapshot=>{
                         let val = snapshot.val();
-                        let item = val.itens;
-                        item.forEach(e=>{
-                            
-                        let itens = e;
-                        let trPedidos = document.createElement('tr');
 
-                        trPedidos.innerHTML = ` 
-                        <td>${itens.produto}</td>
-                        <td>${itens.sabor}</td>
-                        <td>${itens.quantidade}</td>
-                        <td>${itens.valor}</td>
-                    `;
-                    descPedido.appendChild(trPedidos);
+                        let item = val.pedido;
+                            item.forEach(e =>{
+                                let itens = e;
+                                let trPedidos = document.createElement('tr');
+        
+                                trPedidos.innerHTML = ` 
+                                <td>${itens.produto}</td>
+                                <td>${itens.sabor}</td>
+                                <td>${itens.quantidade}</td>
+                                <td>${itens.valor}</td>
+                            `;
+                            descPedido.appendChild(trPedidos);
                             })
-                        })*/
+                        })
                     })
-                }else{
-                    total = '0';
                 }
         });
         console.log('total Balcao',total);
@@ -427,8 +454,32 @@ listarPedidosDelivey(caixa) {
                     var credito = eval(somaC);
                     //console.log('credito',credito);
 
+                    if(isNaN(debito)){
+                        debito = 0;
+                    }
+                    if(isNaN(pix)){
+                        pix = 0;
+                    }
+                    if(isNaN(dinheiro)){
+                        dinheiro = 0;
+                    }
+                    if(isNaN(credito)){
+                        credito = 0;
+                    }
                     total = debito+pix+dinheiro+credito;
                     
+                    if(isNaN(total)){
+                        this.valorDelivery = 0;
+                    }else{
+                        this.valorDelivery = total;
+                    }
+                    
+
+                    this.debitoDelivery = debito;
+                    this.creditoDelivery = credito;
+                    this.dinheiroDelivery = dinheiro;
+                    this.pixDelivery = pix;
+                  
                     let tr = document.createElement('tr');
 
                     tr.innerHTML = ` 
@@ -445,34 +496,30 @@ listarPedidosDelivey(caixa) {
                     table.appendChild(tr);
                     tr.querySelector("#btn-descrição").addEventListener("click",e=>{
 
-                        /*document.querySelector(".descricao").style.display ='block';
+                        document.querySelector(".descricao").style.display ='block';
 
                         let descPedido = document.querySelector(".pedidosDesc");
                         
                         descPedido.innerHTML = '';
-
-                        firebase.database().ref("pedidos").child(pedido).child(key).once('value',snapshot=>{
+                        console.log(pedido,key)
+                        firebase.database().ref("pedidoDelivery").child(key).once('value',snapshot=>{
                         let val = snapshot.val();
-                        let item = val.itens;
-                        item.forEach(e=>{
-                            
-                        let itens = e;
-                        let trPedidos = document.createElement('tr');
 
-                        trPedidos.innerHTML = ` 
-                        <td>${itens.produto}</td>
-                        <td>${itens.sabor}</td>
-                        <td>${itens.quantidade}</td>
-                        <td>${itens.valor}</td>
-                    `;
-                    descPedido.appendChild(trPedidos);
+                        let item = val.pedido;
+                            item.forEach(e =>{
+                                let itens = e;
+                                let trPedidos = document.createElement('tr');
+        
+                                trPedidos.innerHTML = ` 
+                                <td>${itens.produto}</td>
+                                <td>${itens.sabor}</td>
+                                <td>${itens.quantidade}</td>
+                                <td>${itens.valor}</td>
+                            `;
+                            descPedido.appendChild(trPedidos);
                             })
-                        })*/
+                        })
                     })
-                }else if(undefined){
-                    total = '0';
-                }else{
-                    total = '0';
                 }
         });
         console.log('total Delivery',total);
@@ -491,7 +538,7 @@ listarPedidosMesa(caixa) {
     document.querySelector("#sis-credito").value = 0;
     document.querySelector("#sis-debito").value = 0;
 
-    firebase.database().ref("pedidoMesa").once("value", element => {
+    firebase.database().ref("pedidosMesa").once("value", element => {
         let table = document.querySelector("#pedido-mesa");
         table.innerHTML = '';
         element.forEach(e => {
@@ -548,8 +595,32 @@ listarPedidosMesa(caixa) {
                     var credito = eval(somaC);
                     //console.log('credito',credito);
 
+                    if(isNaN(debito)){
+                        debito = 0;
+                    }
+                    if(isNaN(pix)){
+                        pix = 0;
+                    }
+                    if(isNaN(dinheiro)){
+                        dinheiro = 0;
+                    }
+                    if(isNaN(credito)){
+                        credito = 0;
+                    }
                     total = debito+pix+dinheiro+credito;
                     
+                    if(isNaN(total)){
+                        this.valorMesa = 0;
+                    }else{
+                        this.valorMesa = total;
+                    }
+
+                    this.debitoMesa = debito;
+                    console.log('debitomesa',debito);
+                    this.creditoMesa = credito;
+                    this.dinheiroMesa = dinheiro;
+                    this.pixMesa = pix;
+
                     let tr = document.createElement('tr');
 
                     tr.innerHTML = ` 
@@ -566,32 +637,30 @@ listarPedidosMesa(caixa) {
                     table.appendChild(tr);
                     tr.querySelector("#btn-descrição").addEventListener("click",e=>{
 
-                        /*document.querySelector(".descricao").style.display ='block';
+                        document.querySelector(".descricao").style.display ='block';
 
                         let descPedido = document.querySelector(".pedidosDesc");
                         
                         descPedido.innerHTML = '';
-
-                        firebase.database().ref("pedidos").child(pedido).child(key).once('value',snapshot=>{
+                        console.log(pedido,key)
+                        firebase.database().ref("pedidosMesa").child(key).once('value',snapshot=>{
                         let val = snapshot.val();
-                        let item = val.itens;
-                        item.forEach(e=>{
-                            
-                        let itens = e;
-                        let trPedidos = document.createElement('tr');
 
-                        trPedidos.innerHTML = ` 
-                        <td>${itens.produto}</td>
-                        <td>${itens.sabor}</td>
-                        <td>${itens.quantidade}</td>
-                        <td>${itens.valor}</td>
-                    `;
-                    descPedido.appendChild(trPedidos);
+                        let item = val.pedido;
+                            item.forEach(e =>{
+                                let itens = e;
+                                let trPedidos = document.createElement('tr');
+        
+                                trPedidos.innerHTML = ` 
+                                <td>${itens.produto}</td>
+                                <td>${itens.sabor}</td>
+                                <td>${itens.quantidade}</td>
+                                <td>${itens.valor}</td>
+                            `;
+                            descPedido.appendChild(trPedidos);
                             })
-                        })*/
+                        })
                     })
-                }else{
-                    total = '0';
                 }
         });
         console.log('total Mesa',total);
@@ -701,7 +770,12 @@ abrirCaixa() {
                     this.listarPedidosDelivey(idcaixa);
                     this.listarPedidosMesa(idcaixa);
 
-                    //this.listarValoresCaixaFechado();
+                    setTimeout(() => {
+                        this.valorTotalCaixa();
+                        this.listarValoresCaixaFechado()
+                        }, 500);
+                    
+                    ;
                 });
                 
             });
@@ -710,6 +784,78 @@ abrirCaixa() {
         });
     }
 
+valorTotalCaixa(){
+
+    console.log(this.valorBalcao , this.valorDelivery , this.valorMesa);
+
+    if(this.valorBalcao == undefined){
+        this.valorBalcao = 0;
+    }
+    if(this.valorDelivery == undefined){
+        this.valorDelivery = 0;
+    }
+    if(this.valorMesa == undefined){
+        this.valorMesa = 0;
+    }
+
+    if(this.debitoMesa == undefined){
+        this.debitoMesa = 0;
+    }
+    if(this.debitoDelivery == undefined){
+        this.debitoDelivery = 0;
+    }
+    if(this.debitoBalcao == undefined){
+        this.debitoBalcao = 0;
+    }
+
+    if(this.creditoMesa == undefined){
+        this.creditoMesa = 0;
+    }
+    if(this.creditoDelivery == undefined){
+        this.creditoDelivery = 0;
+    }
+    if(this.creditoBalcao == undefined){
+        this.creditoBalcao = 0;
+    }
+
+    if(this.dinheiroMesa == undefined){
+        this.dinheiroMesa = 0;
+    }
+    if(this.dinheiroDelivery == undefined){
+        this.dinheiroDelivery = 0;
+    }
+    if(this.dinheiroBalcao == undefined){
+        this.dinheiroBalcao = 0;
+    }
+
+    if(this.pixMesa == undefined){
+        this.pixMesa = 0;
+    }
+    if(this.pixDelivery == undefined){
+        this.pixDelivery = 0;
+    }
+    if(this.pixBalcao == undefined){
+        this.pixBalcao = 0;
+    }
+
+    let valorTotal = this.valorBalcao + this.valorDelivery + this.valorMesa;
+    let totalDebito =  this.debitoMesa + this.debitoDelivery + this.debitoBalcao ;
+    let totalCredito =  this.creditoMesa  + this.creditoDelivery + this.creditoBalcao ;;
+    let totalDinheiro =  this.dinheiroMesa + this.dinheiroDelivery + this.dinheiroBalcao ;;
+    let totalPix =  this.pixMesa + this.pixDelivery + this.pixBalcao ;;
+
+    document.querySelector("#sis-pix").value = totalPix;
+    document.querySelector("#sis-dinheiro").value = totalDinheiro;
+    document.querySelector("#sis-credito").value = totalCredito;
+    document.querySelector("#sis-debito").value = totalDebito;
+    document.querySelector("#sis-total").value = valorTotal;
+    
+    console.log('valorTotal',valorTotal);
+    console.log('totalDebito',totalDebito);
+    console.log('totalCredito',totalCredito);
+    console.log('totalDinheiro',totalDinheiro);
+    console.log('totalPix',totalPix);
+}
 
 }
 

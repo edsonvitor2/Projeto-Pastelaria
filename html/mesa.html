@@ -14,7 +14,7 @@
         <h1>Venda Mesa</h1>
 </header>
 <body>
-    
+    <h2 id="status">Caixa Fechado!!!</h2>
     <div class="criar-clientes" id="criar-clientes">
         <form action="">
         <fieldset>
@@ -48,29 +48,26 @@
         </fieldset>
     </form>
     </div>
+    <div class="novo-cliente" id="novo-cliente">
+        <button class="abrir-painel" id="abrir-painel">
+            <p>Nova Mesa</p>
+        </button>
+    </div>
     <div class="mesas" id="mesas" >
-        <table id="mesa">
-            <tr>
-                <td id="mesa-a">Mesa-1</td>
-                <td id="mesa-b">Mesa-2</td>
-                <td id="mesa-c">Mesa-3</td>
-                <td id="mesa-d">Mesa-4</td>
-                <td id="mesa-e">Mesa-5</td>
-            </tr>
-            <tr>
-                <td id="mesa-f">Mesa-6</td>
-                <td id="mesa-g">Mesa-7</td>
-                <td id="mesa-h">Mesa-8</td>
-                <td id="mesa-i">Mesa-9</td>
-                <td id="mesa-j">Mesa-10</td>
-            </tr>
-            <tr>
-                <td id="mesa-k">Mesa-11</td>
-                <td id="mesa-l">Mesa-12</td>
-                <td id="mesa-m">Mesa-13</td>
-                <td id="mesa-n">Mesa-14</td>
-                <td id="mesa-o">Mesa-15</td>
-            </tr>
+        <table>
+            <thead class="headPedidos">
+                <th>Mesa</th>
+                <th>Cliente</th>
+                <th>Status</th>
+                <th>Valor</th>
+                <th>Pago?</th>
+                <th>Pagamento</th>
+                <th>Editar</th>
+                <th>Finalizar</th>
+            </thead>
+            <tbody  id="mesa">
+
+            </tbody>
         </table>
     </div>
     <table class="adicionais" id="adicionar">
@@ -232,7 +229,7 @@
             </tr>
         </table>
     <div>
-    
+       
 <div class="Cardapio" id="cardapio">
 <h1>Produtos</h1>
 <table class="produtos">
@@ -354,7 +351,7 @@
 
 
 <div class="fecharcomanda" id="fechar-comanda">
-    <h2 id="fechar-paniel">X</h2>
+    <h2 id="fecharcomanda-cliente">X</h2>
 <fieldset>
     <legend>Pedido</legend>
 <label for="">Cliente</label>

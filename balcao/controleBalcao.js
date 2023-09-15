@@ -14,7 +14,19 @@ class ControleBalcao{
     this.initEvents();
     this.initAdicionais();
     this.listarPedidos();
-    
+    this.verificarcaixa();
+  }
+  verificarcaixa(){
+    firebase.database().ref('Caixas').once("value",element=>{
+      element.forEach(e => {
+        let caixa = e.val();
+        if(caixa.status == 'fechado'){
+          return false;
+        }else{
+          document.querySelector("#status").style.display = 'none';
+        }
+      })
+    })
   }
 
   loadElements(){
@@ -56,8 +68,22 @@ elementsPrototype(){
 
 initEvents(){
   this.el.abrirPainel.on('click',e=>{
-    this.el.criarClientes.show();
-    this.el.pedidos.hide();
+    firebase.database().ref('Caixas').once("value",element=>{
+      element.forEach(e => {
+        let caixa = e.val();
+        if(caixa.status == 'fechado'){
+          document.querySelector("#status").innerText = "Caixa Fechado, Abra um caixa Primeiro!!!"
+          return false;
+        }else{
+          this.el.criarClientes.show();
+        }
+      })
+    })
+  });
+
+  this.el. fecharcomandaCliente.on("click",e =>{
+    this.el.fecharComanda.hide();
+    this.el.pedidos.show();
   });
 
   this.el.fecharPainel.on('click',e=>{
@@ -168,6 +194,14 @@ this.el.finalizar.on('click',e=>{
       }
     });
   });
+  }
+});
+
+this.el.pagamento.addEventListener('change', () => {  
+  if(this.el.pagamento.value == 'separado'){
+    this.el.pagamentoSeparado.show();
+  }else{
+    this.el.pagamentoSeparado.hide();
   }
 });
 

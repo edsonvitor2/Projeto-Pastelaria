@@ -448,3 +448,6 @@ width: 99%;
 #pagamento-separado{
     display: none;
 }
+#status{
+    color: #000;
+}

@@ -17,7 +17,19 @@ class DeliveryController{
     this.initEvents();
     this.initAdicionais();
     this.listarPedidos();
-      
+    this.verificarcaixa();
+  }
+  verificarcaixa(){
+    firebase.database().ref('Caixas').once("value",element=>{
+      element.forEach(e => {
+        let caixa = e.val();
+        if(caixa.status == 'fechado'){
+          return false;
+        }else{
+          document.querySelector("#status").style.display = 'none';
+        }
+      })
+    })
   }
 
   loadElements(){
@@ -121,10 +133,6 @@ initEvents(){
     this.el.entregar.hide();
   })
 
-  this.el.pararPedido.on("click",e=>{
-    
-  })
-  
   this.el.enviarEntrega.on("click",e=>{
     let entregador = document.querySelector("#entregador").value;
     let status = `Enviado ${entregador}`;
@@ -194,8 +202,17 @@ initEvents(){
   });
 
   this.el.abrirPainel.on('click',e=>{
-      this.el.criarClientes.show();
-      this.el.pedidos.hide();
+    firebase.database().ref('Caixas').once("value",element=>{
+      element.forEach(e => {
+        let caixa = e.val();
+        if(caixa.status == 'fechado'){
+          document.querySelector("#status").innerText = "Caixa Fechado, Abra um caixa Primeiro!!!"
+          return false;
+        }else{
+          this.el.criarClientes.show();
+        }
+      })
+    })
   });
 
   this.el.fecharPainel.on('click',e=>{

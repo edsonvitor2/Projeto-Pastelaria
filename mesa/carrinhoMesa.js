@@ -1,5 +1,5 @@
 class CarrinhoMesa {
-    constructor(produto, sabor, quantidade, valor, adicionais, observacoes,carrinho) {
+    constructor(produto, sabor, quantidade, valor, adicionais, observacoes) {
         this.produto = produto;
         this.sabor = sabor;
         this.quantidade = quantidade;
@@ -13,7 +13,7 @@ class CarrinhoMesa {
     }
     
     criarCarrinho() {
-        firebase.database().ref("carrinhoMesas").child(this.carrinho).push({
+        firebase.database().ref("carrinhoMesas").push({
         produto: this.produto,
         sabor: this.sabor,
         quantidade: this.quantidade,
@@ -32,7 +32,6 @@ class CarrinhoMesa {
             snapshot.forEach(item => {
                 let dados = item.val();
                 let key = item.key;
-                console.log(dados);  
                 
                 let tr = document.createElement('tr');
     

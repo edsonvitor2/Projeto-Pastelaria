@@ -43,7 +43,9 @@ h2{
 th{
     background-color: #000;
     border-bottom: solid 1px #FFD700;
+    width: 12%;
 }
+
 .Cardapio{
     display: none;
     background-color: rgba(0, 0, 0, 0.8);
@@ -392,13 +394,12 @@ div.mesas{
     padding: 10px;
     display: block;
 }
-table#mesa td{
-    border: solid #FFD700;
-    border-radius:25px;
+tbody#mesa td {
+    border: solid 1px #FFD700;
     width: 12%;
-    height: 120px;
-    margin: 15px;
-    padding: 15px;
     text-align: center;
-    font-size: 25px;
 }
+#status{
+    color: #000;
+}
+
