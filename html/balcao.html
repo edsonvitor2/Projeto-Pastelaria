@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="../css/Balcao.css">
 </head>
 <header>
-        <a href="../index.html">
+        <a href="../index.html" class="voltar">
             <p>Voltar</p>
         </a>
-        <h1>Venda Balcão</h1>
+        <h1 class="title">Venda Balcão</h1>
 </header>
 <body>
     <h2 id="status">Caixa Fechado!!!</h2>
@@ -234,7 +234,17 @@
            </tbody>
         </table>
     </div>
-    
+    <div class="barraCardapio">
+        <a href="#montar">
+            <button class="rodape" id="rodape-card">Cardapio</button>
+        </a>
+        <a href="#carrinho">
+            <button class="rodape" id="rodape-car">Carrinho</button>
+        </a>
+        <a href="#comanda">
+            <button class="rodape3" id="rodape-com">Comanda</button>
+        </a>
+        </div>
 <div class="Cardapio" id="cardapio">
 <h1>Produtos</h1>
 <table class="produtos">
@@ -245,7 +255,6 @@
         <td class="batata" id="batata"> Batata Frita</td>
         <td class="bebidas" id="bebida"> Bebidas</td>
         <td class="produtosBalcao" id="balcao"> Produtos Balcão</td>
-        <td class="promocoes" id="promocoess"> Promoções </td>
     </tr>
 </table>
     <table class="montar" id="montar">
@@ -254,17 +263,18 @@
         </tr>
     </table>
     <div class="carrinho">
+        <h2>Carrinho</h2>
         <table>
             <thead>
-            <tr>
-                <th>Prod</th>
-                <th>Sabor</th>
-                <th>quant</th>
-                <th>Adc</th>
-                <th>Obs</th>
-                <th>Ex</th>
-            </tr>
-            </thead>
+                <tr>
+                    <th>Prod</th>
+                    <th>Sabor</th>
+                    <th>quant</th>
+                    <th>Adc</th>
+                    <th>Obs</th>
+                    <th>Ex</th>
+                </tr>
+                </thead>
             <tbody id="carrinho">
 
             </tbody>
@@ -273,6 +283,7 @@
         </table>
     </div>
 <div class="comanda">
+    <h2>Comanda</h2>
     <h1 id="cliente-nome">Cliente</h1>
     <table  >
         <thead>
@@ -291,6 +302,7 @@
         </tbody>
         
     </table>
+    
     
     <table class="Pagamento"> 
         <thead>
@@ -410,6 +422,7 @@
 
 <button id="finalizar-pedido">Finalizar Pedido</button>
 </fieldset>
+
 <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 <script src="/jsOperacao/FirebaseInit.js"></script>
 <script src="/jsOperacao/Controller/Format.js"></script>

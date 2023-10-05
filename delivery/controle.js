@@ -686,25 +686,22 @@ listarPedidos() {
               numero += 1;
 
               if(dat.status == 'Produzindo!'){
-                let tr = document.createElement('tr');
-
+                let tr = document.createElement('ul');
                 let chave = key;
-                
 
                 tr.innerHTML = ` 
-                <td>${numero}</td>
-                <td>${dat.nome}</td>
-                <td>${dat.status}</td>
-                <td>${dat.valorPedido}</td>
-                <td>${dat.pago}</td>
-                <td>${dat.pagamento}</td>
+                <li> Pedido : ${numero}</li>
+                <li> Nome : ${dat.nome}</li>
+                <li> status :${dat.status}</li>
+                <li> Valor : ${dat.valorPedido}</li>
+                <li> Pago? : ${dat.pago}</li>
+                <li> Pagamento : ${dat.pagamento}</li>
+                <tr>
+                <li class="Edit"><img src="/icones/iconEdit.png" width="40px"></li>
   
-                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+                <li class="entrega"><img src="/icones/iconMoto.png" width="40px"></li>
   
-                <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
-  
-                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
-                `;
+                <li class="com"><img src="/icones/iconComanda.png" width="40px"></li>`;
 
                 table.appendChild(tr);
 
@@ -760,44 +757,43 @@ listarPedidos() {
                 });
 
               }else if(dat.status == 'Finalizado!'){
+                let tr = document.createElement('ul');
                 let chave = key;
-                let tr = document.createElement('tr');
 
                 tr.innerHTML = ` 
-                <td>${numero}</td>
-                <td>${dat.nome}</td>
-                <td>${dat.status}</td>
-                <td>${dat.valorPedido}</td>
-                <td>${dat.pago}</td>
-                <td>${dat.pagamento}</td>
+                <li> Pedido : ${numero}</li>
+                <li> Nome : ${dat.nome}</li>
+                <li> status :${dat.status}</li>
+                <li> Valor : ${dat.valorPedido}</li>
+                <li> Pago? : ${dat.pago}</li>
+                <li> Pagamento : ${dat.pagamento}</li>
+                <tr>
+                <li class="Edit"><img src="/icones/iconEdit.png" width="40px"></li>
   
-                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+                <li class="entrega"><img src="/icones/iconMoto.png" width="40px"></li>
   
-                <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
-  
-                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
+                <li class="com"><img src="/icones/iconComanda.png" width="40px"></li>
                 `;
 
                 table.appendChild(tr);
 
               }else{
+                let tr = document.createElement('ul');
                 let chave = key;
-                let tr = document.createElement('tr');
 
                 tr.innerHTML = ` 
-                <td>${numero}</td>
-                <td>${dat.nome}</td>
-                <td>${dat.status}</td>
-                <td>${dat.valorPedido}</td>
-                <td>${dat.pago}</td>
-                <td>${dat.pagamento}</td>
+                <li> Pedido : ${numero}</li>
+                <li> Nome : ${dat.nome}</li>
+                <li> status :${dat.status}</li>
+                <li> Valor : ${dat.valorPedido}</li>
+                <li> Pago? : ${dat.pago}</li>
+                <li> Pagamento : ${dat.pagamento}</li>
+                <tr>
+                <li class="Edit"><img src="/icones/iconEdit.png" width="40px"></li>
   
-                <td class="Edit"><img src="/icones/iconEdit.png" width="40px"></td>
+                <li class="entrega"><img src="/icones/iconMoto.png" width="40px"></li>
   
-                <td class="entrega"><img src="/icones/iconMoto.png" width="40px"></td>
-  
-                <td class="com"><img src="/icones/iconComanda.png" width="40px"></td>
-                `;
+                <li class="com"><img src="/icones/iconComanda.png" width="40px"></li>`;
 
                 table.appendChild(tr);
 

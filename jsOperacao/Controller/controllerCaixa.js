@@ -733,17 +733,16 @@ abrirCaixa() {
                 let key = e.key;
                 let data = e.val();
                 
-                let tr = document.createElement('tr');
+                let tr = document.createElement('ul');
     
                 tr.innerHTML = ` 
-                <td class="id">${data.id}</td>
-                <td>${data.data}</td>
-                <td>${data.fundoCaixa}</td>
-                <td>${data.status}</td>
-                <td>Total Vendido</td>
-                <td>
+                <li class="id">ID Caixa : ${data.id}</li>
+                <li> data : ${data.data}</li>
+                <li> Fundo : ${data.fundoCaixa}</li>
+                <li> Data : ${data.status}</li>
+                <li>
                 <button id="abrir">Abrir</button>
-                </td>`;
+                </li>`;
             table.appendChild(tr);
 
             tr.querySelector("#abrir").addEventListener("click",e=>{

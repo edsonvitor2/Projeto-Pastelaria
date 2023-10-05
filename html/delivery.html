@@ -218,25 +218,11 @@
                 </td>
             </tr>
         </table>
-    <div>
-        <table class="pedidos" id="pedidos">
-           <thead>
-            <tr>
-                <th>id</th>
-                <th>Nome</th>
-                <th>status</th>
-                <th>Valor</th>
-                <th>Pago ?</th>
-                <th>Pagamento</th>
-                <th>Editar</th>
-                <th>Despachar</th>
-                <th>Finalizar</th>
-            </tr>
-           </thead>
-           <tbody id="pedido" >
-
-           </tbody>
-        </table>
+        
+        <div id="pedidos">
+        <div id="pedido" ></div>
+        </div>
+        
     </div>
     <div class="fecharcomanda" id="fechar-comanda">
             <h2 id="fechar-paniel">X</h2>
@@ -310,6 +296,17 @@
         </select>
         <button id="enviar-entrega">Enviar</button>
     </div>
+    <div class="barraCardapio">
+        <a href="#montar">
+            <button class="rodape" id="rodape-card">Cardapio</button>
+        </a>
+        <a href="#carrinho">
+            <button class="rodape" id="rodape-car">Carrinho</button>
+        </a>
+        <a href="#comanda">
+            <button class="rodape3" id="rodape-com">Comanda</button>
+        </a>
+        </div>
 <div class="Cardapio" id="cardapio">
 <h1>Produtos</h1>
 <table class="produtos">
@@ -320,7 +317,6 @@
         <td class="batata" id="batata"> Batata Frita</td>
         <td class="bebidas" id="bebida"> Bebidas</td>
         <td class="produtosBalcao" id="balcao"> Produtos Balcão</td>
-        <td class="promocoes" id="promocoess"> Promoções </td>
     </tr>
 </table>
     <table class="montar" id="montar">
