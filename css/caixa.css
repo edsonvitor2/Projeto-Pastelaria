@@ -13,6 +13,7 @@ header{
     background-color: rgba(0, 0, 0, 0.8);
     box-shadow: 3px 3px 3px #000;
     height: 50px;
+    width: 98%;
 }
 header p{
     font-size: 20px;
@@ -93,7 +94,7 @@ input.caixa-esp{
     margin-top: 15px;
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 90%;
     height: 100%;
     border: solid #FFD700;
     border-radius: 20px;
@@ -144,6 +145,28 @@ ul{
     list-style-type: none;
     border: solid 2px #FFD700;
     margin: 2px;
-    width: 21%;
-    float: left;
+    width: 90%;
+}
+@media (max-width: 768px) {
+    ul{
+        width: 85%;
+    }
+    .abrir-caixa{
+        margin: 10px;
+        width: 92%;
+        font-size: 24px;
+        background-color: black;
+        border-radius: 15px;
+        box-shadow: 3px 3px 5px #000;
+    }
+    table input{
+        width: 90%;
+    }
+    form input{
+        width: 90%;
+    }
+    ul{
+        width: 90%;
+    }
+    
 }
