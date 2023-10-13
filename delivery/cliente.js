@@ -88,6 +88,18 @@ class Cliente {
             });
     
             console.log('Cliente salvo com sucesso.',this._taxa,this._complemento);
+
+            clienteRef.once('value',e=>{
+              e.forEach(itens =>{
+                let data = itens.val();
+        
+                console.log(data.telefone);
+                if(data.telefone == this._telefone){
+                  this._chaveCliente = itens.key;
+                  console.log(this._chaveCliente);
+                }
+              })
+            })
         }
         });
     }
