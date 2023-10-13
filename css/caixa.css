@@ -62,7 +62,7 @@ table{
 }
 td{
     border: solid 1px #FFD700;
-    padding: 10px;
+    padding: 5px;
 }
 .tabela-caixas{
     width: 900px;
@@ -159,14 +159,27 @@ ul{
         border-radius: 15px;
         box-shadow: 3px 3px 5px #000;
     }
-    table input{
-        width: 90%;
+    
+    table{
+        width: 100%;
+        font-size: 14px;
+        margin-left: -15px;
     }
     form input{
         width: 90%;
     }
+    .tabela-caixas{
+        width: 100%;
+    }
+    .tabelaCaixa{
+        width: 100%;
+    }
     ul{
         width: 90%;
+    }
+    table input{
+        
+        width: 35px;
     }
     
 }

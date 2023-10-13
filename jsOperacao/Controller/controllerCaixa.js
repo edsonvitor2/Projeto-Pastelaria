@@ -403,6 +403,7 @@ listarPedidosDelivey(caixa) {
         element.forEach(e => {
             let key = e.key;
             let pedido = e.val();
+            console.log(pedido);
 
                 if (pedido.caixa == caixa && pedido.status == 'Finalizado!') {
                     let cliente = pedido.nome;
@@ -494,6 +495,7 @@ listarPedidosDelivey(caixa) {
                         </td>
                     `;
                     table.appendChild(tr);
+
                     tr.querySelector("#btn-descrição").addEventListener("click",e=>{
 
                         document.querySelector(".descricao").style.display ='block';
@@ -544,7 +546,7 @@ listarPedidosMesa(caixa) {
         element.forEach(e => {
             let key = e.key;
             let pedido = e.val();
-
+                console.log(pedido.caixa,caixa,pedido.status)
                 if (pedido.caixa == caixa && pedido.status == 'Finalizado!') {
                     let cliente = pedido.nome;
                     let pagamento = pedido.pagamento;
@@ -622,7 +624,7 @@ listarPedidosMesa(caixa) {
                     this.pixMesa = pix;
 
                     let tr = document.createElement('tr');
-
+                    console.log("listar pedido");
                     tr.innerHTML = ` 
                         <td class="pedido">'---'</td>
                         <td>${cliente}</td>
@@ -763,11 +765,9 @@ abrirCaixa() {
 
                     document.querySelector("#fundoCaixa").value = dados.fundoCaixa;
 
-                    let idcaixa = tr.querySelector(".id").innerText;
-
-                    this.listarPedidosBalcao(idcaixa);
-                    this.listarPedidosDelivey(idcaixa);
-                    this.listarPedidosMesa(idcaixa);
+                    this.listarPedidosBalcao(data.id);
+                    this.listarPedidosDelivey(data.id);
+                    this.listarPedidosMesa(data.id);
 
                     setTimeout(() => {
                         this.valorTotalCaixa();
