@@ -15,7 +15,22 @@ class ControleBalcao{
     this.initAdicionais();
     this.listarPedidos();
     this.verificarcaixa();
+    this.verificarAutenticacao();
   }
+  verificarAutenticacao() {
+    // Verifique o status de autenticação quando a página é carregada
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // O usuário está logado, redirecione para a página do sistema
+            //window.location.href = 'sistema.html';
+            console.log(user);
+        } else {
+            // O usuário não está logado, talvez exiba uma mensagem ou redirecione para a página de login
+            window.location.href = '../login.html';
+        }
+    });
+}
+
   verificarcaixa(){
     firebase.database().ref('Caixas').once("value",element=>{
       element.forEach(e => {
